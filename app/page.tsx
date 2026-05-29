@@ -1,15 +1,18 @@
 "use client"
 
 import { useRef, useState } from "react"
-
-const BASE = process.env.NODE_ENV === "production" ? "/bmidia-site" : ""
 import {
   motion,
   useInView,
+  useMotionValue,
   useScroll,
+  useSpring,
   useTransform,
   type Variants,
 } from "framer-motion"
+
+const BASE = process.env.NODE_ENV === "production" ? "/bmidia-site" : ""
+const EASE_EXPO: [number, number, number, number] = [0.16, 1, 0.3, 1]
 
 // ─── Animation Variants ───────────────────────────────────────────────────────
 
@@ -44,9 +47,7 @@ function FadeSection({
       animate={inView ? "visible" : "hidden"}
       variants={{
         hidden: {},
-        visible: {
-          transition: { staggerChildren: 0.13, delayChildren: delay },
-        },
+        visible: { transition: { staggerChildren: 0.13, delayChildren: delay } },
       }}
       className={className}
     >
@@ -55,46 +56,28 @@ function FadeSection({
   )
 }
 
-function FadeItem({
-  children,
-  className = "",
-}: {
-  children: React.ReactNode
-  className?: string
-}) {
-  return (
-    <motion.div variants={fadeItem} className={className}>
-      {children}
-    </motion.div>
-  )
+function FadeItem({ children, className = "" }: { children: React.ReactNode; className?: string }) {
+  return <motion.div variants={fadeItem} className={className}>{children}</motion.div>
 }
 
 // ─── Nav ─────────────────────────────────────────────────────────────────────
 
 function Nav() {
   const { scrollY } = useScroll()
-  const bg = useTransform(
-    scrollY,
-    [0, 80],
-    ["rgba(4,0,34,0)", "rgba(4,0,34,0.97)"]
-  )
+  const bg = useTransform(scrollY, [0, 80], ["rgba(4,0,34,0)", "rgba(4,0,34,0.97)"])
 
   return (
     <motion.nav
       style={{ backgroundColor: bg }}
       className="fixed top-0 left-0 right-0 z-50 px-8 md:px-14 py-5 flex items-center justify-between"
     >
-      {/* Logo */}
       <div className="flex flex-col">
-        <span className="font-playfair text-xl tracking-wide text-branco">
-          B Mídia
-        </span>
+        <span className="font-playfair text-xl tracking-wide text-branco">B Mídia</span>
         <span className="font-playfair italic text-[10px] tracking-[0.2em] text-cinza leading-tight">
           estratégia &amp; posicionamento
         </span>
       </div>
 
-      {/* Links */}
       <div className="hidden md:flex items-center gap-10">
         {[
           { label: "Método", href: "#metodo" },
@@ -111,11 +94,10 @@ function Nav() {
         ))}
       </div>
 
-      {/* CTA */}
       <motion.a
         href="#cta"
         whileHover={{ scale: 1.02 }}
-        whileTap={{ scale: 0.97 }}
+        whileTap={{ scale: 0.98 }}
         className="hidden md:inline-block font-inter text-xs tracking-[0.18em] uppercase border border-cinzaclaro/30 text-cinzaclaro px-6 py-3 hover:border-branco hover:text-branco transition-all duration-300"
       >
         Quero conversar
@@ -126,85 +108,137 @@ function Nav() {
 
 // ─── Hero ─────────────────────────────────────────────────────────────────────
 
-const heroContainer: Variants = {
-  hidden: {},
-  visible: {
-    transition: { staggerChildren: 0.22, delayChildren: 0.35 },
-  },
-}
-
-const heroItem: Variants = {
-  hidden: { opacity: 0, y: 36 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.9, ease: [0.22, 1, 0.36, 1] },
-  },
+function TextReveal({ children, delay }: { children: React.ReactNode; delay: number }) {
+  return (
+    <div style={{ overflow: "hidden" }}>
+      <motion.div
+        initial={{ y: 80, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ delay, duration: 0.9, ease: EASE_EXPO }}
+      >
+        {children}
+      </motion.div>
+    </div>
+  )
 }
 
 function Hero() {
+  const mouseX = useMotionValue(0)
+  const mouseY = useMotionValue(0)
+  const bgX = useSpring(mouseX, { stiffness: 60, damping: 25 })
+  const bgY = useSpring(mouseY, { stiffness: 60, damping: 25 })
+  const { scrollY } = useScroll()
+  const imageScrollY = useTransform(scrollY, [0, 700], [0, 150])
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLElement>) => {
+    const { width, height, left, top } = e.currentTarget.getBoundingClientRect()
+    mouseX.set(((e.clientX - left) / width - 0.5) * -40)
+    mouseY.set(((e.clientY - top) / height - 0.5) * -40)
+  }
+
   return (
-    <section className="min-h-screen grid grid-cols-1 md:grid-cols-2">
-      {/* Left */}
+    <section
+      className="relative h-screen w-full overflow-hidden flex items-center justify-center"
+      onMouseMove={handleMouseMove}
+      onMouseLeave={() => { mouseX.set(0); mouseY.set(0) }}
+    >
+      {/* Background image — parallax */}
       <motion.div
-        initial="hidden"
-        animate="visible"
-        variants={heroContainer}
-        className="flex flex-col justify-center px-8 md:px-14 lg:px-20 py-32 md:py-0"
+        className="absolute inset-0 pointer-events-none"
+        style={{ x: bgX, y: bgY, scale: 1.15 }}
       >
-        <motion.span
-          variants={heroItem}
-          className="font-inter text-[10px] tracking-[0.3em] text-cinza uppercase mb-10"
-        >
-          B Mídia — Florianópolis, SC
-        </motion.span>
+        <motion.img
+          src="https://images.unsplash.com/photo-1557804506-669a67965ba0?w=1920&q=80"
+          alt=""
+          className="w-full h-full object-cover"
+          style={{ y: imageScrollY }}
+        />
+      </motion.div>
 
-        <motion.h1
-          variants={heroItem}
-          className="font-playfair text-4xl md:text-5xl lg:text-[3.4rem] text-branco leading-[1.18] mb-7"
-        >
-          Sua marca não precisa
-          <br />
-          de mais posts.
-          <br />
-          Precisa ser{" "}
-          <em className="italic text-cinzaclaro">reconhecida.</em>
-        </motion.h1>
+      {/* Overlay gradient */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background:
+            "linear-gradient(to bottom, rgba(4,0,34,0.85) 0%, rgba(4,0,34,0.95) 100%)",
+        }}
+      />
 
-        <motion.p
-          variants={heroItem}
-          className="font-playfair italic text-cinza text-xl md:text-2xl mb-14 max-w-sm leading-relaxed"
-        >
-          Comunicação sem observação é decoração.
-        </motion.p>
+      {/* Content */}
+      <div className="relative z-10 flex flex-col items-center text-center px-8 max-w-4xl mx-auto w-full">
+        {/* Eyebrow */}
+        <TextReveal delay={0.2}>
+          <span className="font-inter text-[0.72rem] tracking-[0.28em] uppercase text-cinza block mb-6">
+            B Mídia — Florianópolis, SC
+          </span>
+        </TextReveal>
 
-        <motion.div variants={heroItem}>
+        {/* Decorative line */}
+        <motion.div
+          initial={{ scaleX: 0, opacity: 0 }}
+          animate={{ scaleX: 1, opacity: 1 }}
+          transition={{ delay: 0.35, duration: 0.7, ease: EASE_EXPO }}
+          className="origin-left mb-8"
+          style={{ width: 60, height: "0.5px", backgroundColor: "rgba(255,255,255,0.15)" }}
+        />
+
+        {/* Headline — three lines */}
+        <h1 className="font-playfair text-[3rem] md:text-[5rem] text-branco leading-[1.12] mb-8">
+          <TextReveal delay={0.5}>
+            <span className="block">Sua marca não precisa</span>
+          </TextReveal>
+          <TextReveal delay={0.7}>
+            <span className="block">de mais posts.</span>
+          </TextReveal>
+          <TextReveal delay={0.9}>
+            <span className="block">
+              Precisa ser{" "}
+              <em className="italic text-cinzaclaro">reconhecida.</em>
+            </span>
+          </TextReveal>
+        </h1>
+
+        {/* Subline */}
+        <TextReveal delay={1.2}>
+          <p className="font-inter text-[0.95rem] tracking-[0.08em] text-cinza mb-12">
+            Comunicação sem observação é decoração.
+          </p>
+        </TextReveal>
+
+        {/* CTA Button */}
+        <TextReveal delay={1.5}>
           <motion.a
             href="#cta"
-            whileHover={{ scale: 1.03 }}
-            whileTap={{ scale: 0.97 }}
-            className="inline-block font-inter text-xs tracking-[0.2em] uppercase border border-branco/50 text-branco px-9 py-4 hover:bg-branco hover:text-indigo transition-all duration-300"
+            whileHover={{ scale: 1.02, backgroundColor: "#f8f8f6", color: "#040022" }}
+            whileTap={{ scale: 0.98 }}
+            className="inline-block font-inter text-[0.72rem] tracking-[0.18em] uppercase text-cinzaclaro px-10 py-4 transition-colors duration-300"
+            style={{ border: "0.5px solid #e1e1e1" }}
           >
             Vamos entender sua marca
           </motion.a>
-        </motion.div>
-      </motion.div>
+        </TextReveal>
+      </div>
 
-      {/* Right — photo placeholder */}
-      <div className="relative hidden md:block min-h-[500px] bg-[#0a0030]">
-        <img
-          src={`${BASE}/foto-hero.jpg`}
-          alt="B Mídia"
-          className="absolute inset-0 w-full h-full object-cover object-top opacity-60"
-          onError={(e) => {
-            e.currentTarget.style.display = "none"
+      {/* Scroll indicator */}
+      <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3 pointer-events-none">
+        <motion.span
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 2.2, duration: 0.8 }}
+          className="font-inter text-[0.65rem] tracking-[0.3em] uppercase"
+          style={{ color: "rgba(255,255,255,0.3)" }}
+        >
+          scroll
+        </motion.span>
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1, height: [0, 40, 0] }}
+          transition={{
+            opacity: { delay: 2.2, duration: 0.4 },
+            height: { delay: 2.2, duration: 1.5, repeat: Infinity, ease: "easeInOut", repeatDelay: 0.4 },
           }}
-        />
-        <div
-          className="absolute inset-y-0 left-0 w-32 pointer-events-none"
-          style={{
-            background: "linear-gradient(to right, #040022, transparent)",
-          }}
+          className="w-px"
+          style={{ backgroundColor: "rgba(255,255,255,0.4)" }}
         />
       </div>
     </section>
@@ -254,14 +288,26 @@ function Problema() {
       <FadeSection delay={0.18}>
         {problemas.map((p, i) => (
           <FadeItem key={i}>
-            <div className="flex gap-6 py-5 border-b border-cinza/10 last:border-0 items-start">
-              <span className="font-playfair italic text-cinza/25 text-sm shrink-0 mt-0.5 tabular-nums">
+            <motion.div
+              className="flex gap-6 py-5 border-b border-cinza/10 last:border-0 items-start"
+              whileHover="rowHover"
+            >
+              <motion.span
+                variants={{ rowHover: { opacity: 0.9 } }}
+                style={{ opacity: 0.25 }}
+                className="font-playfair italic text-cinza text-sm shrink-0 mt-0.5 tabular-nums"
+                transition={{ duration: 0.2 }}
+              >
                 {String(i + 1).padStart(2, "0")}
-              </span>
-              <p className="font-inter text-sm text-cinzaclaro leading-relaxed">
+              </motion.span>
+              <motion.p
+                variants={{ rowHover: { color: "#f8f8f6" } }}
+                className="font-inter text-sm text-cinzaclaro leading-relaxed"
+                transition={{ duration: 0.2 }}
+              >
                 {p}
-              </p>
-            </div>
+              </motion.p>
+            </motion.div>
           </FadeItem>
         ))}
       </FadeSection>
@@ -320,19 +366,17 @@ function Metodo() {
         ref={ref}
         initial="hidden"
         animate={inView ? "visible" : "hidden"}
-        variants={{
-          hidden: {},
-          visible: { transition: { staggerChildren: 0.14 } },
-        }}
+        variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.14 } } }}
         className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4"
       >
         {metodos.map((m, i) => (
           <motion.div
             key={m.num}
             variants={fadeItem}
-            whileHover={{ backgroundColor: "rgba(248,248,246,0.025)" }}
+            whileHover={{ scale: 1.02, backgroundColor: "rgba(255,255,255,0.04)" }}
+            transition={{ duration: 0.3 }}
             className={[
-              "px-8 py-10 transition-colors duration-300",
+              "px-8 py-10",
               i < 3 ? "border-b lg:border-b-0 lg:border-r border-cinza/10" : "border-b lg:border-b-0 border-cinza/10",
               i === 0 ? "lg:pl-0" : "",
               i === 3 ? "lg:pr-0" : "",
@@ -341,12 +385,8 @@ function Metodo() {
             <span className="font-playfair italic text-[5.5rem] leading-none text-cinza/8 block mb-5 select-none">
               {m.num}
             </span>
-            <h3 className="font-playfair text-xl text-branco mb-3">
-              {m.title}
-            </h3>
-            <p className="font-inter text-sm text-cinza leading-relaxed">
-              {m.text}
-            </p>
+            <h3 className="font-playfair text-xl text-branco mb-3">{m.title}</h3>
+            <p className="font-inter text-sm text-cinza leading-relaxed">{m.text}</p>
           </motion.div>
         ))}
       </motion.div>
@@ -357,30 +397,12 @@ function Metodo() {
 // ─── Serviços ─────────────────────────────────────────────────────────────────
 
 const servicos = [
-  {
-    title: "Estratégia e Posicionamento",
-    tags: ["Diagnóstico", "Linha Editorial"],
-  },
-  {
-    title: "Gestão de Redes Sociais",
-    tags: ["Instagram", "Stories", "Reels"],
-  },
-  {
-    title: "Copywriting e Conteúdo",
-    tags: ["Copy", "Legendas", "Roteiros"],
-  },
-  {
-    title: "Identidade de Comunicação",
-    tags: ["Tom de Voz", "Pilares", "Visual"],
-  },
-  {
-    title: "Calendário Editorial",
-    tags: ["Planejamento", "Calendário"],
-  },
-  {
-    title: "Design e Produção Visual",
-    tags: ["Design", "Edição", "Arte"],
-  },
+  { title: "Estratégia e Posicionamento", tags: ["Diagnóstico", "Linha Editorial"] },
+  { title: "Gestão de Redes Sociais", tags: ["Instagram", "Stories", "Reels"] },
+  { title: "Copywriting e Conteúdo", tags: ["Copy", "Legendas", "Roteiros"] },
+  { title: "Identidade de Comunicação", tags: ["Tom de Voz", "Pilares", "Visual"] },
+  { title: "Calendário Editorial", tags: ["Planejamento", "Calendário"] },
+  { title: "Design e Produção Visual", tags: ["Design", "Edição", "Arte"] },
 ]
 
 function ServicoCard({ title, tags }: { title: string; tags: string[] }) {
@@ -391,6 +413,8 @@ function ServicoCard({ title, tags }: { title: string; tags: string[] }) {
       variants={fadeItem}
       onHoverStart={() => setHovered(true)}
       onHoverEnd={() => setHovered(false)}
+      whileHover={{ scale: 1.02, backgroundColor: "rgba(255,255,255,0.04)" }}
+      transition={{ duration: 0.3 }}
       className="p-8 border border-cinza/10 relative overflow-hidden bg-indigo"
     >
       <motion.div
@@ -442,10 +466,7 @@ function Servicos() {
         ref={ref}
         initial="hidden"
         animate={inView ? "visible" : "hidden"}
-        variants={{
-          hidden: {},
-          visible: { transition: { staggerChildren: 0.09 } },
-        }}
+        variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.09 } } }}
         className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-px bg-cinza/10"
       >
         {servicos.map((s) => (
@@ -474,6 +495,25 @@ const paraQuemNao = [
   "Quem escolhe só por preço.",
 ]
 
+function ParaQuemItem({ item, marker, dim }: { item: string; marker: string; dim?: boolean }) {
+  return (
+    <FadeItem>
+      <motion.div
+        className="flex gap-5 py-4 border-b border-cinza/10 last:border-0 items-start"
+        whileHover={{ x: 6 }}
+        transition={{ duration: 0.25, ease: "easeOut" }}
+      >
+        <span className={`text-xs mt-1 shrink-0 font-inter ${dim ? "text-cinza/30" : "text-branco/25"}`}>
+          {marker}
+        </span>
+        <p className={`font-inter text-sm leading-relaxed ${dim ? "text-cinza" : "text-cinzaclaro"}`}>
+          {item}
+        </p>
+      </motion.div>
+    </FadeItem>
+  )
+}
+
 function ParaQuem() {
   return (
     <section
@@ -487,16 +527,7 @@ function ParaQuem() {
           </h2>
         </FadeItem>
         {paraQuemSim.map((item, i) => (
-          <FadeItem key={i}>
-            <div className="flex gap-5 py-4 border-b border-cinza/10 last:border-0 items-start">
-              <span className="text-branco/25 text-xs mt-1 shrink-0 font-inter">
-                ✦
-              </span>
-              <p className="font-inter text-sm text-cinzaclaro leading-relaxed">
-                {item}
-              </p>
-            </div>
-          </FadeItem>
+          <ParaQuemItem key={i} item={item} marker="✦" />
         ))}
       </FadeSection>
 
@@ -507,16 +538,7 @@ function ParaQuem() {
           </h2>
         </FadeItem>
         {paraQuemNao.map((item, i) => (
-          <FadeItem key={i}>
-            <div className="flex gap-5 py-4 border-b border-cinza/10 last:border-0 items-start">
-              <span className="text-cinza/30 text-xs mt-1 shrink-0 font-inter">
-                —
-              </span>
-              <p className="font-inter text-sm text-cinza leading-relaxed">
-                {item}
-              </p>
-            </div>
-          </FadeItem>
+          <ParaQuemItem key={i} item={item} marker="—" dim />
         ))}
       </FadeSection>
     </section>
@@ -531,18 +553,18 @@ function SobreBruna() {
       {/* Left — Photo */}
       <FadeSection>
         <FadeItem>
-          <div className="relative">
-            <div className="absolute -top-3 -left-3 -bottom-3 -right-3 border border-cinza/15" />
-            <div className="relative bg-[#0a0030] aspect-[3/4] overflow-hidden">
-              <img
-                src={`${BASE}/foto-bruna.jpg`}
-                alt="Bruna Ribeiro"
-                className="absolute inset-0 w-full h-full object-cover object-top grayscale hover:grayscale-0 transition-all duration-700"
-                onError={(e) => {
-                  e.currentTarget.style.display = "none"
-                }}
-              />
-            </div>
+          <div className="bg-[#0a0030] aspect-[3/4] overflow-hidden">
+            <motion.img
+              src={`${BASE}/foto-bruna.jpg`}
+              alt="Bruna Ribeiro"
+              className="w-full h-full object-cover object-top"
+              style={{ filter: "grayscale(15%) contrast(1.05)" }}
+              whileHover={{ scale: 1.06 }}
+              transition={{ duration: 0.6, ease: "easeOut" }}
+              onError={(e) => {
+                ;(e.target as HTMLImageElement).style.display = "none"
+              }}
+            />
           </div>
         </FadeItem>
       </FadeSection>
@@ -581,9 +603,7 @@ function SobreBruna() {
         </FadeItem>
         <FadeItem>
           <div className="border-t border-cinza/20 pt-7">
-            <p className="font-playfair text-branco text-lg tracking-wide">
-              Bruna Ribeiro
-            </p>
+            <p className="font-playfair text-branco text-lg tracking-wide">Bruna Ribeiro</p>
             <p className="font-inter text-[10px] tracking-[0.25em] text-cinza mt-1.5 uppercase">
               Fundadora e Estrategista
             </p>
@@ -617,8 +637,7 @@ function CtaFinal() {
         </FadeItem>
         <FadeItem>
           <p className="font-inter text-sm text-cinza leading-relaxed mb-14 max-w-sm mx-auto">
-            O primeiro passo é uma conversa. Sem compromisso, sem roteiro de
-            vendas.
+            O primeiro passo é uma conversa. Sem compromisso, sem roteiro de vendas.
           </p>
         </FadeItem>
         <FadeItem>
@@ -626,8 +645,8 @@ function CtaFinal() {
             href="https://brunaribeirosocialmedia-glitch.github.io/portfolio/briefing/"
             target="_blank"
             rel="noopener noreferrer"
-            whileHover={{ scale: 1.04 }}
-            whileTap={{ scale: 0.97 }}
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
             className="inline-block font-inter text-xs tracking-[0.22em] uppercase bg-branco text-indigo px-12 py-5 hover:bg-cinzaclaro transition-colors duration-300"
           >
             Quero essa conversa
@@ -644,9 +663,7 @@ function Footer() {
   return (
     <footer className="px-8 md:px-14 py-10 border-t border-cinza/10 flex flex-col md:flex-row items-center justify-between gap-5">
       <div className="flex flex-col items-center md:items-start">
-        <span className="font-playfair text-lg text-branco tracking-wide">
-          B Mídia
-        </span>
+        <span className="font-playfair text-lg text-branco tracking-wide">B Mídia</span>
         <span className="font-playfair italic text-[10px] text-cinza tracking-widest">
           estratégia &amp; posicionamento
         </span>
