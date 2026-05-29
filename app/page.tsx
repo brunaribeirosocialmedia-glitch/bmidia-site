@@ -1,9 +1,8 @@
 "use client"
 
 import { useRef, useState } from "react"
-import Image from "next/image"
 
-const BASE = process.env.NEXT_PUBLIC_BASE_PATH ?? ""
+const BASE = process.env.NODE_ENV === "production" ? "/bmidia-site" : ""
 import {
   motion,
   useInView,
@@ -193,12 +192,10 @@ function Hero() {
 
       {/* Right — photo placeholder */}
       <div className="relative hidden md:block min-h-[500px] bg-[#0a0030]">
-        <Image
+        <img
           src={`${BASE}/foto-hero.jpg`}
           alt="B Mídia"
-          fill
-          className="object-cover object-top opacity-60"
-          unoptimized
+          className="absolute inset-0 w-full h-full object-cover object-top opacity-60"
           onError={(e) => {
             e.currentTarget.style.display = "none"
           }}
@@ -537,12 +534,10 @@ function SobreBruna() {
           <div className="relative">
             <div className="absolute -top-3 -left-3 -bottom-3 -right-3 border border-cinza/15" />
             <div className="relative bg-[#0a0030] aspect-[3/4] overflow-hidden">
-              <Image
+              <img
                 src={`${BASE}/foto-bruna.jpg`}
                 alt="Bruna Ribeiro"
-                fill
-                className="object-cover object-top grayscale hover:grayscale-0 transition-all duration-700"
-                unoptimized
+                className="absolute inset-0 w-full h-full object-cover object-top grayscale hover:grayscale-0 transition-all duration-700"
                 onError={(e) => {
                   e.currentTarget.style.display = "none"
                 }}
