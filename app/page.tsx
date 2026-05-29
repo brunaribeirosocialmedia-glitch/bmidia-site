@@ -78,7 +78,7 @@ function Nav() {
         </span>
       </div>
 
-      <div className="hidden md:flex items-center gap-10">
+      <div className="hidden md:flex items-center gap-12">
         {[
           { label: "Método", href: "#metodo" },
           { label: "Serviços", href: "#servicos" },
@@ -148,26 +148,43 @@ function Hero() {
         style={{ x: bgX, y: bgY, scale: 1.15 }}
       >
         <motion.img
-          src="https://images.unsplash.com/photo-1557804506-669a67965ba0?w=1920&q=80"
+          src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=1920&q=80"
           alt=""
           className="w-full h-full object-cover"
           style={{ y: imageScrollY }}
         />
       </motion.div>
 
-      {/* Overlay gradient */}
+      {/* Overlay */}
       <div
         className="absolute inset-0 pointer-events-none"
-        style={{
-          background:
-            "linear-gradient(to bottom, rgba(4,0,34,0.85) 0%, rgba(4,0,34,0.95) 100%)",
-        }}
+        style={{ background: "rgba(4,0,34,0.88)" }}
       />
 
       {/* Content */}
       <div className="relative z-10 flex flex-col items-center text-center px-8 max-w-4xl mx-auto w-full">
-        {/* Eyebrow */}
-        <TextReveal delay={0.2}>
+        {/* Logo com flip rotateY */}
+        <TextReveal delay={0.1}>
+          <motion.img
+            src={`${BASE}/logo-branca.png.png`}
+            alt="B Mídia"
+            className="h-16 w-auto mx-auto mb-5"
+            initial={{ rotateY: 0 }}
+            animate={{ rotateY: 360 }}
+            transition={{ duration: 1.2, ease: EASE_EXPO, delay: 0.3 }}
+            style={{ transformPerspective: 800 }}
+            onError={(e) => {
+              const el = e.target as HTMLImageElement
+              el.replaceWith(Object.assign(document.createElement("span"), {
+                textContent: "B",
+                style: "font-family:var(--font-playfair);font-size:5rem;font-style:italic;color:#f8f8f6;display:block;margin-bottom:1.25rem",
+              }))
+            }}
+          />
+        </TextReveal>
+
+        {/* Eyebrow — abaixo da logo */}
+        <TextReveal delay={0.3}>
           <span className="font-inter text-[0.72rem] tracking-[0.28em] uppercase text-cinza block mb-6">
             B Mídia — Florianópolis, SC
           </span>
@@ -177,26 +194,34 @@ function Hero() {
         <motion.div
           initial={{ scaleX: 0, opacity: 0 }}
           animate={{ scaleX: 1, opacity: 1 }}
-          transition={{ delay: 0.35, duration: 0.7, ease: EASE_EXPO }}
-          className="origin-left mb-8"
+          transition={{ delay: 0.45, duration: 0.7, ease: EASE_EXPO }}
+          className="origin-center mb-8"
           style={{ width: 60, height: "0.5px", backgroundColor: "rgba(255,255,255,0.15)" }}
         />
 
-        {/* Headline — three lines */}
-        <h1 className="font-playfair text-[3rem] md:text-[5rem] text-branco leading-[1.12] mb-8">
-          <TextReveal delay={0.5}>
-            <span className="block">Sua marca não precisa</span>
-          </TextReveal>
-          <TextReveal delay={0.7}>
-            <span className="block">de mais posts.</span>
-          </TextReveal>
-          <TextReveal delay={0.9}>
-            <span className="block">
-              Precisa ser{" "}
-              <em className="italic text-cinzaclaro">reconhecida.</em>
-            </span>
-          </TextReveal>
-        </h1>
+        {/* Headline — flutuação infinita após entrar */}
+        <motion.div
+          animate={{ y: [0, -6, 0] }}
+          transition={{ duration: 4, ease: "easeInOut", repeat: Infinity, delay: 2.5 }}
+        >
+          <h1
+            className="font-playfair text-[2.2rem] md:text-[3.5rem] text-branco mb-8"
+            style={{ letterSpacing: "0.02em", lineHeight: 1.35 }}
+          >
+            <TextReveal delay={0.5}>
+              <span className="block">Sua marca não precisa</span>
+            </TextReveal>
+            <TextReveal delay={0.7}>
+              <span className="block">de mais posts.</span>
+            </TextReveal>
+            <TextReveal delay={0.9}>
+              <span className="block">
+                Precisa ser{" "}
+                <em className="italic text-cinzaclaro">reconhecida.</em>
+              </span>
+            </TextReveal>
+          </h1>
+        </motion.div>
 
         {/* Subline */}
         <TextReveal delay={1.2}>
@@ -209,37 +234,14 @@ function Hero() {
         <TextReveal delay={1.5}>
           <motion.a
             href="#cta"
-            whileHover={{ scale: 1.02, backgroundColor: "#f8f8f6", color: "#040022" }}
-            whileTap={{ scale: 0.98 }}
-            className="inline-block font-inter text-[0.72rem] tracking-[0.18em] uppercase text-cinzaclaro px-10 py-4 transition-colors duration-300"
-            style={{ border: "0.5px solid #e1e1e1" }}
+            whileHover={{ scale: 1.04, backgroundColor: "#f8f8f6", color: "#040022" }}
+            whileTap={{ scale: 0.97 }}
+            className="inline-block font-inter text-[0.72rem] tracking-[0.18em] uppercase text-cinzaclaro transition-colors duration-300"
+            style={{ border: "0.5px solid #e1e1e1", padding: "0.8rem 2rem" }}
           >
             Vamos entender sua marca
           </motion.a>
         </TextReveal>
-      </div>
-
-      {/* Scroll indicator */}
-      <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3 pointer-events-none">
-        <motion.span
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 2.2, duration: 0.8 }}
-          className="font-inter text-[0.65rem] tracking-[0.3em] uppercase"
-          style={{ color: "rgba(255,255,255,0.3)" }}
-        >
-          scroll
-        </motion.span>
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1, height: [0, 40, 0] }}
-          transition={{
-            opacity: { delay: 2.2, duration: 0.4 },
-            height: { delay: 2.2, duration: 1.5, repeat: Infinity, ease: "easeInOut", repeatDelay: 0.4 },
-          }}
-          className="w-px"
-          style={{ backgroundColor: "rgba(255,255,255,0.4)" }}
-        />
       </div>
     </section>
   )
