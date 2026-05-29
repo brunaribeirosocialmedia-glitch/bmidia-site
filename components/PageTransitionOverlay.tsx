@@ -44,6 +44,7 @@ export default function PageTransitionOverlay() {
   return (
     <motion.div
       className="fixed inset-0 z-[9990] pointer-events-none bg-indigo"
+      initial={{ x: "-100%" }}
       animate={controls}
     />
   )
