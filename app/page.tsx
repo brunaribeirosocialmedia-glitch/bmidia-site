@@ -3,10 +3,12 @@
 import { useRef, useState } from "react"
 import {
   motion,
+  useInView,
   useMotionValue,
   useScroll,
   useSpring,
   useTransform,
+  type Variants,
 } from "framer-motion"
 import { gsap } from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
@@ -52,9 +54,18 @@ function WordReveal({
   )
 }
 
-// ─── GSAP Section Reveal ──────────────────────────────────────────────────────
+// ─── Framer Motion Section Reveal ────────────────────────────────────────────
 
-function GsapSection({
+const fadeItem: Variants = {
+  hidden: { opacity: 0, y: 60 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 1, ease: [0.16, 1, 0.3, 1] },
+  },
+}
+
+function RevealSection({
   children,
   className = "",
   delay = 0,
@@ -64,49 +75,36 @@ function GsapSection({
   delay?: number
 }) {
   const ref = useRef<HTMLDivElement>(null)
-
-  useGSAP(
-    () => {
-      if (!ref.current) return
-      const items = gsap.utils.toArray<HTMLElement>(".gsap-reveal", ref.current)
-      if (!items.length) return
-
-      gsap.fromTo(
-        items,
-        { opacity: 0, y: 60 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 1,
-          ease: "power3.out",
-          stagger: 0.15,
-          delay,
-          scrollTrigger: {
-            trigger: ref.current,
-            start: "top 82%",
-            once: true,
-          },
-        }
-      )
-    },
-    { scope: ref }
-  )
+  const inView = useInView(ref, { once: true, amount: 0.12 })
 
   return (
-    <div ref={ref} className={className}>
+    <motion.div
+      ref={ref}
+      initial="hidden"
+      animate={inView ? "visible" : "hidden"}
+      variants={{
+        hidden: {},
+        visible: { transition: { staggerChildren: 0.15, delayChildren: delay } },
+      }}
+      className={className}
+    >
       {children}
-    </div>
+    </motion.div>
   )
 }
 
-function GsapItem({
+function RevealItem({
   children,
   className = "",
 }: {
   children: React.ReactNode
   className?: string
 }) {
-  return <div className={`gsap-reveal ${className}`}>{children}</div>
+  return (
+    <motion.div variants={fadeItem} className={className}>
+      {children}
+    </motion.div>
+  )
 }
 
 // ─── Nav ─────────────────────────────────────────────────────────────────────
@@ -368,13 +366,13 @@ function Problema() {
       id="metodo"
       className="px-8 md:px-14 lg:px-20 py-28 grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-24 border-t border-cinza/10"
     >
-      <GsapSection>
-        <GsapItem>
+      <RevealSection>
+        <RevealItem>
           <span className="font-inter text-[10px] tracking-[0.28em] text-cinza uppercase block mb-7">
             O cenário atual
           </span>
-        </GsapItem>
-        <GsapItem>
+        </RevealItem>
+        <RevealItem>
           <h2 className="font-playfair text-3xl md:text-4xl text-branco leading-[1.28] mb-8">
             Muitos negócios postam
             <br />
@@ -382,19 +380,19 @@ function Problema() {
             <br />
             <em className="italic text-cinzaclaro">Poucos são lembrados.</em>
           </h2>
-        </GsapItem>
-        <GsapItem>
+        </RevealItem>
+        <RevealItem>
           <p className="font-inter text-sm text-cinza leading-relaxed max-w-sm">
             O problema não é a falta de conteúdo. É a falta de intenção por
             trás de cada publicação. Presença sem estratégia é ruído. E ruído
             não converte — ele afasta.
           </p>
-        </GsapItem>
-      </GsapSection>
+        </RevealItem>
+      </RevealSection>
 
-      <GsapSection delay={0.18}>
+      <RevealSection delay={0.18}>
         {problemas.map((p, i) => (
-          <GsapItem key={i}>
+          <RevealItem key={i}>
             <motion.div
               className="flex gap-6 py-5 border-b border-cinza/10 last:border-0 items-start"
               whileHover="rowHover"
@@ -415,9 +413,9 @@ function Problema() {
                 {p}
               </motion.p>
             </motion.div>
-          </GsapItem>
+          </RevealItem>
         ))}
-      </GsapSection>
+      </RevealSection>
     </section>
   )
 }
@@ -454,34 +452,13 @@ const metodos = [
 function Metodo() {
   const sectionRef = useRef<HTMLElement>(null)
   const gridRef = useRef<HTMLDivElement>(null)
+  const gridInView = useInView(gridRef, { once: true, amount: 0.1 })
 
-  // Reveal dos cards + counter-up nos números grandes
+  // Counter-up GSAP nos números grandes
   useGSAP(
     () => {
       if (!gridRef.current) return
 
-      // Revela os GsapItems do grid (sem GsapSection pai)
-      const revealEls = gsap.utils.toArray<HTMLElement>(".gsap-reveal", gridRef.current)
-      if (revealEls.length) {
-        gsap.fromTo(
-          revealEls,
-          { opacity: 0, y: 60 },
-          {
-            opacity: 1,
-            y: 0,
-            duration: 1,
-            ease: "power3.out",
-            stagger: 0.15,
-            scrollTrigger: {
-              trigger: gridRef.current,
-              start: "top 82%",
-              once: true,
-            },
-          }
-        )
-      }
-
-      // Counter-up nos números grandes
       const numEls = gridRef.current.querySelectorAll("[data-counter]")
       numEls.forEach((el) => {
         const target = parseInt((el as HTMLElement).dataset.counter || "0", 10)
@@ -512,26 +489,30 @@ function Metodo() {
       id="servicos"
       className="px-8 md:px-14 lg:px-20 py-28 border-t border-cinza/10"
     >
-      <GsapSection className="mb-16">
-        <GsapItem>
+      <RevealSection className="mb-16">
+        <RevealItem>
           <span className="font-inter text-[10px] tracking-[0.28em] text-cinza uppercase block mb-5">
             Método
           </span>
-        </GsapItem>
-        <GsapItem>
+        </RevealItem>
+        <RevealItem>
           <h2 className="font-playfair text-3xl md:text-4xl text-branco">
             Como a B Mídia pensa
           </h2>
-        </GsapItem>
-      </GsapSection>
+        </RevealItem>
+      </RevealSection>
 
-      <div
+      <motion.div
         ref={gridRef}
+        initial="hidden"
+        animate={gridInView ? "visible" : "hidden"}
+        variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.15 } } }}
         className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4"
       >
         {metodos.map((m, i) => (
-          <GsapItem
+          <motion.div
             key={m.num}
+            variants={fadeItem}
             className={[
               i < 3
                 ? "border-b lg:border-b-0 lg:border-r border-cinza/10"
@@ -561,9 +542,9 @@ function Metodo() {
                 {m.text}
               </p>
             </motion.div>
-          </GsapItem>
+          </motion.div>
         ))}
-      </div>
+      </motion.div>
     </section>
   )
 }
@@ -639,57 +620,37 @@ function ServicoCard({ title, tags }: { title: string; tags: string[] }) {
 }
 
 function Servicos() {
-  const gridRef = useRef<HTMLDivElement>(null)
-
-  useGSAP(
-    () => {
-      if (!gridRef.current) return
-      const items = gsap.utils.toArray<HTMLElement>(".servico-card", gridRef.current)
-      gsap.fromTo(
-        items,
-        { opacity: 0, y: 60 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 1,
-          ease: "power3.out",
-          stagger: 0.09,
-          scrollTrigger: {
-            trigger: gridRef.current,
-            start: "top 82%",
-            once: true,
-          },
-        }
-      )
-    },
-    { scope: gridRef }
-  )
+  const ref = useRef<HTMLDivElement>(null)
+  const inView = useInView(ref, { once: true, amount: 0.08 })
 
   return (
     <section className="px-8 md:px-14 lg:px-20 py-28 border-t border-cinza/10">
-      <GsapSection className="mb-16">
-        <GsapItem>
+      <RevealSection className="mb-16">
+        <RevealItem>
           <span className="font-inter text-[10px] tracking-[0.28em] text-cinza uppercase block mb-5">
             Serviços
           </span>
-        </GsapItem>
-        <GsapItem>
+        </RevealItem>
+        <RevealItem>
           <h2 className="font-playfair text-3xl md:text-4xl text-branco">
             O que a B Mídia oferece
           </h2>
-        </GsapItem>
-      </GsapSection>
+        </RevealItem>
+      </RevealSection>
 
-      <div
-        ref={gridRef}
+      <motion.div
+        ref={ref}
+        initial="hidden"
+        animate={inView ? "visible" : "hidden"}
+        variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.09 } } }}
         className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-px bg-cinza/10"
       >
         {servicos.map((s) => (
-          <div key={s.title} className="servico-card bg-indigo">
+          <motion.div key={s.title} variants={fadeItem} className="bg-indigo">
             <ServicoCard {...s} />
-          </div>
+          </motion.div>
         ))}
-      </div>
+      </motion.div>
     </section>
   )
 }
@@ -718,14 +679,14 @@ function ParaQuem() {
       id="agencia"
       className="px-8 md:px-14 lg:px-20 py-28 border-t border-cinza/10 grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-24"
     >
-      <GsapSection>
-        <GsapItem>
+      <RevealSection>
+        <RevealItem>
           <h2 className="font-playfair text-2xl md:text-3xl text-branco mb-10">
             Para quem a B Mídia <em className="italic">é</em>
           </h2>
-        </GsapItem>
+        </RevealItem>
         {paraQuemSim.map((item, i) => (
-          <GsapItem key={i}>
+          <RevealItem key={i}>
             <motion.div
               className="flex gap-5 py-4 border-b border-cinza/10 last:border-0 items-start"
               whileHover={{ x: 6 }}
@@ -738,18 +699,18 @@ function ParaQuem() {
                 {item}
               </p>
             </motion.div>
-          </GsapItem>
+          </RevealItem>
         ))}
-      </GsapSection>
+      </RevealSection>
 
-      <GsapSection delay={0.2}>
-        <GsapItem>
+      <RevealSection delay={0.2}>
+        <RevealItem>
           <h2 className="font-playfair text-2xl md:text-3xl text-branco mb-10">
             Para quem <em className="italic">não é</em>
           </h2>
-        </GsapItem>
+        </RevealItem>
         {paraQuemNao.map((item, i) => (
-          <GsapItem key={i}>
+          <RevealItem key={i}>
             <motion.div
               className="flex gap-5 py-4 border-b border-cinza/10 last:border-0 items-start"
               whileHover={{ x: 6 }}
@@ -762,9 +723,9 @@ function ParaQuem() {
                 {item}
               </p>
             </motion.div>
-          </GsapItem>
+          </RevealItem>
         ))}
-      </GsapSection>
+      </RevealSection>
     </section>
   )
 }
@@ -800,8 +761,8 @@ function SobreBruna() {
   return (
     <section className="px-8 md:px-14 lg:px-20 py-28 border-t border-cinza/10 grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-24">
       {/* Coluna esquerda — Foto com parallax */}
-      <GsapSection>
-        <GsapItem>
+      <RevealSection>
+        <RevealItem>
           <div
             ref={photoContainerRef}
             className="bg-[#0a0030] aspect-[3/4] overflow-hidden"
@@ -818,42 +779,42 @@ function SobreBruna() {
               }}
             />
           </div>
-        </GsapItem>
-      </GsapSection>
+        </RevealItem>
+      </RevealSection>
 
       {/* Coluna direita — Texto */}
-      <GsapSection delay={0.2} className="flex flex-col justify-center">
-        <GsapItem>
+      <RevealSection delay={0.2} className="flex flex-col justify-center">
+        <RevealItem>
           <span className="font-inter text-[10px] tracking-[0.28em] text-cinza uppercase block mb-8">
             A agência
           </span>
-        </GsapItem>
-        <GsapItem>
+        </RevealItem>
+        <RevealItem>
           <blockquote className="font-playfair italic text-2xl md:text-3xl text-branco leading-[1.42] mb-10">
             &ldquo;Minha maior força é perceber o que a marca ainda não sabe
             dizer sobre si mesma.&rdquo;
           </blockquote>
-        </GsapItem>
-        <GsapItem>
+        </RevealItem>
+        <RevealItem>
           <p className="font-inter text-sm text-cinza leading-relaxed mb-5">
             A B Mídia nasceu da convicção de que comunicação estratégica não é
             privilégio de grandes empresas. É o que transforma um bom produto em
             uma marca que as pessoas procuram.
           </p>
-        </GsapItem>
-        <GsapItem>
+        </RevealItem>
+        <RevealItem>
           <p className="font-inter text-sm text-cinza leading-relaxed mb-5">
             Trabalhamos com poucos clientes de forma intencional. Cada projeto
             recebe atenção real — não de um time enorme, mas de quem entende o
             seu negócio como se fosse o próprio.
           </p>
-        </GsapItem>
-        <GsapItem>
+        </RevealItem>
+        <RevealItem>
           <p className="font-inter text-sm text-cinza leading-relaxed mb-12">
             O resultado não é viral. É reconhecimento. É construção.
           </p>
-        </GsapItem>
-        <GsapItem>
+        </RevealItem>
+        <RevealItem>
           <div className="border-t border-cinza/20 pt-7">
             <p className="font-playfair text-branco text-lg tracking-wide">
               Bruna Ribeiro
@@ -862,8 +823,8 @@ function SobreBruna() {
               Fundadora e Estrategista
             </p>
           </div>
-        </GsapItem>
-      </GsapSection>
+        </RevealItem>
+      </RevealSection>
     </section>
   )
 }
@@ -876,26 +837,26 @@ function CtaFinal() {
       id="cta"
       className="px-8 md:px-14 py-36 border-t border-cinza/10 flex flex-col items-center text-center"
     >
-      <GsapSection className="max-w-2xl mx-auto w-full">
-        <GsapItem>
+      <RevealSection className="max-w-2xl mx-auto w-full">
+        <RevealItem>
           <span className="font-inter text-[10px] tracking-[0.3em] text-cinza uppercase block mb-9">
             Próximo passo
           </span>
-        </GsapItem>
-        <GsapItem>
+        </RevealItem>
+        <RevealItem>
           <h2 className="font-playfair text-3xl md:text-5xl text-branco leading-[1.22] mb-8">
             Vamos entender o que sua marca
             <br />
             <em className="italic">precisa comunicar</em>
           </h2>
-        </GsapItem>
-        <GsapItem>
+        </RevealItem>
+        <RevealItem>
           <p className="font-inter text-sm text-cinza leading-relaxed mb-14 max-w-sm mx-auto">
             O primeiro passo é uma conversa. Sem compromisso, sem roteiro de
             vendas.
           </p>
-        </GsapItem>
-        <GsapItem>
+        </RevealItem>
+        <RevealItem>
           <motion.a
             href="https://brunaribeirosocialmedia-glitch.github.io/portfolio/briefing/"
             target="_blank"
@@ -906,8 +867,8 @@ function CtaFinal() {
           >
             Quero essa conversa
           </motion.a>
-        </GsapItem>
-      </GsapSection>
+        </RevealItem>
+      </RevealSection>
     </section>
   )
 }
