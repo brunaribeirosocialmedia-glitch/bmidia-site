@@ -2,6 +2,8 @@
 
 import { useRef, useState } from "react"
 import Image from "next/image"
+
+const BASE = process.env.NEXT_PUBLIC_BASE_PATH ?? ""
 import {
   motion,
   useInView,
@@ -192,7 +194,7 @@ function Hero() {
       {/* Right — photo placeholder */}
       <div className="relative hidden md:block min-h-[500px] bg-[#0a0030]">
         <Image
-          src="/foto-hero.jpg"
+          src={`${BASE}/foto-hero.jpg`}
           alt="B Mídia"
           fill
           className="object-cover object-top opacity-60"
@@ -536,7 +538,7 @@ function SobreBruna() {
             <div className="absolute -top-3 -left-3 -bottom-3 -right-3 border border-cinza/15" />
             <div className="relative bg-[#0a0030] aspect-[3/4] overflow-hidden">
               <Image
-                src="/foto-bruna.jpg"
+                src={`${BASE}/foto-bruna.jpg`}
                 alt="Bruna Ribeiro"
                 fill
                 className="object-cover object-top grayscale hover:grayscale-0 transition-all duration-700"
