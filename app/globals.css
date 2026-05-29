@@ -9,12 +9,13 @@
   --font-inter: "Inter", sans-serif;
 }
 
-*, *::before, *::after {
-  cursor: none;
-}
 
 html {
-  scroll-behavior: smooth;
+  /* smooth scroll handled by Lenis */
+}
+
+.gsap-reveal {
+  opacity: 0;
 }
 
 body {

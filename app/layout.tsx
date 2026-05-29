@@ -4,7 +4,8 @@ import "@fontsource/playfair-display/700.css"
 import "@fontsource/inter/300.css"
 import "@fontsource/inter/400.css"
 import "./globals.css"
-import Cursor from "@/components/Cursor"
+import LenisProvider from "@/components/LenisProvider"
+import PageTransitionOverlay from "@/components/PageTransitionOverlay"
 
 export const metadata: Metadata = {
   title: "B Mídia — Estratégia & Posicionamento",
@@ -19,8 +20,10 @@ export default function RootLayout({
   return (
     <html lang="pt-BR">
       <body className="bg-indigo text-cinzaclaro antialiased overflow-x-hidden">
-        <Cursor />
-        {children}
+        <LenisProvider>
+          <PageTransitionOverlay />
+          {children}
+        </LenisProvider>
       </body>
     </html>
   )
