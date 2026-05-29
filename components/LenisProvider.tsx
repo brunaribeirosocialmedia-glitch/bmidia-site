@@ -1,30 +1,22 @@
 "use client"
 
 import { useEffect } from "react"
-import Lenis from "lenis"
 import { gsap } from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
 import { useGSAP } from "@gsap/react"
 
 gsap.registerPlugin(ScrollTrigger, useGSAP)
 
+// Scroll suave via CSS — sem Lenis para manter compatibilidade com GSAP ScrollTrigger no export estático
 export default function LenisProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
-    const lenis = new Lenis({
-      duration: 1.2,
-      easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      touchMultiplier: 2,
-    })
+    // Atualiza ScrollTrigger a cada scroll nativo
+    const onScroll = () => ScrollTrigger.update()
+    window.addEventListener("scroll", onScroll, { passive: true })
 
-    lenis.on("scroll", ScrollTrigger.update)
-
-    const ticker = (time: number) => { lenis.raf(time * 1000) }
-    gsap.ticker.add(ticker)
-    gsap.ticker.lagSmoothing(0)
-
+    // Smooth scroll para âncoras via CSS — já está no globals.css
     return () => {
-      lenis.destroy()
-      gsap.ticker.remove(ticker)
+      window.removeEventListener("scroll", onScroll)
     }
   }, [])
 

@@ -11,7 +11,7 @@
 
 
 html {
-  /* smooth scroll handled by Lenis */
+  scroll-behavior: smooth;
 }
 
 .gsap-reveal {
