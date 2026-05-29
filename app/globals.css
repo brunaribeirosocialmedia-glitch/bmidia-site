@@ -1,0 +1,30 @@
+@import "tailwindcss";
+
+@theme {
+  --color-indigo: #040022;
+  --color-cinza: #c2c2c2;
+  --color-cinzaclaro: #e1e1e1;
+  --color-branco: #f8f8f6;
+  --font-playfair: "Playfair Display", serif;
+  --font-inter: "Inter", sans-serif;
+}
+
+*, *::before, *::after {
+  cursor: none;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: #040022;
+  color: #e1e1e1;
+  font-family: "Inter", sans-serif;
+  font-weight: 300;
+}
+
+::selection {
+  background-color: #f8f8f6;
+  color: #040022;
+}
