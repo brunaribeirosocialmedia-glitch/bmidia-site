@@ -174,32 +174,84 @@ function Hero() {
       onMouseMove={handleMouseMove}
       onMouseLeave={() => { mouseX.set(0); mouseY.set(0) }}
     >
-      {/* Layer 1: Fundo com textura — grain fino + gradiente radial sutil */}
+      {/* Layer 1: Fundo com linhas fluidas dançando */}
       <motion.div className="absolute inset-0 pointer-events-none" style={{ y: layer1Y }}>
         {/* Base navy */}
         <div className="absolute inset-0" style={{ background: "#040022" }} />
-        {/* Gradiente radial: centro levemente mais claro */}
+
+        {/* SVG com linhas curvas orgânicas */}
+        <svg
+          className="absolute inset-0 w-full h-full"
+          xmlns="http://www.w3.org/2000/svg"
+          preserveAspectRatio="xMidYMid slice"
+          viewBox="0 0 1440 900"
+        >
+          <defs>
+            <linearGradient id="lg1" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="#0e0845" stopOpacity="1" />
+              <stop offset="100%" stopColor="#040022" stopOpacity="0" />
+            </linearGradient>
+            <linearGradient id="lg2" x1="100%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stopColor="#09063a" stopOpacity="0.9" />
+              <stop offset="100%" stopColor="#020018" stopOpacity="0" />
+            </linearGradient>
+            <linearGradient id="lg3" x1="50%" y1="0%" x2="50%" y2="100%">
+              <stop offset="0%" stopColor="#0b0740" stopOpacity="0.7" />
+              <stop offset="100%" stopColor="#040022" stopOpacity="0" />
+            </linearGradient>
+          </defs>
+
+          {/* Forma fluida grande — canto superior esquerdo */}
+          <path
+            d="M -80 0 C 200 80 350 -40 600 120 C 800 260 650 400 900 350 C 1100 310 1200 500 1440 420 L 1440 0 Z"
+            fill="url(#lg1)"
+            opacity="0.75"
+          />
+
+          {/* Forma fluida — canto inferior direito */}
+          <path
+            d="M 1540 900 C 1200 820 1050 950 800 780 C 580 640 700 500 450 560 C 240 610 100 480 -80 550 L -80 900 Z"
+            fill="url(#lg2)"
+            opacity="0.65"
+          />
+
+          {/* Forma central sutil — cria profundidade no meio */}
+          <path
+            d="M 300 0 C 420 150 280 300 450 420 C 600 530 750 380 820 500 C 900 630 780 750 900 900 L 300 900 Z"
+            fill="url(#lg3)"
+            opacity="0.35"
+          />
+
+          {/* Linha fluida fina 1 — dançando da esquerda para direita */}
+          <path
+            d="M -80 180 C 200 120 380 280 600 200 C 820 130 950 310 1200 240 C 1350 200 1420 260 1540 220"
+            fill="none"
+            stroke="rgba(194,194,194,0.06)"
+            strokeWidth="1"
+          />
+
+          {/* Linha fluida fina 2 — mais baixa, ritmo diferente */}
+          <path
+            d="M -80 480 C 150 420 300 560 520 490 C 720 430 880 600 1100 520 C 1280 460 1380 540 1540 500"
+            fill="none"
+            stroke="rgba(194,194,194,0.04)"
+            strokeWidth="0.8"
+          />
+
+          {/* Linha fluida fina 3 — acento perto do topo */}
+          <path
+            d="M 400 0 C 500 60 420 140 560 180 C 680 215 750 140 900 170 C 1050 200 1100 120 1200 90"
+            fill="none"
+            stroke="rgba(194,194,194,0.05)"
+            strokeWidth="0.6"
+          />
+        </svg>
+
+        {/* Vinheta suave nas bordas */}
         <div
           className="absolute inset-0"
           style={{
-            background: "radial-gradient(ellipse 80% 60% at 50% 40%, rgba(20,10,70,0.6) 0%, transparent 70%)",
-          }}
-        />
-        {/* Textura grain fino */}
-        <div
-          className="absolute inset-0"
-          style={{
-            backgroundImage: "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23g)' opacity='0.4'/%3E%3C/svg%3E\")",
-            backgroundRepeat: "repeat",
-            opacity: 0.06,
-            mixBlendMode: "overlay",
-          }}
-        />
-        {/* Linhas diagonais sutis */}
-        <div
-          className="absolute inset-0"
-          style={{
-            backgroundImage: "repeating-linear-gradient(135deg, transparent, transparent 60px, rgba(194,194,194,0.018) 60px, rgba(194,194,194,0.018) 61px)",
+            background: "radial-gradient(ellipse 90% 90% at 50% 50%, transparent 35%, rgba(2,0,15,0.65) 100%)",
           }}
         />
       </motion.div>
