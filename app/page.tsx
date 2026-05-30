@@ -199,23 +199,23 @@ function Hero() {
       >
         <div className="px-8 max-w-4xl mx-auto w-full text-center">
           {/* Logo */}
-          <div style={{ overflow: "hidden" }}>
+          <div style={{ overflow: "hidden", perspective: "800px" }}>
             <motion.img
-              src={`${BASE}/logo-branca.png.png`}
+              src={`${BASE}/logo-branca.png`}
               alt="B Mídia"
               style={{
-                height: 110,
+                height: 120,
                 width: "auto",
                 objectFit: "contain",
                 display: "block",
-                margin: "0 auto 1.25rem",
+                margin: "0 auto 1.75rem",
               }}
-              initial={{ y: 80, opacity: 0, rotateY: 0 }}
-              animate={{ y: 0, opacity: 1, rotateY: 360 }}
+              initial={{ x: -60, opacity: 0, rotateY: 0 }}
+              animate={{ x: 0, opacity: 1, rotateY: 360 }}
               transition={{
-                y: { duration: 0.9, ease: EASE_EXPO, delay: 0.15 },
-                opacity: { duration: 0.9, ease: EASE_EXPO, delay: 0.15 },
-                rotateY: { duration: 1.4, ease: EASE_EXPO, delay: 0.25 },
+                x: { duration: 1.2, ease: EASE_EXPO, delay: 0.15 },
+                opacity: { duration: 1.2, ease: EASE_EXPO, delay: 0.15 },
+                rotateY: { duration: 3.0, ease: [0.25, 0.1, 0.25, 1], delay: 0.2 },
               }}
               onError={(e) => {
                 ;(e.target as HTMLImageElement).style.display = "none"
@@ -229,7 +229,7 @@ function Hero() {
               className="font-inter text-[0.72rem] tracking-[0.28em] uppercase text-cinza block mb-6"
               initial={{ y: 40, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: 0.5, duration: 0.9, ease: EASE_EXPO }}
+              transition={{ delay: 0.7, duration: 1.0, ease: EASE_EXPO }}
             >
               B Mídia · Florianópolis, SC
             </motion.span>
@@ -239,34 +239,29 @@ function Hero() {
           <motion.div
             initial={{ scaleX: 0, opacity: 0 }}
             animate={{ scaleX: 1, opacity: 1 }}
-            transition={{ delay: 0.7, duration: 0.7, ease: EASE_EXPO }}
+            transition={{ delay: 0.9, duration: 0.9, ease: EASE_EXPO }}
             className="origin-center mb-8 mx-auto"
             style={{ width: 60, height: "0.5px", backgroundColor: "rgba(255,255,255,0.15)" }}
           />
 
           {/* Headline */}
-          <motion.div
-            animate={{ y: [0, -6, 0] }}
-            transition={{ duration: 4, ease: "easeInOut", repeat: Infinity, delay: 3.2 }}
+          <h1
+            className="font-playfair text-[1.6rem] md:text-[2.2rem] text-branco mb-16"
+            style={{ letterSpacing: "0.02em", lineHeight: 1.4 }}
           >
-            <h1
-              className="font-playfair text-[1.6rem] md:text-[2.2rem] text-branco mb-6"
-              style={{ letterSpacing: "0.02em", lineHeight: 1.4 }}
-            >
-              <span className="block">
-                <WordReveal words={["Sua", "marca", "não", "precisa"]} delay={0.85} />
-              </span>
-              <span className="block">
-                <WordReveal words={["de", "mais", "posts."]} delay={1.05} />
-              </span>
-              <span className="block">
-                <WordReveal
-                  words={["Precisa", "ser", <em key="em" className="italic text-cinzaclaro">reconhecida.</em>]}
-                  delay={1.25}
-                />
-              </span>
-            </h1>
-          </motion.div>
+            <span className="block whitespace-nowrap">
+              <WordReveal
+                words={["Sua", "marca", "não", "precisa", "de", "mais", "publicações."]}
+                delay={0.9}
+              />
+            </span>
+            <span className="block">
+              <WordReveal
+                words={["Precisa", "ser", <em key="em" className="italic text-cinzaclaro">reconhecida.</em>]}
+                delay={1.15}
+              />
+            </span>
+          </h1>
         </div>
       </motion.div>
 
