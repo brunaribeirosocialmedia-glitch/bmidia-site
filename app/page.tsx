@@ -115,8 +115,8 @@ function Nav() {
       className="fixed top-0 left-0 right-0 z-50 px-8 md:px-14 py-5 flex items-center justify-between"
     >
       <div className="flex flex-col">
-        <span className="font-playfair text-xl tracking-wide text-branco">B Mídia</span>
-        <span className="font-playfair italic text-[10px] tracking-[0.2em] text-cinza leading-tight">
+        <span className="font-cormorant text-xl tracking-wide text-branco">B Mídia</span>
+        <span className="font-cormorant italic text-[10px] tracking-[0.2em] text-cinza leading-tight">
           estratégia e posicionamento
         </span>
       </div>
@@ -130,7 +130,7 @@ function Nav() {
           <a
             key={label}
             href={href}
-            className="font-inter text-xs tracking-[0.18em] text-cinza hover:text-branco transition-colors duration-300 uppercase"
+            className="font-questrial text-xs tracking-[0.18em] text-cinza hover:text-branco transition-colors duration-300 uppercase"
           >
             {label}
           </a>
@@ -139,7 +139,7 @@ function Nav() {
 
       <a
         href="#cta"
-        className="hidden md:inline-block font-inter text-xs tracking-[0.18em] uppercase border border-cinzaclaro/30 text-cinzaclaro px-6 py-3 hover:border-branco hover:text-branco transition-all duration-300 rounded-[6px]"
+        className="hidden md:inline-block font-questrial text-xs tracking-[0.18em] uppercase border border-cinzaclaro/30 text-cinzaclaro px-6 py-3 hover:border-branco hover:text-branco transition-all duration-300 rounded-[6px]"
       >
         Quero conversar
       </a>
@@ -234,7 +234,7 @@ function Hero() {
           {/* Headline */}
           <div style={{ overflow: "hidden" }} className="mb-10">
             <motion.h1
-              className="font-playfair text-[1.6rem] md:text-[2.2rem] text-branco text-center"
+              className="font-cormorant text-[1.6rem] md:text-[2.2rem] text-branco text-center"
               style={{ letterSpacing: "0.02em", lineHeight: 1.4 }}
               initial={{ clipPath: "inset(0 100% 0 0)" }}
               animate={{ clipPath: "inset(0 0% 0 0)" }}
@@ -248,7 +248,7 @@ function Hero() {
 
           {/* Subfrase */}
           <motion.p
-            className="font-inter text-[0.9rem] tracking-[0.08em] text-cinza mb-10 text-center"
+            className="font-questrial text-[0.9rem] tracking-[0.08em] text-cinza mb-10 text-center"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 3.2, duration: 1.4, ease: EASE_EXPO }}
@@ -261,7 +261,7 @@ function Hero() {
             href="#cta"
             whileHover={{ backgroundColor: "#f8f8f6", color: "#040022" }}
             whileTap={{ scale: 0.97 }}
-            className="inline-block font-inter text-[0.72rem] tracking-[0.18em] uppercase text-cinzaclaro transition-colors duration-300 rounded-[6px]"
+            className="inline-block font-questrial text-[0.72rem] tracking-[0.18em] uppercase text-cinzaclaro transition-colors duration-300 rounded-[6px]"
             style={{ border: "0.5px solid #e1e1e1", padding: "0.8rem 2rem" }}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -293,12 +293,12 @@ function Problema() {
     >
       <RevealSection>
         <RevealItem>
-          <span className="font-inter text-[10px] tracking-[0.28em] text-cinza uppercase block mb-7">
+          <span className="font-questrial text-[10px] tracking-[0.28em] text-cinza uppercase block mb-7">
             O cenário atual
           </span>
         </RevealItem>
         <RevealItem>
-          <h2 className="font-playfair text-3xl md:text-4xl text-branco leading-[1.28] mb-8">
+          <h2 className="font-cormorant text-3xl md:text-4xl text-branco leading-[1.28] mb-8">
             Muitos negócios postam
             <br />
             todos os dias.
@@ -307,7 +307,7 @@ function Problema() {
           </h2>
         </RevealItem>
         <RevealItem>
-          <p className="font-inter text-sm text-cinza leading-relaxed max-w-sm">
+          <p className="font-questrial text-sm text-cinza leading-relaxed max-w-sm">
             O problema não é a falta de conteúdo. É a falta de intenção por
             trás de cada publicação. Presença sem estratégia é ruído. E ruído
             não converte, ele afasta.
@@ -325,14 +325,14 @@ function Problema() {
               <motion.span
                 variants={{ rowHover: { opacity: 0.9 } }}
                 style={{ opacity: 0.25 }}
-                className="font-playfair italic text-cinza text-sm shrink-0 mt-0.5 tabular-nums"
+                className="font-cormorant italic text-cinza text-sm shrink-0 mt-0.5 tabular-nums"
                 transition={{ duration: 0.2 }}
               >
                 {String(i + 1).padStart(2, "0")}
               </motion.span>
               <motion.p
                 variants={{ rowHover: { color: "#f8f8f6" } }}
-                className="font-inter text-sm text-cinzaclaro leading-relaxed"
+                className="font-questrial text-sm text-cinzaclaro leading-relaxed"
                 transition={{ duration: 0.2 }}
               >
                 {p}
@@ -393,12 +393,12 @@ function Metodo() {
     >
       <RevealSection className="mb-14">
         <RevealItem>
-          <span className="font-inter text-[10px] tracking-[0.28em] text-cinza uppercase block mb-5">
+          <span className="font-questrial text-[10px] tracking-[0.28em] text-cinza uppercase block mb-5">
             Método
           </span>
         </RevealItem>
         <RevealItem>
-          <h2 className="font-playfair text-3xl md:text-4xl text-branco">
+          <h2 className="font-cormorant text-3xl md:text-4xl text-branco">
             Como a B Mídia pensa
           </h2>
         </RevealItem>
@@ -417,11 +417,11 @@ function Metodo() {
             transition={{ duration: 0.3 }}
             className="cursor-pointer p-8 relative overflow-hidden rounded-[6px]"
           >
-            <span className="font-playfair italic text-cinza/20 text-5xl block mb-5 leading-none tabular-nums">
+            <span className="font-cormorant italic text-cinza/20 text-5xl block mb-5 leading-none tabular-nums">
               {m.num}
             </span>
-            <h3 className="font-playfair text-lg text-branco mb-3 leading-snug">{m.title}</h3>
-            <p className="font-inter text-xs text-cinza leading-relaxed">{m.summary}</p>
+            <h3 className="font-cormorant text-lg text-branco mb-3 leading-snug">{m.title}</h3>
+            <p className="font-questrial text-xs text-cinza leading-relaxed">{m.summary}</p>
 
             <motion.div
               className="absolute bottom-0 left-0 right-0 h-[2px] origin-left"
@@ -444,7 +444,7 @@ function Metodo() {
             transition={{ duration: 0.45, ease: [0.25, 0.4, 0.25, 1] }}
             className="overflow-hidden bg-cinza/5"
           >
-            <p className="font-inter text-sm text-cinza/80 leading-relaxed px-10 py-8 max-w-3xl">
+            <p className="font-questrial text-sm text-cinza/80 leading-relaxed px-10 py-8 max-w-3xl">
               {metodos[activeIndex].detail}
             </p>
           </motion.div>
@@ -463,6 +463,8 @@ const servicos = [
   { title: "Identidade de Comunicação", tags: ["Tom de Voz", "Pilares", "Visual"] },
   { title: "Calendário Editorial", tags: ["Planejamento", "Calendário"] },
   { title: "Design e Produção Visual", tags: ["Design", "Edição", "Arte"] },
+  { title: "Captação de Conteúdo", tags: ["Foto", "Vídeo", "Produção"] },
+  { title: "Catálogo Interativo", tags: ["Catálogo", "Digital", "Vendas"] },
 ]
 
 function ServicoCard({ title, tags }: { title: string; tags: string[] }) {
@@ -474,7 +476,7 @@ function ServicoCard({ title, tags }: { title: string; tags: string[] }) {
       onHoverEnd={() => setHovered(false)}
       animate={{ backgroundColor: hovered ? "rgba(255,255,255,0.025)" : "rgba(4,0,34,1)" }}
       transition={{ duration: 0.5 }}
-      className="p-8 relative overflow-hidden bg-indigo h-full"
+      className="p-8 relative overflow-hidden bg-indigo/80 h-full border border-cinza/10 rounded-2xl"
     >
       {/* Linha contínua base — sempre visível, muito sutil */}
       <div className="absolute bottom-0 left-0 right-0 h-px bg-cinza/10" />
@@ -488,7 +490,7 @@ function ServicoCard({ title, tags }: { title: string; tags: string[] }) {
       />
 
       <motion.h3
-        className="font-playfair text-xl text-branco mb-5 leading-snug"
+        className="font-cormorant text-xl text-branco mb-5 leading-snug"
         animate={{ opacity: hovered ? 1 : 0.75 }}
         transition={{ duration: 0.4 }}
       >
@@ -498,7 +500,7 @@ function ServicoCard({ title, tags }: { title: string; tags: string[] }) {
         {tags.map((tag) => (
           <span
             key={tag}
-            className="font-inter text-[10px] tracking-[0.18em] text-cinza/50 border border-cinza/20 px-3 py-1 uppercase"
+            className="font-questrial text-[10px] tracking-[0.18em] text-cinza/50 border border-cinza/20 px-3 py-1 uppercase"
           >
             {tag}
           </span>
@@ -516,12 +518,12 @@ function Servicos() {
     <section className="px-8 md:px-14 lg:px-20 py-28 border-t border-cinza/10">
       <RevealSection className="mb-16">
         <RevealItem>
-          <span className="font-inter text-[10px] tracking-[0.28em] text-cinza uppercase block mb-5">
+          <span className="font-questrial text-[10px] tracking-[0.28em] text-cinza uppercase block mb-5">
             Serviços
           </span>
         </RevealItem>
         <RevealItem>
-          <h2 className="font-playfair text-3xl md:text-4xl text-branco">
+          <h2 className="font-cormorant text-3xl md:text-4xl text-branco">
             O que a B Mídia oferece
           </h2>
         </RevealItem>
@@ -533,15 +535,13 @@ function Servicos() {
         initial="hidden"
         animate={inView ? "visible" : "hidden"}
         variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.09 } } }}
-        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 border border-cinza/10"
+        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3"
       >
         {servicos.map((s, i) => (
           <motion.div
             key={s.title}
             variants={fadeItem}
-            className={`bg-indigo border-cinza/10 ${
-              i % 3 !== 2 ? "border-r" : ""
-            } ${i < 3 ? "border-b" : ""}`}
+            className="bg-indigo rounded-2xl overflow-hidden"
           >
             <ServicoCard {...s} />
           </motion.div>
@@ -590,17 +590,17 @@ function ComoTrabalhamos() {
 
       <RevealSection className="max-w-2xl mb-16">
         <RevealItem>
-          <span className="font-inter text-[10px] tracking-[0.28em] text-cinza uppercase block mb-5">
+          <span className="font-questrial text-[10px] tracking-[0.28em] text-cinza uppercase block mb-5">
             Como trabalhamos
           </span>
         </RevealItem>
         <RevealItem>
-          <h2 className="font-playfair text-3xl md:text-4xl text-branco mb-6">
+          <h2 className="font-cormorant text-3xl md:text-4xl text-branco mb-6">
             Intenção em cada etapa
           </h2>
         </RevealItem>
         <RevealItem>
-          <p className="font-inter text-sm text-cinza leading-relaxed">
+          <p className="font-questrial text-sm text-cinza leading-relaxed">
             Cada cliente passa por um diagnóstico antes de qualquer entrega.
             Porque comunicação sem leitura é improviso, e improviso não é o que vendemos.
           </p>
@@ -611,10 +611,10 @@ function ComoTrabalhamos() {
         {blocos.map((b, i) => (
           <RevealItem key={i}>
             <div className="w-8 h-px bg-branco/20 mb-7" />
-            <h3 className="font-playfair text-lg text-branco mb-4 leading-snug">
+            <h3 className="font-cormorant text-lg text-branco mb-4 leading-snug">
               {b.title}
             </h3>
-            <p className="font-inter text-sm text-cinza leading-relaxed">{b.text}</p>
+            <p className="font-questrial text-sm text-cinza leading-relaxed">{b.text}</p>
           </RevealItem>
         ))}
       </RevealSection>
@@ -673,39 +673,44 @@ function SobreBruna() {
       {/* Texto */}
       <RevealSection delay={0.2} className="flex flex-col justify-center">
         <RevealItem>
-          <span className="font-inter text-[10px] tracking-[0.28em] text-cinza uppercase block mb-8">
+          <span className="font-questrial text-[10px] tracking-[0.28em] text-cinza uppercase block mb-8">
             A agência
           </span>
         </RevealItem>
         <RevealItem>
-          <blockquote className="font-playfair italic text-2xl md:text-3xl text-branco leading-[1.42] mb-10">
+          <blockquote className="font-cormorant italic text-2xl md:text-3xl text-branco leading-[1.42] mb-10">
             &ldquo;Comecei a observar marcas muito antes de entender que isso tinha nome.&rdquo;
           </blockquote>
         </RevealItem>
         <RevealItem>
-          <p className="font-inter text-sm text-cinza leading-relaxed mb-5">
+          <p className="font-questrial text-sm text-cinza leading-relaxed mb-5">
             Sempre fui a pessoa que notava quando um negócio bom comunicava mal.
             Quando o produto era sério mas o Instagram parecia feito às pressas.
             Quando o atendimento era impecável mas ninguém de fora sabia disso.
           </p>
         </RevealItem>
         <RevealItem>
-          <p className="font-inter text-sm text-cinza leading-relaxed mb-5">
+          <p className="font-questrial text-sm text-cinza leading-relaxed mb-5">
             A B Mídia nasceu disso. Não de uma fórmula, mas de uma forma de enxergar.
             O que faço não é gestão de redes. É traduzir o que uma marca já é em algo
             que o cliente certo consegue sentir.
           </p>
         </RevealItem>
         <RevealItem>
-          <p className="font-inter text-sm text-cinza leading-relaxed mb-12">
+          <p className="font-questrial text-sm text-cinza leading-relaxed mb-8">
             Não inicio nenhum projeto sem antes entender o negócio.
             Execução sem leitura é improviso.
           </p>
         </RevealItem>
         <RevealItem>
+          <p className="font-questrial text-xs tracking-[0.2em] text-cinza/50 uppercase mb-12">
+            Atendemos negócios locais que querem ser reconhecidos além do bairro.
+          </p>
+        </RevealItem>
+        <RevealItem>
           <div className="border-t border-cinza/20 pt-7">
-            <p className="font-playfair text-branco text-lg tracking-wide">Bruna Ribeiro</p>
-            <p className="font-inter text-[10px] tracking-[0.25em] text-cinza mt-1.5 uppercase">
+            <p className="font-cormorant text-branco text-lg tracking-wide">Bruna Ribeiro</p>
+            <p className="font-questrial text-[10px] tracking-[0.25em] text-cinza mt-1.5 uppercase">
               Fundadora e Estrategista, B Mídia
             </p>
           </div>
@@ -726,17 +731,17 @@ function CtaFinal() {
     >
       <RevealSection className="max-w-2xl mx-auto w-full">
         <RevealItem>
-          <span className="font-inter text-[10px] tracking-[0.3em] text-cinza uppercase block mb-9">
+          <span className="font-questrial text-[10px] tracking-[0.3em] text-cinza uppercase block mb-9">
             Próximo passo
           </span>
         </RevealItem>
         <RevealItem>
-          <h2 className="font-playfair text-3xl md:text-5xl text-branco leading-[1.22] mb-8">
+          <h2 className="font-cormorant text-3xl md:text-5xl text-branco leading-[1.22] mb-8">
             Vamos entender o que sua marca precisa comunicar.
           </h2>
         </RevealItem>
         <RevealItem>
-          <p className="font-inter text-sm text-cinza leading-relaxed mb-14 max-w-md mx-auto">
+          <p className="font-questrial text-sm text-cinza leading-relaxed mb-14 max-w-md mx-auto">
             Se você chegou até aqui, provavelmente já sabe que quer mais do que posts.
             Essa conversa começa com uma pergunta simples: o que sua marca ainda não
             conseguiu comunicar?
@@ -749,7 +754,7 @@ function CtaFinal() {
             rel="noopener noreferrer"
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
-            className="inline-block font-inter text-xs tracking-[0.22em] uppercase bg-branco text-indigo px-12 py-5 hover:bg-cinzaclaro transition-colors duration-300 rounded-[6px]"
+            className="inline-block font-questrial text-xs tracking-[0.22em] uppercase bg-branco text-indigo px-12 py-5 hover:bg-cinzaclaro transition-colors duration-300 rounded-[6px]"
           >
             Quero essa conversa
           </motion.a>
@@ -768,13 +773,13 @@ function Footer() {
       style={{ background: "#020015" }}
     >
       <div className="flex flex-col items-center md:items-start">
-        <span className="font-playfair text-lg text-branco tracking-wide">B Mídia</span>
-        <span className="font-playfair italic text-[10px] text-cinza tracking-widest">
+        <span className="font-cormorant text-lg text-branco tracking-wide">B Mídia</span>
+        <span className="font-cormorant italic text-[10px] text-cinza tracking-widest">
           estratégia e posicionamento
         </span>
       </div>
 
-      <p className="font-inter text-[10px] tracking-[0.2em] text-cinza/50 uppercase">
+      <p className="font-questrial text-[10px] tracking-[0.2em] text-cinza/50 uppercase">
         &copy; {new Date().getFullYear()} B Mídia. Todos os direitos reservados.
       </p>
 
@@ -782,7 +787,7 @@ function Footer() {
         href="https://instagram.com/agenciabmidia_"
         target="_blank"
         rel="noopener noreferrer"
-        className="font-inter text-[10px] tracking-[0.18em] text-cinza hover:text-branco transition-colors duration-300 uppercase"
+        className="font-questrial text-[10px] tracking-[0.18em] text-cinza hover:text-branco transition-colors duration-300 uppercase"
       >
         @agenciabmidia_
       </a>

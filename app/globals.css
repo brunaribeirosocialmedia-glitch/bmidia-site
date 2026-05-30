@@ -5,8 +5,16 @@
   --color-cinza: #c2c2c2;
   --color-cinzaclaro: #e1e1e1;
   --color-branco: #f8f8f6;
-  --font-playfair: "Playfair Display", serif;
-  --font-inter: "Inter", sans-serif;
+  --font-cormorant: "Cormorant Garamond", serif;
+  --font-questrial: "Questrial", sans-serif;
+}
+
+.font-cormorant {
+  font-family: "Cormorant Garamond", serif;
+}
+
+.font-questrial {
+  font-family: "Questrial", sans-serif;
 }
 
 
@@ -18,8 +26,8 @@ html {
 body {
   background-color: #040022;
   color: #e1e1e1;
-  font-family: "Inter", sans-serif;
-  font-weight: 300;
+  font-family: "Questrial", sans-serif;
+  font-weight: 400;
 }
 
 ::selection {
