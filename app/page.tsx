@@ -201,7 +201,7 @@ function Hero() {
           {/* Logo */}
           <div style={{ overflow: "hidden", perspective: "800px" }}>
             <motion.img
-              src={`${BASE}/logo-branca.png`}
+              src={`${BASE}/logo-branca.png.png`}
               alt="B Mídia"
               style={{
                 height: 120,
@@ -244,24 +244,20 @@ function Hero() {
             style={{ width: 60, height: "0.5px", backgroundColor: "rgba(255,255,255,0.15)" }}
           />
 
-          {/* Headline */}
-          <h1
-            className="font-playfair text-[1.6rem] md:text-[2.2rem] text-branco mb-16"
-            style={{ letterSpacing: "0.02em", lineHeight: 1.4 }}
-          >
-            <span className="block whitespace-nowrap">
-              <WordReveal
-                words={["Sua", "marca", "não", "precisa", "de", "mais", "publicações."]}
-                delay={0.9}
-              />
-            </span>
-            <span className="block">
-              <WordReveal
-                words={["Precisa", "ser", <em key="em" className="italic text-cinzaclaro">reconhecida.</em>]}
-                delay={1.15}
-              />
-            </span>
-          </h1>
+          {/* Headline — surge inteira da esquerda para a direita */}
+          <div style={{ overflow: "hidden" }}>
+            <motion.h1
+              className="font-playfair text-[1.6rem] md:text-[2.2rem] text-branco mb-16"
+              style={{ letterSpacing: "0.02em", lineHeight: 1.4 }}
+              initial={{ clipPath: "inset(0 100% 0 0)" }}
+              animate={{ clipPath: "inset(0 0% 0 0)" }}
+              transition={{ delay: 0.9, duration: 1.1, ease: [0.76, 0, 0.24, 1] }}
+            >
+              Sua marca não precisa de mais publicações.
+              <br />
+              Precisa ser <em className="italic text-cinzaclaro">reconhecida.</em>
+            </motion.h1>
+          </div>
         </div>
       </motion.div>
 
