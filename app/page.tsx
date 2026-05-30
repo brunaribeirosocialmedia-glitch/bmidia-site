@@ -174,20 +174,32 @@ function Hero() {
       onMouseMove={handleMouseMove}
       onMouseLeave={() => { mouseX.set(0); mouseY.set(0) }}
     >
-      {/* Layer 1: Imagem de fundo */}
+      {/* Layer 1: Fundo com textura — grain fino + gradiente radial sutil */}
       <motion.div className="absolute inset-0 pointer-events-none" style={{ y: layer1Y }}>
-        <motion.div className="w-full h-full" style={{ x: bgMouseX, y: bgMouseY, scale: 1.2 }}>
-          <img
-            src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=1920&q=80"
-            alt=""
-            className="w-full h-full object-cover"
-          />
-        </motion.div>
+        {/* Base navy */}
+        <div className="absolute inset-0" style={{ background: "#040022" }} />
+        {/* Gradiente radial: centro levemente mais claro */}
         <div
           className="absolute inset-0"
           style={{
-            background:
-              "linear-gradient(to bottom, rgba(4,0,34,0.90) 0%, rgba(4,0,34,0.85) 70%, rgba(4,0,34,1) 100%)",
+            background: "radial-gradient(ellipse 80% 60% at 50% 40%, rgba(20,10,70,0.6) 0%, transparent 70%)",
+          }}
+        />
+        {/* Textura grain fino */}
+        <div
+          className="absolute inset-0"
+          style={{
+            backgroundImage: "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23g)' opacity='0.4'/%3E%3C/svg%3E\")",
+            backgroundRepeat: "repeat",
+            opacity: 0.06,
+            mixBlendMode: "overlay",
+          }}
+        />
+        {/* Linhas diagonais sutis */}
+        <div
+          className="absolute inset-0"
+          style={{
+            backgroundImage: "repeating-linear-gradient(135deg, transparent, transparent 60px, rgba(194,194,194,0.018) 60px, rgba(194,194,194,0.018) 61px)",
           }}
         />
       </motion.div>
@@ -289,8 +301,13 @@ function Problema() {
   return (
     <section
       id="metodo"
-      className="px-8 md:px-14 lg:px-20 py-28 grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-24 border-t border-cinza/10"
+      className="relative px-8 md:px-14 lg:px-20 py-28 grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-24 border-t border-cinza/10 overflow-hidden"
     >
+      {/* Textura: grid de pontos */}
+      <div aria-hidden className="absolute inset-0 pointer-events-none" style={{
+        backgroundImage: "radial-gradient(circle, rgba(194,194,194,0.07) 1px, transparent 1px)",
+        backgroundSize: "32px 32px",
+      }} />
       <RevealSection>
         <RevealItem>
           <span className="font-questrial text-[10px] tracking-[0.28em] text-cinza uppercase block mb-7">
@@ -388,9 +405,13 @@ function Metodo() {
   return (
     <section
       id="servicos"
-      className="px-8 md:px-14 lg:px-20 py-28 border-t border-cinza/10"
+      className="relative px-8 md:px-14 lg:px-20 py-28 border-t border-cinza/10 overflow-hidden"
       style={{ background: "rgba(255,255,255,0.015)" }}
     >
+      {/* Textura: linhas horizontais finas */}
+      <div aria-hidden className="absolute inset-0 pointer-events-none" style={{
+        backgroundImage: "repeating-linear-gradient(0deg, transparent, transparent 48px, rgba(194,194,194,0.04) 48px, rgba(194,194,194,0.04) 49px)",
+      }} />
       <RevealSection className="mb-14">
         <RevealItem>
           <span className="font-questrial text-[10px] tracking-[0.28em] text-cinza uppercase block mb-5">
@@ -515,7 +536,13 @@ function Servicos() {
   const inView = useInView(ref, { once: true, amount: 0.08 })
 
   return (
-    <section className="px-8 md:px-14 lg:px-20 py-28 border-t border-cinza/10">
+    <section className="relative px-8 md:px-14 lg:px-20 py-28 border-t border-cinza/10 overflow-hidden">
+      {/* Textura: grain mais grosso */}
+      <div aria-hidden className="absolute inset-0 pointer-events-none" style={{
+        backgroundImage: "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.45' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23g)' opacity='0.4'/%3E%3C/svg%3E\")",
+        backgroundRepeat: "repeat",
+        opacity: 0.035,
+      }} />
       <RevealSection className="mb-16">
         <RevealItem>
           <span className="font-questrial text-[10px] tracking-[0.28em] text-cinza uppercase block mb-5">
@@ -575,18 +602,10 @@ function ComoTrabalhamos() {
       className="relative px-8 md:px-14 lg:px-20 py-28 border-t border-cinza/10 overflow-hidden"
       style={{ background: "rgba(255,255,255,0.015)" }}
     >
-      {/* Noise texture */}
-      <div
-        aria-hidden="true"
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          backgroundImage:
-            "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='256' height='256'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='256' height='256' filter='url(%23n)' opacity='0.4'/%3E%3C/svg%3E\")",
-          backgroundRepeat: "repeat",
-          opacity: 0.03,
-          mixBlendMode: "overlay",
-        }}
-      />
+      {/* Textura: linhas diagonais opostas ao hero */}
+      <div aria-hidden className="absolute inset-0 pointer-events-none" style={{
+        backgroundImage: "repeating-linear-gradient(45deg, transparent, transparent 50px, rgba(194,194,194,0.022) 50px, rgba(194,194,194,0.022) 51px)",
+      }} />
 
       <RevealSection className="max-w-2xl mb-16">
         <RevealItem>
@@ -651,9 +670,15 @@ function SobreBruna() {
 
   return (
     <section
-      className="px-8 md:px-14 lg:px-20 py-28 border-t border-cinza/10 grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-24"
+      className="relative px-8 md:px-14 lg:px-20 py-28 border-t border-cinza/10 grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-24 overflow-hidden"
       style={{ background: "rgba(255,255,255,0.015)" }}
     >
+      {/* Textura: grid de pontos mais espaçados — volta ao grid mas diferente */}
+      <div aria-hidden className="absolute inset-0 pointer-events-none" style={{
+        backgroundImage: "radial-gradient(circle, rgba(194,194,194,0.05) 1px, transparent 1px)",
+        backgroundSize: "56px 56px",
+        backgroundPosition: "28px 28px",
+      }} />
       {/* Foto */}
       <RevealSection>
         <RevealItem>
@@ -729,6 +754,11 @@ function CtaFinal() {
       className="px-8 md:px-14 py-36 border-t border-cinza/10 flex flex-col items-center text-center"
       style={{ background: "#020015" }}
     >
+      {/* Textura CTA: círculos concêntricos irradiando do centro */}
+      <div aria-hidden className="absolute inset-0 pointer-events-none" style={{
+        backgroundImage: "radial-gradient(circle at 50% 50%, rgba(194,194,194,0.03) 1px, transparent 1px), radial-gradient(circle at 50% 50%, rgba(194,194,194,0.02) 1px, transparent 1px)",
+        backgroundSize: "60px 60px, 30px 30px",
+      }} />
       <RevealSection className="max-w-2xl mx-auto w-full">
         <RevealItem>
           <span className="font-questrial text-[10px] tracking-[0.3em] text-cinza uppercase block mb-9">
