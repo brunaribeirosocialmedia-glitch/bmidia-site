@@ -201,7 +201,7 @@ function Hero() {
           {/* Logo */}
           <div style={{ overflow: "hidden" }}>
             <motion.img
-              src={`${BASE}/logo-branca.png`}
+              src={`${BASE}/logo-branca.png.png`}
               alt="B Mídia"
               style={{
                 height: 80,
@@ -438,7 +438,7 @@ function Metodo() {
                 activeIndex === i ? "rgba(255,255,255,0.04)" : "rgba(4,0,34,1)",
             }}
             transition={{ duration: 0.3 }}
-            className="cursor-pointer p-8 relative overflow-hidden"
+            className="cursor-pointer p-8 relative overflow-hidden rounded-[6px]"
           >
             <span className="font-playfair italic text-cinza/20 text-5xl block mb-5 leading-none tabular-nums">
               {m.num}
