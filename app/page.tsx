@@ -201,7 +201,7 @@ function Hero() {
           {/* Logo */}
           <div style={{ overflow: "hidden" }}>
             <motion.img
-              src={`${BASE}/logo-branca.png.png`}
+              src={`${BASE}/logo-branca.png`}
               alt="B Mídia"
               style={{
                 height: 80,
@@ -231,7 +231,7 @@ function Hero() {
               animate={{ y: 0, opacity: 1 }}
               transition={{ delay: 0.5, duration: 0.9, ease: EASE_EXPO }}
             >
-              B Mídia — Florianópolis, SC
+              B Mídia · Florianópolis, SC
             </motion.span>
           </div>
 
@@ -405,78 +405,8 @@ const metodos = [
   },
 ]
 
-function MetodoCard({
-  num,
-  title,
-  summary,
-  detail,
-  isActive,
-  onToggle,
-}: {
-  num: string
-  title: string
-  summary: string
-  detail: string
-  isActive: boolean
-  onToggle: () => void
-}) {
-  return (
-    <motion.div
-      onClick={onToggle}
-      animate={{
-        backgroundColor: isActive ? "rgba(255,255,255,0.04)" : "rgba(255,255,255,0)",
-      }}
-      transition={{ duration: 0.3 }}
-      className="rounded-[8px] cursor-pointer overflow-hidden"
-    >
-      <div className="px-7 py-6 flex gap-6 items-start">
-        <span className="font-playfair italic text-cinza/30 text-sm tabular-nums shrink-0 mt-1">
-          {num}
-        </span>
-        <div className="flex-1 min-w-0">
-          <div className="flex items-start justify-between gap-4 mb-2">
-            <h3 className="font-playfair text-xl text-branco">{title}</h3>
-            <motion.span
-              animate={{ rotate: isActive ? 45 : 0 }}
-              transition={{ duration: 0.25, ease: [0.25, 0.4, 0.25, 1] }}
-              className="text-cinza/40 text-2xl shrink-0 select-none mt-0.5 leading-none"
-            >
-              +
-            </motion.span>
-          </div>
-          <p className="font-inter text-sm text-cinza leading-relaxed">{summary}</p>
-        </div>
-      </div>
-
-      <AnimatePresence initial={false}>
-        {isActive && (
-          <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.4, ease: [0.25, 0.4, 0.25, 1] }}
-            className="overflow-hidden"
-          >
-            <p className="font-inter text-sm text-cinza/80 leading-relaxed px-7 pb-7 ml-[3.75rem]">
-              {detail}
-            </p>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* Linha de destaque inferior */}
-      <motion.div
-        className="h-px origin-left"
-        style={{ backgroundColor: "#7B79F7" }}
-        animate={{ scaleX: isActive ? 1 : 0 }}
-        transition={{ duration: 0.4, ease: [0.25, 0.4, 0.25, 1] }}
-      />
-    </motion.div>
-  )
-}
-
 function Metodo() {
-  const [activeIndex, setActiveIndex] = useState<number | null>(null)
+  const [activeIndex, setActiveIndex] = useState<number | null>(0)
 
   return (
     <section
@@ -484,7 +414,7 @@ function Metodo() {
       className="px-8 md:px-14 lg:px-20 py-28 border-t border-cinza/10"
       style={{ background: "rgba(255,255,255,0.015)" }}
     >
-      <RevealSection className="mb-12">
+      <RevealSection className="mb-14">
         <RevealItem>
           <span className="font-inter text-[10px] tracking-[0.28em] text-cinza uppercase block mb-5">
             Método
@@ -497,17 +427,52 @@ function Metodo() {
         </RevealItem>
       </RevealSection>
 
-      <RevealSection className="flex flex-col gap-1 max-w-3xl">
+      {/* Grid 4 colunas lado a lado */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-px bg-cinza/10 mb-px">
         {metodos.map((m, i) => (
-          <RevealItem key={m.num}>
-            <MetodoCard
-              {...m}
-              isActive={activeIndex === i}
-              onToggle={() => setActiveIndex(activeIndex === i ? null : i)}
+          <motion.div
+            key={m.num}
+            onClick={() => setActiveIndex(activeIndex === i ? null : i)}
+            animate={{
+              backgroundColor:
+                activeIndex === i ? "rgba(255,255,255,0.04)" : "rgba(4,0,34,1)",
+            }}
+            transition={{ duration: 0.3 }}
+            className="cursor-pointer p-8 relative overflow-hidden"
+          >
+            <span className="font-playfair italic text-cinza/20 text-5xl block mb-5 leading-none tabular-nums">
+              {m.num}
+            </span>
+            <h3 className="font-playfair text-lg text-branco mb-3 leading-snug">{m.title}</h3>
+            <p className="font-inter text-xs text-cinza leading-relaxed">{m.summary}</p>
+
+            <motion.div
+              className="absolute bottom-0 left-0 right-0 h-[2px] origin-left"
+              style={{ backgroundColor: "#7B79F7" }}
+              animate={{ scaleX: activeIndex === i ? 1 : 0 }}
+              transition={{ duration: 0.4, ease: [0.25, 0.4, 0.25, 1] }}
             />
-          </RevealItem>
+          </motion.div>
         ))}
-      </RevealSection>
+      </div>
+
+      {/* Detalhe expandido abaixo do grid inteiro */}
+      <AnimatePresence initial={false} mode="wait">
+        {activeIndex !== null && (
+          <motion.div
+            key={activeIndex}
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.45, ease: [0.25, 0.4, 0.25, 1] }}
+            className="overflow-hidden bg-cinza/5"
+          >
+            <p className="font-inter text-sm text-cinza/80 leading-relaxed px-10 py-8 max-w-3xl">
+              {metodos[activeIndex].detail}
+            </p>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   )
 }
@@ -530,20 +495,25 @@ function ServicoCard({ title, tags }: { title: string; tags: string[] }) {
     <motion.div
       onHoverStart={() => setHovered(true)}
       onHoverEnd={() => setHovered(false)}
-      animate={{ backgroundColor: hovered ? "rgba(255,255,255,0.04)" : "rgba(4,0,34,1)" }}
-      transition={{ duration: 0.3 }}
-      className="p-8 relative overflow-hidden bg-indigo rounded-[8px] h-full"
+      animate={{ backgroundColor: hovered ? "rgba(255,255,255,0.025)" : "rgba(4,0,34,1)" }}
+      transition={{ duration: 0.5 }}
+      className="p-8 relative overflow-hidden bg-indigo h-full"
     >
-      {/* Linha decorativa: 32px → 56px no hover */}
+      {/* Linha contínua base — sempre visível, muito sutil */}
+      <div className="absolute bottom-0 left-0 right-0 h-px bg-cinza/10" />
+
+      {/* Linha de destaque no hover — cobre o card inteiro */}
       <motion.div
-        className="absolute bottom-0 left-0 h-px bg-branco/50"
-        animate={{ width: hovered ? "56px" : "32px" }}
+        className="absolute bottom-0 left-0 h-px origin-left"
+        style={{ backgroundColor: "rgba(194,194,194,0.35)", right: 0 }}
+        animate={{ scaleX: hovered ? 1 : 0 }}
         transition={{ duration: 0.4, ease: [0.25, 0.4, 0.25, 1] }}
       />
+
       <motion.h3
         className="font-playfair text-xl text-branco mb-5 leading-snug"
-        animate={{ opacity: hovered ? 1 : 0.82 }}
-        transition={{ duration: 0.3 }}
+        animate={{ opacity: hovered ? 1 : 0.75 }}
+        transition={{ duration: 0.4 }}
       >
         {title}
       </motion.h3>
@@ -580,15 +550,22 @@ function Servicos() {
         </RevealItem>
       </RevealSection>
 
+      {/* Grid sem gap para linha contínua funcionar entre os cards */}
       <motion.div
         ref={ref}
         initial="hidden"
         animate={inView ? "visible" : "hidden"}
         variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.09 } } }}
-        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-px bg-cinza/10"
+        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 border border-cinza/10"
       >
-        {servicos.map((s) => (
-          <motion.div key={s.title} variants={fadeItem} className="bg-indigo">
+        {servicos.map((s, i) => (
+          <motion.div
+            key={s.title}
+            variants={fadeItem}
+            className={`bg-indigo border-cinza/10 ${
+              i % 3 !== 2 ? "border-r" : ""
+            } ${i < 3 ? "border-b" : ""}`}
+          >
             <ServicoCard {...s} />
           </motion.div>
         ))}
