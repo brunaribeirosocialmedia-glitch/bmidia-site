@@ -204,7 +204,7 @@ function Hero() {
               src={`${BASE}/logo-branca.png.png`}
               alt="B Mídia"
               style={{
-                height: 120,
+                height: 200,
                 width: "auto",
                 objectFit: "contain",
                 display: "block",
