@@ -204,7 +204,7 @@ function Hero() {
               src={`${BASE}/logo-branca.png.png`}
               alt="B Mídia"
               style={{
-                height: 80,
+                height: 110,
                 width: "auto",
                 objectFit: "contain",
                 display: "block",
@@ -250,7 +250,7 @@ function Hero() {
             transition={{ duration: 4, ease: "easeInOut", repeat: Infinity, delay: 3.2 }}
           >
             <h1
-              className="font-playfair text-[2rem] md:text-[3rem] text-branco mb-8"
+              className="font-playfair text-[1.6rem] md:text-[2.2rem] text-branco mb-6"
               style={{ letterSpacing: "0.02em", lineHeight: 1.4 }}
             >
               <span className="block">
