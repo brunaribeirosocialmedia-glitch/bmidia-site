@@ -223,23 +223,11 @@ function Hero() {
             />
           </div>
 
-          {/* Eyebrow */}
-          <div style={{ overflow: "hidden" }}>
-            <motion.span
-              className="font-inter text-[0.72rem] tracking-[0.28em] uppercase text-cinza block mb-6"
-              initial={{ y: 40, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: 0.7, duration: 1.0, ease: EASE_EXPO }}
-            >
-              B Mídia · Florianópolis, SC
-            </motion.span>
-          </div>
-
           {/* Linha decorativa */}
           <motion.div
             initial={{ scaleX: 0, opacity: 0 }}
             animate={{ scaleX: 1, opacity: 1 }}
-            transition={{ delay: 0.9, duration: 0.9, ease: EASE_EXPO }}
+            transition={{ delay: 0.7, duration: 0.9, ease: EASE_EXPO }}
             className="origin-center mb-8 mx-auto"
             style={{ width: 60, height: "0.5px", backgroundColor: "rgba(255,255,255,0.15)" }}
           />
@@ -247,11 +235,11 @@ function Hero() {
           {/* Headline — surge inteira da esquerda para a direita */}
           <div style={{ overflow: "hidden" }}>
             <motion.h1
-              className="font-playfair text-[1.6rem] md:text-[2.2rem] text-branco mb-16"
+              className="font-playfair text-[1.6rem] md:text-[2.2rem] text-branco text-center mb-16"
               style={{ letterSpacing: "0.02em", lineHeight: 1.4 }}
               initial={{ clipPath: "inset(0 100% 0 0)" }}
               animate={{ clipPath: "inset(0 0% 0 0)" }}
-              transition={{ delay: 0.9, duration: 1.1, ease: [0.76, 0, 0.24, 1] }}
+              transition={{ delay: 0.85, duration: 1.1, ease: [0.76, 0, 0.24, 1] }}
             >
               Sua marca não precisa de mais publicações.
               <br />
