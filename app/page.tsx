@@ -210,9 +210,12 @@ function Hero() {
                 display: "block",
                 margin: "0 auto 1.75rem",
               }}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 2.2, ease: "easeOut", delay: 0.3 }}
+              initial={{ opacity: 0, rotateY: 0 }}
+              animate={{ opacity: 1, rotateY: 360 }}
+              transition={{
+                opacity: { duration: 2.0, ease: "easeOut", delay: 0.3 },
+                rotateY: { duration: 4.5, ease: [0.25, 0.1, 0.25, 1], delay: 0.3 },
+              }}
               onError={(e) => {
                 ;(e.target as HTMLImageElement).style.display = "none"
               }}
