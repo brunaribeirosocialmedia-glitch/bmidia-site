@@ -5,12 +5,12 @@
   --color-cinza: #c2c2c2;
   --color-cinzaclaro: #e1e1e1;
   --color-branco: #f8f8f6;
-  --font-italiana: "Italiana", serif;
+  --font-cormorant: "Cormorant Garamond", serif;
   --font-questrial: "Questrial", sans-serif;
 }
 
 .font-cormorant {
-  font-family: "Italiana", serif;
+  font-family: "Cormorant Garamond", serif;
 }
 
 .font-questrial {
