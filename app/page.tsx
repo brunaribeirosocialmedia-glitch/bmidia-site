@@ -192,12 +192,12 @@ function Hero() {
         />
       </motion.div>
 
-      {/* Layer 2: Logo + Headline */}
+      {/* Conteúdo unificado — fluxo de coluna sem sobreposição */}
       <motion.div
-        className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none"
+        className="absolute inset-0 flex flex-col items-center justify-center px-8"
         style={{ y: layer2Y }}
       >
-        <div className="px-8 max-w-4xl mx-auto w-full text-center">
+        <div className="max-w-3xl mx-auto w-full text-center flex flex-col items-center">
           {/* Logo */}
           <div style={{ overflow: "hidden", perspective: "800px" }}>
             <motion.img
@@ -227,14 +227,14 @@ function Hero() {
             initial={{ scaleX: 0, opacity: 0 }}
             animate={{ scaleX: 1, opacity: 1 }}
             transition={{ delay: 1.6, duration: 1.4, ease: EASE_EXPO }}
-            className="origin-center mb-8 mx-auto"
+            className="origin-center mb-8"
             style={{ width: 60, height: "0.5px", backgroundColor: "rgba(255,255,255,0.15)" }}
           />
 
-          {/* Headline — surge inteira da esquerda para a direita */}
-          <div style={{ overflow: "hidden" }}>
+          {/* Headline */}
+          <div style={{ overflow: "hidden" }} className="mb-10">
             <motion.h1
-              className="font-playfair text-[1.6rem] md:text-[2.2rem] text-branco text-center mb-16"
+              className="font-playfair text-[1.6rem] md:text-[2.2rem] text-branco text-center"
               style={{ letterSpacing: "0.02em", lineHeight: 1.4 }}
               initial={{ clipPath: "inset(0 100% 0 0)" }}
               animate={{ clipPath: "inset(0 0% 0 0)" }}
@@ -245,33 +245,32 @@ function Hero() {
               Precisa ser <em className="italic text-cinzaclaro">reconhecida.</em>
             </motion.h1>
           </div>
+
+          {/* Subfrase */}
+          <motion.p
+            className="font-inter text-[0.9rem] tracking-[0.08em] text-cinza mb-10 text-center"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 3.2, duration: 1.4, ease: EASE_EXPO }}
+          >
+            Comunicação sem observação é decoração.
+          </motion.p>
+
+          {/* CTA */}
+          <motion.a
+            href="#cta"
+            whileHover={{ backgroundColor: "#f8f8f6", color: "#040022" }}
+            whileTap={{ scale: 0.97 }}
+            className="inline-block font-inter text-[0.72rem] tracking-[0.18em] uppercase text-cinzaclaro transition-colors duration-300 rounded-[6px]"
+            style={{ border: "0.5px solid #e1e1e1", padding: "0.8rem 2rem" }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 3.7, duration: 1.4, ease: EASE_EXPO }}
+          >
+            Vamos entender sua marca
+          </motion.a>
         </div>
       </motion.div>
-
-      {/* Layer 3: Subline + CTA */}
-      <div className="absolute bottom-20 left-0 right-0 flex flex-col items-center pointer-events-auto px-8">
-        <motion.p
-          className="font-inter text-[0.95rem] tracking-[0.08em] text-cinza mb-12 text-center"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 3.2, duration: 1.4, ease: EASE_EXPO }}
-        >
-          Comunicação sem observação é decoração.
-        </motion.p>
-
-        <motion.a
-          href="#cta"
-          whileHover={{ backgroundColor: "#f8f8f6", color: "#040022" }}
-          whileTap={{ scale: 0.97 }}
-          className="inline-block font-inter text-[0.72rem] tracking-[0.18em] uppercase text-cinzaclaro transition-colors duration-300 rounded-[6px]"
-          style={{ border: "0.5px solid #e1e1e1", padding: "0.8rem 2rem" }}
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 3.7, duration: 1.4, ease: EASE_EXPO }}
-        >
-          Vamos entender sua marca
-        </motion.a>
-      </div>
     </section>
   )
 }
