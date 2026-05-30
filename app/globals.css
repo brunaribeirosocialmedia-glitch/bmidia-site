@@ -5,12 +5,12 @@
   --color-cinza: #c2c2c2;
   --color-cinzaclaro: #e1e1e1;
   --color-branco: #f8f8f6;
-  --font-bodoni: "Bodoni Moda", serif;
+  --font-italiana: "Italiana", serif;
   --font-questrial: "Questrial", sans-serif;
 }
 
 .font-cormorant {
-  font-family: "Bodoni Moda", serif;
+  font-family: "Italiana", serif;
 }
 
 .font-questrial {
