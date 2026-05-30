@@ -210,13 +210,9 @@ function Hero() {
                 display: "block",
                 margin: "0 auto 1.75rem",
               }}
-              initial={{ x: -60, opacity: 0, rotateY: 0 }}
-              animate={{ x: 0, opacity: 1, rotateY: 360 }}
-              transition={{
-                x: { duration: 1.2, ease: EASE_EXPO, delay: 0.15 },
-                opacity: { duration: 1.2, ease: EASE_EXPO, delay: 0.15 },
-                rotateY: { duration: 3.0, ease: [0.25, 0.1, 0.25, 1], delay: 0.2 },
-              }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 2.2, ease: "easeOut", delay: 0.3 }}
               onError={(e) => {
                 ;(e.target as HTMLImageElement).style.display = "none"
               }}
@@ -227,7 +223,7 @@ function Hero() {
           <motion.div
             initial={{ scaleX: 0, opacity: 0 }}
             animate={{ scaleX: 1, opacity: 1 }}
-            transition={{ delay: 0.7, duration: 0.9, ease: EASE_EXPO }}
+            transition={{ delay: 1.6, duration: 1.4, ease: EASE_EXPO }}
             className="origin-center mb-8 mx-auto"
             style={{ width: 60, height: "0.5px", backgroundColor: "rgba(255,255,255,0.15)" }}
           />
@@ -239,7 +235,7 @@ function Hero() {
               style={{ letterSpacing: "0.02em", lineHeight: 1.4 }}
               initial={{ clipPath: "inset(0 100% 0 0)" }}
               animate={{ clipPath: "inset(0 0% 0 0)" }}
-              transition={{ delay: 0.85, duration: 1.1, ease: [0.76, 0, 0.24, 1] }}
+              transition={{ delay: 1.9, duration: 1.6, ease: [0.76, 0, 0.24, 1] }}
             >
               Sua marca não precisa de mais publicações.
               <br />
@@ -255,7 +251,7 @@ function Hero() {
           className="font-inter text-[0.95rem] tracking-[0.08em] text-cinza mb-12 text-center"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.9, duration: 0.9, ease: EASE_EXPO }}
+          transition={{ delay: 3.2, duration: 1.4, ease: EASE_EXPO }}
         >
           Comunicação sem observação é decoração.
         </motion.p>
@@ -268,7 +264,7 @@ function Hero() {
           style={{ border: "0.5px solid #e1e1e1", padding: "0.8rem 2rem" }}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 2.1, duration: 0.9, ease: EASE_EXPO }}
+          transition={{ delay: 3.7, duration: 1.4, ease: EASE_EXPO }}
         >
           Vamos entender sua marca
         </motion.a>
@@ -781,12 +777,12 @@ function Footer() {
       </p>
 
       <a
-        href="https://instagram.com/brunaribeirosocialmedia"
+        href="https://instagram.com/agenciabmidia_"
         target="_blank"
         rel="noopener noreferrer"
         className="font-inter text-[10px] tracking-[0.18em] text-cinza hover:text-branco transition-colors duration-300 uppercase"
       >
-        @brunaribeirosocialmedia
+        @agenciabmidia_
       </a>
     </footer>
   )
