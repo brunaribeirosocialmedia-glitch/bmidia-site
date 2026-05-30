@@ -709,8 +709,8 @@ function SobreBruna() {
         </RevealItem>
         <RevealItem>
           <div className="border-t border-cinza/20 pt-7">
-            <p className="font-cormorant text-branco text-lg tracking-wide">Bruna Ribeiro</p>
-            <p className="font-questrial text-[10px] tracking-[0.25em] text-cinza mt-1.5 uppercase">
+            <p className="font-alexbrush text-branco text-4xl leading-none mb-1">Bruna Ribeiro</p>
+            <p className="font-questrial text-[10px] tracking-[0.25em] text-cinza mt-2 uppercase">
               Fundadora e Estrategista, B Mídia
             </p>
           </div>

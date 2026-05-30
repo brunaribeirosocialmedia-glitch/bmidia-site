@@ -17,6 +17,10 @@
   font-family: "Questrial", sans-serif;
 }
 
+.font-alexbrush {
+  font-family: "Alex Brush", cursive;
+}
+
 
 html {
   scroll-behavior: smooth;
