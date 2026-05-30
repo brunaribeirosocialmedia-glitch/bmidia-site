@@ -18,6 +18,88 @@ import { useGSAP } from "@gsap/react"
 gsap.registerPlugin(ScrollTrigger, useGSAP)
 
 const BASE = process.env.NODE_ENV === "production" ? "/bmidia-site" : ""
+
+// ─── Fundo fluido reutilizável ────────────────────────────────────────────────
+
+function FluidBackground({ variant = 1 }: { variant?: 1 | 2 | 3 | 4 | 5 }) {
+  const configs = {
+    1: {
+      shapes: [
+        { d: "M -80 0 C 300 60 250 -60 700 100 C 950 220 700 380 1050 300 C 1250 250 1350 440 1540 380 L 1540 0 Z", fill: "#1a1060", op: 0.9 },
+        { d: "M 1540 900 C 1100 800 950 920 680 740 C 440 600 600 440 320 510 C 120 570 -20 430 -80 500 L -80 900 Z", fill: "#120a50", op: 0.8 },
+        { d: "M 200 0 C 380 120 240 280 460 400 C 640 510 820 340 900 480 C 980 610 820 740 980 900 L 200 900 Z", fill: "#0e0840", op: 0.45 },
+      ],
+      lines: [
+        { d: "M -80 160 C 250 80 480 260 720 170 C 940 90 1080 290 1380 210 C 1460 185 1510 240 1540 220", stroke: "rgba(180,160,255,0.12)", w: 1.2 },
+        { d: "M -80 500 C 180 420 360 560 600 470 C 800 395 980 580 1220 490 C 1380 430 1460 510 1540 480", stroke: "rgba(180,160,255,0.08)", w: 0.9 },
+        { d: "M 350 0 C 480 70 390 160 580 195 C 720 220 820 140 1000 175 C 1120 200 1180 130 1300 100", stroke: "rgba(180,160,255,0.09)", w: 0.7 },
+      ],
+    },
+    2: {
+      shapes: [
+        { d: "M 1540 0 C 1100 100 900 -50 600 150 C 350 280 500 450 200 380 C 50 340 -50 480 -80 440 L -80 0 Z", fill: "#160e55", op: 0.85 },
+        { d: "M -80 900 C 300 820 480 960 780 800 C 1020 660 880 500 1160 560 C 1340 600 1440 480 1540 520 L 1540 900 Z", fill: "#0e0840", op: 0.75 },
+      ],
+      lines: [
+        { d: "M 1540 200 C 1200 140 980 300 720 210 C 480 130 280 320 -80 240", stroke: "rgba(180,160,255,0.1)", w: 1.1 },
+        { d: "M 1540 580 C 1260 500 1040 660 780 560 C 560 470 320 640 -80 540", stroke: "rgba(180,160,255,0.07)", w: 0.8 },
+      ],
+    },
+    3: {
+      shapes: [
+        { d: "M -80 0 C 400 -40 600 200 900 80 C 1140 -20 1300 180 1540 120 L 1540 0 Z", fill: "#1c1265", op: 0.8 },
+        { d: "M -80 900 C 200 860 400 960 700 880 C 950 810 1100 920 1540 870 L 1540 900 Z", fill: "#0c0638", op: 0.9 },
+        { d: "M 600 0 C 700 200 560 380 720 520 C 860 640 1040 500 1100 680 C 1160 840 1040 900 1200 900 L 600 900 Z", fill: "#14104a", op: 0.4 },
+      ],
+      lines: [
+        { d: "M -80 300 C 200 220 480 400 760 290 C 1020 190 1220 380 1540 300", stroke: "rgba(180,160,255,0.11)", w: 1 },
+        { d: "M -80 620 C 300 540 580 700 860 600 C 1100 510 1300 680 1540 600", stroke: "rgba(180,160,255,0.07)", w: 0.8 },
+        { d: "M 200 0 C 340 100 260 220 440 270 C 600 310 700 210 860 250", stroke: "rgba(180,160,255,0.08)", w: 0.6 },
+      ],
+    },
+    4: {
+      shapes: [
+        { d: "M -80 200 C 300 100 500 300 800 180 C 1050 80 1250 260 1540 160 L 1540 0 L -80 0 Z", fill: "#180f58", op: 0.75 },
+        { d: "M -80 700 C 200 640 500 780 800 680 C 1060 590 1280 740 1540 660 L 1540 900 L -80 900 Z", fill: "#100840", op: 0.8 },
+      ],
+      lines: [
+        { d: "M -80 380 C 300 280 600 460 900 350 C 1160 250 1360 420 1540 360", stroke: "rgba(180,160,255,0.1)", w: 1 },
+        { d: "M -80 500 C 250 440 520 580 820 480 C 1080 390 1300 540 1540 470", stroke: "rgba(180,160,255,0.07)", w: 0.7 },
+      ],
+    },
+    5: {
+      shapes: [
+        { d: "M 0 0 C 480 80 720 -60 1100 100 C 1300 180 1440 80 1540 120 L 1540 0 Z", fill: "#200e60", op: 0.7 },
+        { d: "M 0 900 C 360 820 640 940 960 840 C 1200 760 1380 880 1540 820 L 1540 900 Z", fill: "#0e0838", op: 0.85 },
+        { d: "M 760 0 C 840 180 700 360 860 500 C 1000 620 1200 480 1260 660 C 1320 820 1200 900 1540 900 L 1540 0 Z", fill: "#180c52", op: 0.35 },
+      ],
+      lines: [
+        { d: "M -80 250 C 300 160 600 340 920 220 C 1180 120 1380 300 1540 240", stroke: "rgba(180,160,255,0.13)", w: 1.2 },
+        { d: "M -80 650 C 240 560 540 720 840 610 C 1100 510 1320 680 1540 610", stroke: "rgba(180,160,255,0.08)", w: 0.9 },
+        { d: "M 500 0 C 620 90 520 200 700 240 C 860 275 980 180 1140 210", stroke: "rgba(180,160,255,0.09)", w: 0.65 },
+      ],
+    },
+  }
+
+  const c = configs[variant]
+
+  return (
+    <svg
+      aria-hidden
+      className="absolute inset-0 w-full h-full pointer-events-none"
+      xmlns="http://www.w3.org/2000/svg"
+      preserveAspectRatio="xMidYMid slice"
+      viewBox="0 0 1440 900"
+    >
+      {c.shapes.map((s, i) => (
+        <path key={i} d={s.d} fill={s.fill} opacity={s.op} />
+      ))}
+      {c.lines.map((l, i) => (
+        <path key={i} d={l.d} fill="none" stroke={l.stroke} strokeWidth={l.w} />
+      ))}
+    </svg>
+  )
+}
 const EASE_EXPO: [number, number, number, number] = [0.16, 1, 0.3, 1]
 const CLIP_EASE: [number, number, number, number] = [0.76, 0, 0.24, 1]
 
@@ -179,73 +261,7 @@ function Hero() {
         {/* Base navy */}
         <div className="absolute inset-0" style={{ background: "#040022" }} />
 
-        {/* SVG com linhas curvas orgânicas */}
-        <svg
-          className="absolute inset-0 w-full h-full"
-          xmlns="http://www.w3.org/2000/svg"
-          preserveAspectRatio="xMidYMid slice"
-          viewBox="0 0 1440 900"
-        >
-          <defs>
-            <linearGradient id="lg1" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="#0e0845" stopOpacity="1" />
-              <stop offset="100%" stopColor="#040022" stopOpacity="0" />
-            </linearGradient>
-            <linearGradient id="lg2" x1="100%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%" stopColor="#09063a" stopOpacity="0.9" />
-              <stop offset="100%" stopColor="#020018" stopOpacity="0" />
-            </linearGradient>
-            <linearGradient id="lg3" x1="50%" y1="0%" x2="50%" y2="100%">
-              <stop offset="0%" stopColor="#0b0740" stopOpacity="0.7" />
-              <stop offset="100%" stopColor="#040022" stopOpacity="0" />
-            </linearGradient>
-          </defs>
-
-          {/* Forma fluida grande — canto superior esquerdo */}
-          <path
-            d="M -80 0 C 200 80 350 -40 600 120 C 800 260 650 400 900 350 C 1100 310 1200 500 1440 420 L 1440 0 Z"
-            fill="url(#lg1)"
-            opacity="0.75"
-          />
-
-          {/* Forma fluida — canto inferior direito */}
-          <path
-            d="M 1540 900 C 1200 820 1050 950 800 780 C 580 640 700 500 450 560 C 240 610 100 480 -80 550 L -80 900 Z"
-            fill="url(#lg2)"
-            opacity="0.65"
-          />
-
-          {/* Forma central sutil — cria profundidade no meio */}
-          <path
-            d="M 300 0 C 420 150 280 300 450 420 C 600 530 750 380 820 500 C 900 630 780 750 900 900 L 300 900 Z"
-            fill="url(#lg3)"
-            opacity="0.35"
-          />
-
-          {/* Linha fluida fina 1 — dançando da esquerda para direita */}
-          <path
-            d="M -80 180 C 200 120 380 280 600 200 C 820 130 950 310 1200 240 C 1350 200 1420 260 1540 220"
-            fill="none"
-            stroke="rgba(194,194,194,0.06)"
-            strokeWidth="1"
-          />
-
-          {/* Linha fluida fina 2 — mais baixa, ritmo diferente */}
-          <path
-            d="M -80 480 C 150 420 300 560 520 490 C 720 430 880 600 1100 520 C 1280 460 1380 540 1540 500"
-            fill="none"
-            stroke="rgba(194,194,194,0.04)"
-            strokeWidth="0.8"
-          />
-
-          {/* Linha fluida fina 3 — acento perto do topo */}
-          <path
-            d="M 400 0 C 500 60 420 140 560 180 C 680 215 750 140 900 170 C 1050 200 1100 120 1200 90"
-            fill="none"
-            stroke="rgba(194,194,194,0.05)"
-            strokeWidth="0.6"
-          />
-        </svg>
+        <FluidBackground variant={1} />
 
         {/* Vinheta suave nas bordas */}
         <div
@@ -355,11 +371,7 @@ function Problema() {
       id="metodo"
       className="relative px-8 md:px-14 lg:px-20 py-28 grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-24 border-t border-cinza/10 overflow-hidden"
     >
-      {/* Textura: grid de pontos */}
-      <div aria-hidden className="absolute inset-0 pointer-events-none" style={{
-        backgroundImage: "radial-gradient(circle, rgba(194,194,194,0.07) 1px, transparent 1px)",
-        backgroundSize: "32px 32px",
-      }} />
+      <FluidBackground variant={2} />
       <RevealSection>
         <RevealItem>
           <span className="font-questrial text-[10px] tracking-[0.28em] text-cinza uppercase block mb-7">
@@ -460,10 +472,7 @@ function Metodo() {
       className="relative px-8 md:px-14 lg:px-20 py-28 border-t border-cinza/10 overflow-hidden"
       style={{ background: "rgba(255,255,255,0.015)" }}
     >
-      {/* Textura: linhas horizontais finas */}
-      <div aria-hidden className="absolute inset-0 pointer-events-none" style={{
-        backgroundImage: "repeating-linear-gradient(0deg, transparent, transparent 48px, rgba(194,194,194,0.04) 48px, rgba(194,194,194,0.04) 49px)",
-      }} />
+      <FluidBackground variant={3} />
       <RevealSection className="mb-14">
         <RevealItem>
           <span className="font-questrial text-[10px] tracking-[0.28em] text-cinza uppercase block mb-5">
@@ -589,12 +598,7 @@ function Servicos() {
 
   return (
     <section className="relative px-8 md:px-14 lg:px-20 py-28 border-t border-cinza/10 overflow-hidden">
-      {/* Textura: grain mais grosso */}
-      <div aria-hidden className="absolute inset-0 pointer-events-none" style={{
-        backgroundImage: "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.45' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23g)' opacity='0.4'/%3E%3C/svg%3E\")",
-        backgroundRepeat: "repeat",
-        opacity: 0.035,
-      }} />
+      <FluidBackground variant={4} />
       <RevealSection className="mb-16">
         <RevealItem>
           <span className="font-questrial text-[10px] tracking-[0.28em] text-cinza uppercase block mb-5">
@@ -654,10 +658,7 @@ function ComoTrabalhamos() {
       className="relative px-8 md:px-14 lg:px-20 py-28 border-t border-cinza/10 overflow-hidden"
       style={{ background: "rgba(255,255,255,0.015)" }}
     >
-      {/* Textura: linhas diagonais opostas ao hero */}
-      <div aria-hidden className="absolute inset-0 pointer-events-none" style={{
-        backgroundImage: "repeating-linear-gradient(45deg, transparent, transparent 50px, rgba(194,194,194,0.022) 50px, rgba(194,194,194,0.022) 51px)",
-      }} />
+      <FluidBackground variant={1} />
 
       <RevealSection className="max-w-2xl mb-16">
         <RevealItem>
@@ -725,12 +726,7 @@ function SobreBruna() {
       className="relative px-8 md:px-14 lg:px-20 py-28 border-t border-cinza/10 grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-24 overflow-hidden"
       style={{ background: "rgba(255,255,255,0.015)" }}
     >
-      {/* Textura: grid de pontos mais espaçados — volta ao grid mas diferente */}
-      <div aria-hidden className="absolute inset-0 pointer-events-none" style={{
-        backgroundImage: "radial-gradient(circle, rgba(194,194,194,0.05) 1px, transparent 1px)",
-        backgroundSize: "56px 56px",
-        backgroundPosition: "28px 28px",
-      }} />
+      <FluidBackground variant={5} />
       {/* Foto */}
       <RevealSection>
         <RevealItem>
@@ -806,11 +802,7 @@ function CtaFinal() {
       className="px-8 md:px-14 py-36 border-t border-cinza/10 flex flex-col items-center text-center"
       style={{ background: "#020015" }}
     >
-      {/* Textura CTA: círculos concêntricos irradiando do centro */}
-      <div aria-hidden className="absolute inset-0 pointer-events-none" style={{
-        backgroundImage: "radial-gradient(circle at 50% 50%, rgba(194,194,194,0.03) 1px, transparent 1px), radial-gradient(circle at 50% 50%, rgba(194,194,194,0.02) 1px, transparent 1px)",
-        backgroundSize: "60px 60px, 30px 30px",
-      }} />
+      <FluidBackground variant={3} />
       <RevealSection className="max-w-2xl mx-auto w-full">
         <RevealItem>
           <span className="font-questrial text-[10px] tracking-[0.3em] text-cinza uppercase block mb-9">
