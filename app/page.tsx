@@ -2,6 +2,7 @@
 
 import { useRef, useState } from "react"
 import {
+  AnimatePresence,
   motion,
   useInView,
   useMotionValue,
@@ -20,7 +21,7 @@ const BASE = process.env.NODE_ENV === "production" ? "/bmidia-site" : ""
 const EASE_EXPO: [number, number, number, number] = [0.16, 1, 0.3, 1]
 const CLIP_EASE: [number, number, number, number] = [0.76, 0, 0.24, 1]
 
-// ─── Word Reveal — clip-path por palavra ─────────────────────────────────────
+// ─── Word Reveal ─────────────────────────────────────────────────────────────
 
 function WordReveal({
   words,
@@ -40,11 +41,7 @@ function WordReveal({
             className="inline-block"
             initial={{ clipPath: "inset(0 0 100% 0)" }}
             animate={{ clipPath: "inset(0 0 0% 0)" }}
-            transition={{
-              delay: delay + i * 0.08,
-              duration: 0.9,
-              ease: CLIP_EASE,
-            }}
+            transition={{ delay: delay + i * 0.08, duration: 0.9, ease: CLIP_EASE }}
           >
             {word}
           </motion.span>
@@ -54,14 +51,14 @@ function WordReveal({
   )
 }
 
-// ─── Framer Motion Section Reveal ────────────────────────────────────────────
+// ─── Section Reveal ───────────────────────────────────────────────────────────
 
 const fadeItem: Variants = {
-  hidden: { opacity: 0, y: 60 },
+  hidden: { opacity: 0, y: 50 },
   visible: {
     opacity: 1,
     y: 0,
-    transition: { duration: 1, ease: [0.16, 1, 0.3, 1] },
+    transition: { duration: 0.9, ease: [0.16, 1, 0.3, 1] },
   },
 }
 
@@ -76,7 +73,6 @@ function RevealSection({
 }) {
   const ref = useRef<HTMLDivElement>(null)
   const inView = useInView(ref, { once: true, amount: 0.12 })
-
   return (
     <motion.div
       ref={ref}
@@ -84,7 +80,7 @@ function RevealSection({
       animate={inView ? "visible" : "hidden"}
       variants={{
         hidden: {},
-        visible: { transition: { staggerChildren: 0.15, delayChildren: delay } },
+        visible: { transition: { staggerChildren: 0.13, delayChildren: delay } },
       }}
       className={className}
     >
@@ -111,11 +107,7 @@ function RevealItem({
 
 function Nav() {
   const { scrollY } = useScroll()
-  const bg = useTransform(
-    scrollY,
-    [0, 80],
-    ["rgba(4,0,34,0)", "rgba(4,0,34,0.97)"]
-  )
+  const bg = useTransform(scrollY, [0, 80], ["rgba(4,0,34,0)", "rgba(4,0,34,0.97)"])
 
   return (
     <motion.nav
@@ -123,11 +115,9 @@ function Nav() {
       className="fixed top-0 left-0 right-0 z-50 px-8 md:px-14 py-5 flex items-center justify-between"
     >
       <div className="flex flex-col">
-        <span className="font-playfair text-xl tracking-wide text-branco">
-          B Mídia
-        </span>
+        <span className="font-playfair text-xl tracking-wide text-branco">B Mídia</span>
         <span className="font-playfair italic text-[10px] tracking-[0.2em] text-cinza leading-tight">
-          estratégia &amp; posicionamento
+          estratégia e posicionamento
         </span>
       </div>
 
@@ -147,36 +137,25 @@ function Nav() {
         ))}
       </div>
 
-      <motion.a
+      <a
         href="#cta"
-        whileHover={{ scale: 1.02 }}
-        whileTap={{ scale: 0.98 }}
-        className="hidden md:inline-block font-inter text-xs tracking-[0.18em] uppercase border border-cinzaclaro/30 text-cinzaclaro px-6 py-3 hover:border-branco hover:text-branco transition-all duration-300"
+        className="hidden md:inline-block font-inter text-xs tracking-[0.18em] uppercase border border-cinzaclaro/30 text-cinzaclaro px-6 py-3 hover:border-branco hover:text-branco transition-all duration-300 rounded-[6px]"
       >
         Quero conversar
-      </motion.a>
+      </a>
     </motion.nav>
   )
 }
 
-// ─── Hero — Parallax Multi-Camadas ───────────────────────────────────────────
+// ─── Hero ─────────────────────────────────────────────────────────────────────
 
 function Hero() {
   const heroRef = useRef<HTMLElement>(null)
+  const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] })
 
-  // Scroll parallax — mapeado pelo progresso do hero saindo da tela
-  const { scrollYProgress } = useScroll({
-    target: heroRef,
-    offset: ["start start", "end start"],
-  })
-
-  // Layer 1 (bg): 0.3× velocidade de scroll — sobe 30vh enquanto página sobe 100vh
   const layer1Y = useTransform(scrollYProgress, [0, 1], ["0vh", "70vh"])
-  // Layer 2 (headline): 0.6× velocidade
   const layer2Y = useTransform(scrollYProgress, [0, 1], ["0vh", "40vh"])
-  // Layer 3 (subline + CTA): 1× (normal) — sem transform
 
-  // Mouse parallax — direção oposta ao cursor, max 25px
   const mouseX = useMotionValue(0)
   const mouseY = useMotionValue(0)
   const bgMouseX = useSpring(mouseX, { stiffness: 60, damping: 25 })
@@ -193,28 +172,17 @@ function Hero() {
       ref={heroRef}
       className="relative h-screen w-full overflow-hidden"
       onMouseMove={handleMouseMove}
-      onMouseLeave={() => {
-        mouseX.set(0)
-        mouseY.set(0)
-      }}
+      onMouseLeave={() => { mouseX.set(0); mouseY.set(0) }}
     >
-      {/* ── LAYER 1: Imagem de fundo — 0.3× velocidade scroll ── */}
-      <motion.div
-        className="absolute inset-0 pointer-events-none"
-        style={{ y: layer1Y }}
-      >
-        <motion.div
-          className="w-full h-full"
-          style={{ x: bgMouseX, y: bgMouseY, scale: 1.2 }}
-        >
+      {/* Layer 1: Imagem de fundo */}
+      <motion.div className="absolute inset-0 pointer-events-none" style={{ y: layer1Y }}>
+        <motion.div className="w-full h-full" style={{ x: bgMouseX, y: bgMouseY, scale: 1.2 }}>
           <img
             src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=1920&q=80"
             alt=""
             className="w-full h-full object-cover"
-            data-cursor="image"
           />
         </motion.div>
-        {/* Overlay dentro da layer 1 — acompanha a imagem */}
         <div
           className="absolute inset-0"
           style={{
@@ -224,18 +192,24 @@ function Hero() {
         />
       </motion.div>
 
-      {/* ── LAYER 2: Logo + Headline — 0.6× velocidade scroll ── */}
+      {/* Layer 2: Logo + Headline */}
       <motion.div
         className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none"
         style={{ y: layer2Y }}
       >
         <div className="px-8 max-w-4xl mx-auto w-full text-center">
-          {/* Logo — rotateY 0→360 em 1.4s */}
+          {/* Logo */}
           <div style={{ overflow: "hidden" }}>
             <motion.img
               src={`${BASE}/logo-branca.png.png`}
               alt="B Mídia"
-              className="h-16 w-auto mx-auto mb-5"
+              style={{
+                height: 80,
+                width: "auto",
+                objectFit: "contain",
+                display: "block",
+                margin: "0 auto 1.25rem",
+              }}
               initial={{ y: 80, opacity: 0, rotateY: 0 }}
               animate={{ y: 0, opacity: 1, rotateY: 360 }}
               transition={{
@@ -243,16 +217,8 @@ function Hero() {
                 opacity: { duration: 0.9, ease: EASE_EXPO, delay: 0.15 },
                 rotateY: { duration: 1.4, ease: EASE_EXPO, delay: 0.25 },
               }}
-              style={{ transformPerspective: 800 }}
               onError={(e) => {
-                const el = e.target as HTMLImageElement
-                el.replaceWith(
-                  Object.assign(document.createElement("span"), {
-                    textContent: "B",
-                    style:
-                      "font-family:var(--font-playfair);font-size:5rem;font-style:italic;color:#f8f8f6;display:block;margin-bottom:1.25rem",
-                  })
-                )
+                ;(e.target as HTMLImageElement).style.display = "none"
               }}
             />
           </div>
@@ -275,45 +241,27 @@ function Hero() {
             animate={{ scaleX: 1, opacity: 1 }}
             transition={{ delay: 0.7, duration: 0.7, ease: EASE_EXPO }}
             className="origin-center mb-8 mx-auto"
-            style={{
-              width: 60,
-              height: "0.5px",
-              backgroundColor: "rgba(255,255,255,0.15)",
-            }}
+            style={{ width: 60, height: "0.5px", backgroundColor: "rgba(255,255,255,0.15)" }}
           />
 
-          {/* Headline — clip-path por palavra + flutuação infinita */}
+          {/* Headline */}
           <motion.div
             animate={{ y: [0, -6, 0] }}
-            transition={{
-              duration: 4,
-              ease: "easeInOut",
-              repeat: Infinity,
-              delay: 3.2,
-            }}
+            transition={{ duration: 4, ease: "easeInOut", repeat: Infinity, delay: 3.2 }}
           >
             <h1
-              className="font-playfair text-[2.2rem] md:text-[3.5rem] text-branco mb-8"
-              style={{ letterSpacing: "0.02em", lineHeight: 1.35 }}
+              className="font-playfair text-[2rem] md:text-[3rem] text-branco mb-8"
+              style={{ letterSpacing: "0.02em", lineHeight: 1.4 }}
             >
               <span className="block">
-                <WordReveal
-                  words={["Sua", "marca", "não", "precisa"]}
-                  delay={0.85}
-                />
+                <WordReveal words={["Sua", "marca", "não", "precisa"]} delay={0.85} />
               </span>
               <span className="block">
                 <WordReveal words={["de", "mais", "posts."]} delay={1.05} />
               </span>
               <span className="block">
                 <WordReveal
-                  words={[
-                    "Precisa",
-                    "ser",
-                    <em key="em" className="italic text-cinzaclaro">
-                      reconhecida.
-                    </em>,
-                  ]}
+                  words={["Precisa", "ser", <em key="em" className="italic text-cinzaclaro">reconhecida.</em>]}
                   delay={1.25}
                 />
               </span>
@@ -322,7 +270,7 @@ function Hero() {
         </div>
       </motion.div>
 
-      {/* ── LAYER 3: Subline + CTA — 1× velocidade (normal) ── */}
+      {/* Layer 3: Subline + CTA */}
       <div className="absolute bottom-20 left-0 right-0 flex flex-col items-center pointer-events-auto px-8">
         <motion.p
           className="font-inter text-[0.95rem] tracking-[0.08em] text-cinza mb-12 text-center"
@@ -335,9 +283,9 @@ function Hero() {
 
         <motion.a
           href="#cta"
-          whileHover={{ scale: 1.04, backgroundColor: "#f8f8f6", color: "#040022" }}
+          whileHover={{ backgroundColor: "#f8f8f6", color: "#040022" }}
           whileTap={{ scale: 0.97 }}
-          className="inline-block font-inter text-[0.72rem] tracking-[0.18em] uppercase text-cinzaclaro transition-colors duration-300"
+          className="inline-block font-inter text-[0.72rem] tracking-[0.18em] uppercase text-cinzaclaro transition-colors duration-300 rounded-[6px]"
           style={{ border: "0.5px solid #e1e1e1", padding: "0.8rem 2rem" }}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -350,10 +298,10 @@ function Hero() {
   )
 }
 
-// ─── Problema ────────────────────────────────────────────────────────────────
+// ─── Problema ─────────────────────────────────────────────────────────────────
 
 const problemas = [
-  "Postam todo dia sem saber por quê.",
+  "Postam todo dia sem saber por que.",
   "Investem em produção visual antes de ter posicionamento.",
   "Contratam quem entrega conteúdo, não quem entende o negócio.",
   "Confundem engajamento com resultado.",
@@ -385,7 +333,7 @@ function Problema() {
           <p className="font-inter text-sm text-cinza leading-relaxed max-w-sm">
             O problema não é a falta de conteúdo. É a falta de intenção por
             trás de cada publicação. Presença sem estratégia é ruído. E ruído
-            não converte — ele afasta.
+            não converte, ele afasta.
           </p>
         </RevealItem>
       </RevealSection>
@@ -420,76 +368,123 @@ function Problema() {
   )
 }
 
-// ─── Método ──────────────────────────────────────────────────────────────────
+// ─── Método — cards expandíveis ───────────────────────────────────────────────
 
 const metodos = [
   {
     num: "01",
-    val: 1,
-    title: "Observação primeiro",
-    text: "Antes de criar qualquer conteúdo, observamos o negócio, o público e o que já funciona.",
+    title: "Observação",
+    summary:
+      "Antes de qualquer execução, observo. O que a marca entrega? O que o digital já comunica? Onde está o gap?",
+    detail:
+      "Analiso o perfil existente, o tom de voz atual, o que os concorrentes comunicam e o que o público espera. A pergunta central é sempre: o que essa marca entrega é maior do que o que ela mostra? Quando a resposta é sim, é onde começo a trabalhar. Não inicio nenhum projeto sem essa leitura. Criação sem observação é decoração.",
   },
   {
     num: "02",
-    val: 2,
-    title: "Consistência bate frequência",
-    text: "Uma marca com intenção três vezes por semana converte mais do que uma que posta todo dia sem direção.",
+    title: "Diagnóstico",
+    summary:
+      "Identifico o principal problema de comunicação e chego ao briefing com uma hipótese de posicionamento já formada.",
+    detail:
+      "O briefing não é um formulário preenchido. É um alinhamento estratégico. Chego à reunião com hipóteses, não com perguntas abertas. A marca tem diferencial claro ou está genérica? O público está sendo endereçado corretamente? O tom cria aproximação ou distância? Esse diagnóstico define tudo que vem depois.",
   },
   {
     num: "03",
-    val: 3,
-    title: "Marca é percepção",
-    text: "Uma marca bem comunicada não precisa convencer. Ela é reconhecida.",
+    title: "Estratégia",
+    summary:
+      "Defino os pilares de conteúdo, a identidade de comunicação e o calendário editorial com intenção real por trás de cada peça.",
+    detail:
+      "Cada post existe por uma razão estratégica. Posicionamento, autoridade, conversão ou aproximação. Nunca para manter frequência. O calendário editorial é um instrumento de construção de percepção, não uma lista de tarefas. Entrego: identidade de comunicação, pilares de conteúdo, pauta mensal e guia de voz da marca.",
   },
   {
     num: "04",
-    val: 4,
-    title: "Poucos projetos, muita entrega",
-    text: "Não trabalhamos com carteira grande. Presença real dentro de cada conta.",
+    title: "Execução",
+    summary:
+      "Copywriting, design, edição e análise. Com IA integrada ao fluxo para escalar capacidade sem perder qualidade.",
+    detail:
+      "Redijo as legendas, reviso os visuais e coordeno a produção com foco em coerência estética e consistência de voz. Uso inteligência artificial como ferramenta de pesquisa, curadoria e geração de rascunhos, sempre com revisão estratégica humana. Entrego: conteúdo aprovado, agendado e analisado mensalmente.",
   },
 ]
 
-function Metodo() {
-  const sectionRef = useRef<HTMLElement>(null)
-  const gridRef = useRef<HTMLDivElement>(null)
-  const gridInView = useInView(gridRef, { once: true, amount: 0.1 })
+function MetodoCard({
+  num,
+  title,
+  summary,
+  detail,
+  isActive,
+  onToggle,
+}: {
+  num: string
+  title: string
+  summary: string
+  detail: string
+  isActive: boolean
+  onToggle: () => void
+}) {
+  return (
+    <motion.div
+      onClick={onToggle}
+      animate={{
+        backgroundColor: isActive ? "rgba(255,255,255,0.04)" : "rgba(255,255,255,0)",
+      }}
+      transition={{ duration: 0.3 }}
+      className="rounded-[8px] cursor-pointer overflow-hidden"
+    >
+      <div className="px-7 py-6 flex gap-6 items-start">
+        <span className="font-playfair italic text-cinza/30 text-sm tabular-nums shrink-0 mt-1">
+          {num}
+        </span>
+        <div className="flex-1 min-w-0">
+          <div className="flex items-start justify-between gap-4 mb-2">
+            <h3 className="font-playfair text-xl text-branco">{title}</h3>
+            <motion.span
+              animate={{ rotate: isActive ? 45 : 0 }}
+              transition={{ duration: 0.25, ease: [0.25, 0.4, 0.25, 1] }}
+              className="text-cinza/40 text-2xl shrink-0 select-none mt-0.5 leading-none"
+            >
+              +
+            </motion.span>
+          </div>
+          <p className="font-inter text-sm text-cinza leading-relaxed">{summary}</p>
+        </div>
+      </div>
 
-  // Counter-up GSAP nos números grandes
-  useGSAP(
-    () => {
-      if (!gridRef.current) return
+      <AnimatePresence initial={false}>
+        {isActive && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.4, ease: [0.25, 0.4, 0.25, 1] }}
+            className="overflow-hidden"
+          >
+            <p className="font-inter text-sm text-cinza/80 leading-relaxed px-7 pb-7 ml-[3.75rem]">
+              {detail}
+            </p>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
-      const numEls = gridRef.current.querySelectorAll("[data-counter]")
-      numEls.forEach((el) => {
-        const target = parseInt((el as HTMLElement).dataset.counter || "0", 10)
-        const obj = { val: 0 }
-        gsap.to(obj, {
-          val: target,
-          duration: 1.5,
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: el,
-            start: "top 88%",
-            once: true,
-          },
-          onUpdate() {
-            ;(el as HTMLElement).textContent = String(
-              Math.round(obj.val)
-            ).padStart(2, "0")
-          },
-        })
-      })
-    },
-    { scope: gridRef }
+      {/* Linha de destaque inferior */}
+      <motion.div
+        className="h-px origin-left"
+        style={{ backgroundColor: "#7B79F7" }}
+        animate={{ scaleX: isActive ? 1 : 0 }}
+        transition={{ duration: 0.4, ease: [0.25, 0.4, 0.25, 1] }}
+      />
+    </motion.div>
   )
+}
+
+function Metodo() {
+  const [activeIndex, setActiveIndex] = useState<number | null>(null)
 
   return (
     <section
-      ref={sectionRef}
       id="servicos"
       className="px-8 md:px-14 lg:px-20 py-28 border-t border-cinza/10"
+      style={{ background: "rgba(255,255,255,0.015)" }}
     >
-      <RevealSection className="mb-16">
+      <RevealSection className="mb-12">
         <RevealItem>
           <span className="font-inter text-[10px] tracking-[0.28em] text-cinza uppercase block mb-5">
             Método
@@ -502,49 +497,17 @@ function Metodo() {
         </RevealItem>
       </RevealSection>
 
-      <motion.div
-        ref={gridRef}
-        initial="hidden"
-        animate={gridInView ? "visible" : "hidden"}
-        variants={{ hidden: {}, visible: { transition: { staggerChildren: 0.15 } } }}
-        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4"
-      >
+      <RevealSection className="flex flex-col gap-1 max-w-3xl">
         {metodos.map((m, i) => (
-          <motion.div
-            key={m.num}
-            variants={fadeItem}
-            className={[
-              i < 3
-                ? "border-b lg:border-b-0 lg:border-r border-cinza/10"
-                : "border-b lg:border-b-0 border-cinza/10",
-            ].join(" ")}
-          >
-            <motion.div
-              whileHover={{ scale: 1.02, backgroundColor: "rgba(255,255,255,0.04)" }}
-              transition={{ duration: 0.3 }}
-              className={[
-                "px-8 py-10 h-full",
-                i === 0 ? "lg:pl-0" : "",
-                i === 3 ? "lg:pr-0" : "",
-              ].join(" ")}
-            >
-              {/* Número grande com counter-up */}
-              <span
-                className="font-playfair italic text-[5.5rem] leading-none text-cinza/[0.08] block mb-5 select-none"
-                data-counter={m.val}
-              >
-                {m.num}
-              </span>
-              <h3 className="font-playfair text-xl text-branco mb-3">
-                {m.title}
-              </h3>
-              <p className="font-inter text-sm text-cinza leading-relaxed">
-                {m.text}
-              </p>
-            </motion.div>
-          </motion.div>
+          <RevealItem key={m.num}>
+            <MetodoCard
+              {...m}
+              isActive={activeIndex === i}
+              onToggle={() => setActiveIndex(activeIndex === i ? null : i)}
+            />
+          </RevealItem>
         ))}
-      </motion.div>
+      </RevealSection>
     </section>
   )
 }
@@ -560,43 +523,22 @@ const servicos = [
   { title: "Design e Produção Visual", tags: ["Design", "Edição", "Arte"] },
 ]
 
-// Card 3D — rotação responsiva ao mouse com lerp suave
 function ServicoCard({ title, tags }: { title: string; tags: string[] }) {
-  const cardRef = useRef<HTMLDivElement>(null)
   const [hovered, setHovered] = useState(false)
-
-  const rotX = useMotionValue(0)
-  const rotY = useMotionValue(0)
-  const sRotX = useSpring(rotX, { stiffness: 120, damping: 22 })
-  const sRotY = useSpring(rotY, { stiffness: 120, damping: 22 })
-
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!cardRef.current) return
-    const { width, height, left, top } = cardRef.current.getBoundingClientRect()
-    const x = (e.clientX - left) / width - 0.5
-    const y = (e.clientY - top) / height - 0.5
-    rotX.set(-y * 8)
-    rotY.set(x * 8)
-  }
 
   return (
     <motion.div
-      ref={cardRef}
-      onMouseMove={handleMouseMove}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => {
-        rotX.set(0)
-        rotY.set(0)
-        setHovered(false)
-      }}
-      style={{ rotateX: sRotX, rotateY: sRotY, transformPerspective: 1000 }}
-      className="p-8 border border-cinza/10 relative overflow-hidden bg-indigo h-full"
+      onHoverStart={() => setHovered(true)}
+      onHoverEnd={() => setHovered(false)}
+      animate={{ backgroundColor: hovered ? "rgba(255,255,255,0.04)" : "rgba(4,0,34,1)" }}
+      transition={{ duration: 0.3 }}
+      className="p-8 relative overflow-hidden bg-indigo rounded-[8px] h-full"
     >
-      {/* Borda inferior animada no hover */}
+      {/* Linha decorativa: 32px → 56px no hover */}
       <motion.div
         className="absolute bottom-0 left-0 h-px bg-branco/50"
-        animate={{ width: hovered ? "100%" : "0%" }}
-        transition={{ duration: 0.45, ease: [0.25, 0.4, 0.25, 1] }}
+        animate={{ width: hovered ? "56px" : "32px" }}
+        transition={{ duration: 0.4, ease: [0.25, 0.4, 0.25, 1] }}
       />
       <motion.h3
         className="font-playfair text-xl text-branco mb-5 leading-snug"
@@ -655,74 +597,70 @@ function Servicos() {
   )
 }
 
-// ─── Para Quem ────────────────────────────────────────────────────────────────
+// ─── Como Trabalhamos ─────────────────────────────────────────────────────────
 
-const paraQuemSim = [
-  "Marcas que entendem comunicação como investimento.",
-  "Negócios que querem ser reconhecidos, não apenas vistos.",
-  "Quem quer construir no longo prazo.",
-  "Quem valoriza qualidade acima de volume.",
-  "Quem está pronto para aparecer com consistência.",
+const blocos = [
+  {
+    title: "Diagnóstico antes de tudo",
+    text: "Antes de criar qualquer peça, entendemos onde sua marca está e o que ela precisa comunicar. Sem essa leitura, qualquer conteúdo é decoração.",
+  },
+  {
+    title: "Presença real, não gestão automática",
+    text: "Não trabalhamos com carteira cheia. Cada cliente recebe atenção real, estratégia própria e acompanhamento próximo.",
+  },
+  {
+    title: "Resultado construído, não prometido",
+    text: "Não vendemos seguidores nem viralização. Vendemos consistência estratégica que constrói percepção de valor ao longo do tempo.",
+  },
 ]
 
-const paraQuemNao = [
-  "Quem quer só animar o Instagram.",
-  "Quem busca resultado imediato sem processo.",
-  "Quem precisa de volume sem critério.",
-  "Quem não está disposto a construir junto.",
-  "Quem escolhe só por preço.",
-]
-
-function ParaQuem() {
+function ComoTrabalhamos() {
   return (
     <section
       id="agencia"
-      className="px-8 md:px-14 lg:px-20 py-28 border-t border-cinza/10 grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-24"
+      className="relative px-8 md:px-14 lg:px-20 py-28 border-t border-cinza/10 overflow-hidden"
+      style={{ background: "rgba(255,255,255,0.015)" }}
     >
-      <RevealSection>
+      {/* Noise texture */}
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          backgroundImage:
+            "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='256' height='256'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='256' height='256' filter='url(%23n)' opacity='0.4'/%3E%3C/svg%3E\")",
+          backgroundRepeat: "repeat",
+          opacity: 0.03,
+          mixBlendMode: "overlay",
+        }}
+      />
+
+      <RevealSection className="max-w-2xl mb-16">
         <RevealItem>
-          <h2 className="font-playfair text-2xl md:text-3xl text-branco mb-10">
-            Para quem a B Mídia <em className="italic">é</em>
+          <span className="font-inter text-[10px] tracking-[0.28em] text-cinza uppercase block mb-5">
+            Como trabalhamos
+          </span>
+        </RevealItem>
+        <RevealItem>
+          <h2 className="font-playfair text-3xl md:text-4xl text-branco mb-6">
+            Intenção em cada etapa
           </h2>
         </RevealItem>
-        {paraQuemSim.map((item, i) => (
-          <RevealItem key={i}>
-            <motion.div
-              className="flex gap-5 py-4 border-b border-cinza/10 last:border-0 items-start"
-              whileHover={{ x: 6 }}
-              transition={{ duration: 0.25, ease: "easeOut" }}
-            >
-              <span className="text-xs mt-1 shrink-0 font-inter text-branco/25">
-                ✦
-              </span>
-              <p className="font-inter text-sm leading-relaxed text-cinzaclaro">
-                {item}
-              </p>
-            </motion.div>
-          </RevealItem>
-        ))}
+        <RevealItem>
+          <p className="font-inter text-sm text-cinza leading-relaxed">
+            Cada cliente passa por um diagnóstico antes de qualquer entrega.
+            Porque comunicação sem leitura é improviso, e improviso não é o que vendemos.
+          </p>
+        </RevealItem>
       </RevealSection>
 
-      <RevealSection delay={0.2}>
-        <RevealItem>
-          <h2 className="font-playfair text-2xl md:text-3xl text-branco mb-10">
-            Para quem <em className="italic">não é</em>
-          </h2>
-        </RevealItem>
-        {paraQuemNao.map((item, i) => (
+      <RevealSection className="grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-14">
+        {blocos.map((b, i) => (
           <RevealItem key={i}>
-            <motion.div
-              className="flex gap-5 py-4 border-b border-cinza/10 last:border-0 items-start"
-              whileHover={{ x: 6 }}
-              transition={{ duration: 0.25, ease: "easeOut" }}
-            >
-              <span className="text-xs mt-1 shrink-0 font-inter text-cinza/30">
-                —
-              </span>
-              <p className="font-inter text-sm leading-relaxed text-cinza">
-                {item}
-              </p>
-            </motion.div>
+            <div className="w-8 h-px bg-branco/20 mb-7" />
+            <h3 className="font-playfair text-lg text-branco mb-4 leading-snug">
+              {b.title}
+            </h3>
+            <p className="font-inter text-sm text-cinza leading-relaxed">{b.text}</p>
           </RevealItem>
         ))}
       </RevealSection>
@@ -736,7 +674,6 @@ function SobreBruna() {
   const photoContainerRef = useRef<HTMLDivElement>(null)
   const photoImgRef = useRef<HTMLImageElement>(null)
 
-  // Parallax vertical sutil na foto — GSAP scrub
   useGSAP(
     () => {
       if (!photoContainerRef.current || !photoImgRef.current) return
@@ -759,30 +696,27 @@ function SobreBruna() {
   )
 
   return (
-    <section className="px-8 md:px-14 lg:px-20 py-28 border-t border-cinza/10 grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-24">
-      {/* Coluna esquerda — Foto com parallax */}
+    <section
+      className="px-8 md:px-14 lg:px-20 py-28 border-t border-cinza/10 grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-24"
+      style={{ background: "rgba(255,255,255,0.015)" }}
+    >
+      {/* Foto */}
       <RevealSection>
         <RevealItem>
-          <div
-            ref={photoContainerRef}
-            className="bg-[#0a0030] aspect-[3/4] overflow-hidden"
-          >
+          <div ref={photoContainerRef} className="bg-[#0a0030] aspect-[3/4] overflow-hidden">
             <img
               ref={photoImgRef}
               src={`${BASE}/foto-bruna.jpg`}
               alt="Bruna Ribeiro"
               className="w-full h-[120%] object-cover object-top"
               style={{ filter: "grayscale(15%) contrast(1.05)" }}
-              data-cursor="image"
-              onError={(e) => {
-                ;(e.target as HTMLImageElement).style.display = "none"
-              }}
+              onError={(e) => { ;(e.target as HTMLImageElement).style.display = "none" }}
             />
           </div>
         </RevealItem>
       </RevealSection>
 
-      {/* Coluna direita — Texto */}
+      {/* Texto */}
       <RevealSection delay={0.2} className="flex flex-col justify-center">
         <RevealItem>
           <span className="font-inter text-[10px] tracking-[0.28em] text-cinza uppercase block mb-8">
@@ -791,36 +725,34 @@ function SobreBruna() {
         </RevealItem>
         <RevealItem>
           <blockquote className="font-playfair italic text-2xl md:text-3xl text-branco leading-[1.42] mb-10">
-            &ldquo;Minha maior força é perceber o que a marca ainda não sabe
-            dizer sobre si mesma.&rdquo;
+            &ldquo;Comecei a observar marcas muito antes de entender que isso tinha nome.&rdquo;
           </blockquote>
         </RevealItem>
         <RevealItem>
           <p className="font-inter text-sm text-cinza leading-relaxed mb-5">
-            A B Mídia nasceu da convicção de que comunicação estratégica não é
-            privilégio de grandes empresas. É o que transforma um bom produto em
-            uma marca que as pessoas procuram.
+            Sempre fui a pessoa que notava quando um negócio bom comunicava mal.
+            Quando o produto era sério mas o Instagram parecia feito às pressas.
+            Quando o atendimento era impecável mas ninguém de fora sabia disso.
           </p>
         </RevealItem>
         <RevealItem>
           <p className="font-inter text-sm text-cinza leading-relaxed mb-5">
-            Trabalhamos com poucos clientes de forma intencional. Cada projeto
-            recebe atenção real — não de um time enorme, mas de quem entende o
-            seu negócio como se fosse o próprio.
+            A B Mídia nasceu disso. Não de uma fórmula, mas de uma forma de enxergar.
+            O que faço não é gestão de redes. É traduzir o que uma marca já é em algo
+            que o cliente certo consegue sentir.
           </p>
         </RevealItem>
         <RevealItem>
           <p className="font-inter text-sm text-cinza leading-relaxed mb-12">
-            O resultado não é viral. É reconhecimento. É construção.
+            Não inicio nenhum projeto sem antes entender o negócio.
+            Execução sem leitura é improviso.
           </p>
         </RevealItem>
         <RevealItem>
           <div className="border-t border-cinza/20 pt-7">
-            <p className="font-playfair text-branco text-lg tracking-wide">
-              Bruna Ribeiro
-            </p>
+            <p className="font-playfair text-branco text-lg tracking-wide">Bruna Ribeiro</p>
             <p className="font-inter text-[10px] tracking-[0.25em] text-cinza mt-1.5 uppercase">
-              Fundadora e Estrategista
+              Fundadora e Estrategista, B Mídia
             </p>
           </div>
         </RevealItem>
@@ -829,13 +761,14 @@ function SobreBruna() {
   )
 }
 
-// ─── CTA Final ───────────────────────────────────────────────────────────────
+// ─── CTA Final ────────────────────────────────────────────────────────────────
 
 function CtaFinal() {
   return (
     <section
       id="cta"
       className="px-8 md:px-14 py-36 border-t border-cinza/10 flex flex-col items-center text-center"
+      style={{ background: "#020015" }}
     >
       <RevealSection className="max-w-2xl mx-auto w-full">
         <RevealItem>
@@ -845,15 +778,14 @@ function CtaFinal() {
         </RevealItem>
         <RevealItem>
           <h2 className="font-playfair text-3xl md:text-5xl text-branco leading-[1.22] mb-8">
-            Vamos entender o que sua marca
-            <br />
-            <em className="italic">precisa comunicar</em>
+            Vamos entender o que sua marca precisa comunicar.
           </h2>
         </RevealItem>
         <RevealItem>
-          <p className="font-inter text-sm text-cinza leading-relaxed mb-14 max-w-sm mx-auto">
-            O primeiro passo é uma conversa. Sem compromisso, sem roteiro de
-            vendas.
+          <p className="font-inter text-sm text-cinza leading-relaxed mb-14 max-w-md mx-auto">
+            Se você chegou até aqui, provavelmente já sabe que quer mais do que posts.
+            Essa conversa começa com uma pergunta simples: o que sua marca ainda não
+            conseguiu comunicar?
           </p>
         </RevealItem>
         <RevealItem>
@@ -863,7 +795,7 @@ function CtaFinal() {
             rel="noopener noreferrer"
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
-            className="inline-block font-inter text-xs tracking-[0.22em] uppercase bg-branco text-indigo px-12 py-5 hover:bg-cinzaclaro transition-colors duration-300"
+            className="inline-block font-inter text-xs tracking-[0.22em] uppercase bg-branco text-indigo px-12 py-5 hover:bg-cinzaclaro transition-colors duration-300 rounded-[6px]"
           >
             Quero essa conversa
           </motion.a>
@@ -877,18 +809,19 @@ function CtaFinal() {
 
 function Footer() {
   return (
-    <footer className="px-8 md:px-14 py-10 border-t border-cinza/10 flex flex-col md:flex-row items-center justify-between gap-5">
+    <footer
+      className="px-8 md:px-14 py-10 border-t border-cinza/10 flex flex-col md:flex-row items-center justify-between gap-5"
+      style={{ background: "#020015" }}
+    >
       <div className="flex flex-col items-center md:items-start">
-        <span className="font-playfair text-lg text-branco tracking-wide">
-          B Mídia
-        </span>
+        <span className="font-playfair text-lg text-branco tracking-wide">B Mídia</span>
         <span className="font-playfair italic text-[10px] text-cinza tracking-widest">
-          estratégia &amp; posicionamento
+          estratégia e posicionamento
         </span>
       </div>
 
       <p className="font-inter text-[10px] tracking-[0.2em] text-cinza/50 uppercase">
-        © {new Date().getFullYear()} B Mídia. Todos os direitos reservados.
+        &copy; {new Date().getFullYear()} B Mídia. Todos os direitos reservados.
       </p>
 
       <a
@@ -913,7 +846,7 @@ export default function Page() {
       <Problema />
       <Metodo />
       <Servicos />
-      <ParaQuem />
+      <ComoTrabalhamos />
       <SobreBruna />
       <CtaFinal />
       <Footer />
