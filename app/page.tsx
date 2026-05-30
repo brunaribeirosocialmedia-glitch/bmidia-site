@@ -201,7 +201,7 @@ function Hero() {
           {/* Logo */}
           <div style={{ overflow: "hidden", perspective: "800px" }}>
             <motion.img
-              src={`${BASE}/logo-branca.png.png`}
+              src={`${BASE}/logo-bm%C3%ADdia-branco.png`}
               alt="B Mídia"
               style={{
                 height: 200,
