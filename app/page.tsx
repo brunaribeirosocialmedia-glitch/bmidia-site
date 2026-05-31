@@ -7,7 +7,6 @@ import {
   useInView,
   useMotionValue,
   useScroll,
-  useSpring,
   useTransform,
   type Variants,
 } from "framer-motion"
@@ -19,7 +18,50 @@ gsap.registerPlugin(ScrollTrigger, useGSAP)
 
 const BASE = process.env.NODE_ENV === "production" ? "/bmidia-site" : ""
 
-// ─── Fundo fluido reutilizável ────────────────────────────────────────────────
+// ─── Fundo contínuo do site inteiro ──────────────────────────────────────────
+
+function SiteBackground() {
+  return (
+    <div className="fixed inset-0 pointer-events-none" style={{ zIndex: 0 }}>
+      <svg
+        className="w-full h-full"
+        xmlns="http://www.w3.org/2000/svg"
+        preserveAspectRatio="xMidYMin slice"
+        viewBox="0 0 1440 5000"
+      >
+        {/* Lateral esquerda — fluxo descendente */}
+        <path d="M -80 0 C -80 300 80 500 20 800 C -40 1100 -80 1300 -60 1600 C -20 1900 100 2100 40 2400 C -20 2700 -80 2900 -60 3200 C -20 3500 80 3700 20 4000 C -40 4300 -80 4600 -80 5000 L 160 5000 C 140 4600 220 4300 180 4000 C 120 3700 60 3500 80 3200 C 100 2900 200 2700 160 2400 C 120 2100 40 1900 60 1600 C 80 1300 180 1100 160 800 C 120 500 60 300 80 0 Z"
+          fill="#070430" opacity="0.45" />
+
+        {/* Lateral direita — fluxo descendente espelhado */}
+        <path d="M 1540 0 C 1540 280 1380 480 1420 780 C 1460 1080 1540 1280 1520 1580 C 1480 1880 1360 2080 1400 2380 C 1440 2680 1540 2880 1520 3180 C 1480 3480 1360 3680 1400 3980 C 1440 4280 1540 4580 1540 5000 L 1300 5000 C 1300 4580 1200 4280 1160 3980 C 1120 3680 1240 3480 1280 3180 C 1320 2880 1220 2680 1180 2380 C 1140 2080 1260 1880 1300 1580 C 1340 1280 1220 1080 1180 780 C 1140 480 1280 280 1320 0 Z"
+          fill="#060330" opacity="0.4" />
+
+        {/* Linha fluida diagonal — atravessa o site de ponta a ponta */}
+        <path d="M -80 200 C 300 100 600 400 900 250 C 1150 130 1350 380 1540 280"
+          fill="none" stroke="rgba(160,140,220,0.07)" strokeWidth="1" />
+        <path d="M -80 1200 C 200 1080 500 1380 800 1220 C 1050 1090 1300 1340 1540 1230"
+          fill="none" stroke="rgba(160,140,220,0.06)" strokeWidth="0.8" />
+        <path d="M -80 2200 C 300 2080 600 2380 900 2220 C 1150 2100 1350 2340 1540 2240"
+          fill="none" stroke="rgba(160,140,220,0.06)" strokeWidth="0.8" />
+        <path d="M -80 3200 C 200 3080 500 3380 800 3220 C 1050 3100 1300 3340 1540 3230"
+          fill="none" stroke="rgba(160,140,220,0.05)" strokeWidth="0.7" />
+        <path d="M -80 4200 C 300 4080 600 4380 900 4220 C 1150 4100 1350 4340 1540 4240"
+          fill="none" stroke="rgba(160,140,220,0.05)" strokeWidth="0.7" />
+
+        {/* Acento superior */}
+        <path d="M -80 0 C 200 -30 500 80 800 30 C 1050 -10 1300 70 1540 20 L 1540 120 C 1280 170 1020 90 760 140 C 480 190 200 80 -80 100 Z"
+          fill="#080535" opacity="0.5" />
+
+        {/* Acento inferior */}
+        <path d="M -80 5000 C 200 4970 500 4920 800 4960 C 1050 4990 1300 4940 1540 4970 L 1540 4880 C 1280 4850 1020 4900 760 4860 C 480 4820 200 4870 -80 4900 Z"
+          fill="#060330" opacity="0.5" />
+      </svg>
+    </div>
+  )
+}
+
+// ─── Fundo fluido reutilizável (hero) ─────────────────────────────────────────
 
 function FluidBackground({ variant = 1 }: { variant?: 1 | 2 | 3 | 4 | 5 }) {
   const configs = {
@@ -235,51 +277,55 @@ function Nav() {
 // ─── Hero ─────────────────────────────────────────────────────────────────────
 
 function Hero() {
-  const heroRef = useRef<HTMLElement>(null)
-  const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] })
-
-  const layer1Y = useTransform(scrollYProgress, [0, 1], ["0vh", "70vh"])
-  const layer2Y = useTransform(scrollYProgress, [0, 1], ["0vh", "40vh"])
-
   const mouseX = useMotionValue(0)
   const mouseY = useMotionValue(0)
-  const bgMouseX = useSpring(mouseX, { stiffness: 60, damping: 25 })
-  const bgMouseY = useSpring(mouseY, { stiffness: 60, damping: 25 })
+  const contentX = useTransform(mouseX, v => v * 0.04)
+  const contentY = useTransform(mouseY, v => v * 0.04)
+  const shapeX = useTransform(mouseX, v => v * 0.12)
+  const shapeY = useTransform(mouseY, v => v * 0.12)
 
   const handleMouseMove = (e: React.MouseEvent<HTMLElement>) => {
     const { width, height } = e.currentTarget.getBoundingClientRect()
-    mouseX.set((e.clientX / width - 0.5) * -50)
-    mouseY.set((e.clientY / height - 0.5) * -50)
+    mouseX.set((e.clientX / width - 0.5) * 120)
+    mouseY.set((e.clientY / height - 0.5) * 120)
   }
 
   return (
     <section
-      ref={heroRef}
       className="relative h-screen w-full overflow-hidden"
       onMouseMove={handleMouseMove}
       onMouseLeave={() => { mouseX.set(0); mouseY.set(0) }}
     >
-      {/* Layer 1: Fundo com linhas fluidas dançando */}
-      <motion.div className="absolute inset-0 pointer-events-none" style={{ y: layer1Y }}>
-        {/* Base navy */}
-        <div className="absolute inset-0" style={{ background: "#040022" }} />
-
+      {/* Formas fluidas do hero com respiração e reação ao mouse */}
+      <motion.div
+        className="absolute inset-0 pointer-events-none"
+        style={{ x: shapeX, y: shapeY }}
+      >
         <FluidBackground variant={1} />
-
-        {/* Gradiente inferior para fundir com a próxima seção */}
-        <div
-          className="absolute bottom-0 left-0 right-0"
-          style={{
-            height: "30%",
-            background: "linear-gradient(to bottom, transparent, rgba(4,0,34,0.8))",
-          }}
-        />
       </motion.div>
 
-      {/* Conteúdo unificado — fluxo de coluna sem sobreposição */}
+      {/* Linha de luz diagonal percorrendo o hero em loop */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        <motion.div
+          style={{
+            position: "absolute",
+            top: "-10%",
+            left: "-20%",
+            width: "2px",
+            height: "140%",
+            background: "linear-gradient(to bottom, transparent, rgba(180,160,255,0.18), transparent)",
+            rotate: "25deg",
+            transformOrigin: "top center",
+          }}
+          animate={{ x: ["0vw", "160vw"] }}
+          transition={{ duration: 5, ease: "linear", repeat: Infinity, repeatDelay: 3 }}
+        />
+      </div>
+
+      {/* Conteúdo com leve reação ao mouse */}
       <motion.div
         className="absolute inset-0 flex flex-col items-center justify-center px-8"
-        style={{ y: layer2Y }}
+        style={{ x: contentX, y: contentY }}
       >
         <div className="max-w-3xl mx-auto w-full text-center flex flex-col items-center">
           {/* Logo */}
@@ -318,7 +364,7 @@ function Hero() {
           {/* Headline */}
           <div style={{ overflow: "hidden" }} className="mb-10">
             <motion.h1
-              className="font-cormorant text-[1.6rem] md:text-[2.2rem] text-branco text-center"
+              className="font-cormorant text-[2rem] md:text-[3.2rem] text-branco text-center"
               style={{ letterSpacing: "0.02em", lineHeight: 1.4 }}
               initial={{ clipPath: "inset(0 100% 0 0)" }}
               animate={{ clipPath: "inset(0 0% 0 0)" }}
@@ -375,7 +421,6 @@ function Problema() {
       id="metodo"
       className="relative px-8 md:px-14 lg:px-20 py-28 grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-24 overflow-hidden"
     >
-      <FluidBackground variant={2} />
       <RevealSection>
         <RevealItem>
           <span className="font-questrial text-[10px] tracking-[0.28em] text-cinza uppercase block mb-7">
@@ -476,7 +521,6 @@ function Metodo() {
       className="relative px-8 md:px-14 lg:px-20 py-28 overflow-hidden"
       style={{ background: "transparent" }}
     >
-      <FluidBackground variant={3} />
       <RevealSection className="mb-14">
         <RevealItem>
           <span className="font-questrial text-[10px] tracking-[0.28em] text-cinza uppercase block mb-5">
@@ -602,7 +646,6 @@ function Servicos() {
 
   return (
     <section className="relative px-8 md:px-14 lg:px-20 py-28 overflow-hidden">
-      <FluidBackground variant={4} />
       <RevealSection className="mb-16">
         <RevealItem>
           <span className="font-questrial text-[10px] tracking-[0.28em] text-cinza uppercase block mb-5">
@@ -730,7 +773,6 @@ function SobreBruna() {
       className="relative px-8 md:px-14 lg:px-20 py-28 border-t border-cinza/10 grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-24 overflow-hidden"
       style={{ background: "transparent" }}
     >
-      <FluidBackground variant={5} />
       {/* Foto */}
       <RevealSection>
         <RevealItem>
@@ -806,7 +848,6 @@ function CtaFinal() {
       className="relative px-8 md:px-14 py-36 flex flex-col items-center text-center overflow-hidden"
       style={{ background: "transparent" }}
     >
-      <FluidBackground variant={3} />
       <RevealSection className="max-w-2xl mx-auto w-full">
         <RevealItem>
           <span className="font-questrial text-[10px] tracking-[0.3em] text-cinza uppercase block mb-9">
@@ -877,7 +918,8 @@ function Footer() {
 
 export default function Page() {
   return (
-    <main className="bg-indigo min-h-screen">
+    <main className="bg-indigo min-h-screen relative">
+      <SiteBackground />
       <Nav />
       <Hero />
       <Problema />
