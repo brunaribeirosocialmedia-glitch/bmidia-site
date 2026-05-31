@@ -307,7 +307,7 @@ function Hero() {
 
       {/* Conteúdo com leve reação ao mouse */}
       <motion.div
-        className="absolute inset-0 flex flex-col items-center justify-center px-8"
+        className="absolute inset-0 flex flex-col items-center justify-center px-8 pt-20"
         style={{ x: contentX, y: contentY }}
       >
         <div className="max-w-3xl mx-auto w-full text-center flex flex-col items-center">
@@ -672,11 +672,11 @@ const blocos = [
     text: "Antes de criar qualquer peça, entendemos onde sua marca está e o que ela precisa comunicar. Sem essa leitura, qualquer conteúdo é decoração.",
   },
   {
-    title: "Presença real, não gestão automática",
+    title: "Não trabalho com todo mundo",
     text: "Não trabalhamos com carteira cheia. Cada cliente recebe atenção real, estratégia própria e acompanhamento próximo.",
   },
   {
-    title: "Resultado construído, não prometido",
+    title: "Sem promessa de viral",
     text: "Não vendemos seguidores nem viralização. Vendemos consistência estratégica que constrói percepção de valor ao longo do tempo.",
   },
 ]
@@ -870,7 +870,7 @@ function CtaFinal() {
 function Footer() {
   return (
     <footer
-      className="px-8 md:px-14 py-10 flex flex-col md:flex-row items-center justify-between gap-5"
+      className="relative z-10 px-8 md:px-14 py-10 flex flex-col md:flex-row items-center justify-between gap-5"
       style={{ background: "transparent" }}
     >
       <div className="flex flex-col items-center md:items-start">
