@@ -710,7 +710,7 @@ function SobreBruna() {
       {/* Foto */}
       <RevealSection>
         <RevealItem>
-          <div ref={photoContainerRef} className="relative aspect-[3/4] overflow-hidden" style={{ marginLeft: "5rem" }}>
+          <div ref={photoContainerRef} className="relative aspect-[3/4]" style={{ marginLeft: "8rem" }}>
             {/* Ponto de luz atrás da foto */}
             <div style={{
               position: "absolute",
@@ -726,42 +726,17 @@ function SobreBruna() {
               ref={photoImgRef}
               src={`${BASE}/foto-bruna.png.png`}
               alt="Bruna Ribeiro"
-              className="w-full h-[120%] object-cover object-top relative"
-              style={{ zIndex: 1 }}
+              className="w-full h-[120%] object-cover object-top"
+              style={{
+                zIndex: 1,
+                position: "relative",
+                maskImage: "linear-gradient(to top, transparent 0%, black 38%), linear-gradient(to right, transparent 0%, black 18%), linear-gradient(to bottom, transparent 0%, black 12%), linear-gradient(to left, transparent 0%, black 18%)",
+                maskComposite: "intersect",
+                WebkitMaskImage: "linear-gradient(to top, transparent 0%, black 38%), linear-gradient(to right, transparent 0%, black 18%), linear-gradient(to bottom, transparent 0%, black 12%), linear-gradient(to left, transparent 0%, black 18%)",
+                WebkitMaskComposite: "source-in",
+              }}
               onError={(e) => { ;(e.target as HTMLImageElement).style.display = "none" }}
             />
-            {/* Esfumado base */}
-            <div style={{
-              position: "absolute",
-              bottom: 0, left: 0, right: 0,
-              height: "55%",
-              background: "linear-gradient(to top, #040022 0%, rgba(4,0,34,0.92) 30%, rgba(4,0,34,0.5) 65%, transparent 100%)",
-              zIndex: 2, pointerEvents: "none",
-            }} />
-            {/* Esfumado topo */}
-            <div style={{
-              position: "absolute",
-              top: 0, left: 0, right: 0,
-              height: "25%",
-              background: "linear-gradient(to bottom, #040022 0%, rgba(4,0,34,0.7) 40%, transparent 100%)",
-              zIndex: 2, pointerEvents: "none",
-            }} />
-            {/* Esfumado esquerda */}
-            <div style={{
-              position: "absolute",
-              top: 0, left: 0, bottom: 0,
-              width: "20%",
-              background: "linear-gradient(to right, #040022 0%, transparent 100%)",
-              zIndex: 2, pointerEvents: "none",
-            }} />
-            {/* Esfumado direita */}
-            <div style={{
-              position: "absolute",
-              top: 0, right: 0, bottom: 0,
-              width: "20%",
-              background: "linear-gradient(to left, #040022 0%, transparent 100%)",
-              zIndex: 2, pointerEvents: "none",
-            }} />
           </div>
         </RevealItem>
       </RevealSection>
