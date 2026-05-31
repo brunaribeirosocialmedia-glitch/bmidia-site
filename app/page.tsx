@@ -20,129 +20,64 @@ const BASE = process.env.NODE_ENV === "production" ? "/bmidia-site" : ""
 
 // ─── Fundo contínuo do site inteiro ──────────────────────────────────────────
 
-function SiteBackground() {
+// ─── Ponto de luz ─────────────────────────────────────────────────────────────
+
+function LightDot({ top, left, size, op, delay = 0 }: {
+  top: string; left: string; size: number; op: number; delay?: number
+}) {
   return (
-    <div className="absolute inset-0 w-full h-full pointer-events-none" style={{ zIndex: 0 }}>
-      <svg
-        className="w-full h-full"
-        xmlns="http://www.w3.org/2000/svg"
-        preserveAspectRatio="xMidYMin slice"
-        viewBox="0 0 1440 5000"
-      >
-        {/* Lateral esquerda — fluxo descendente */}
-        <path d="M -80 0 C -80 300 80 500 20 800 C -40 1100 -80 1300 -60 1600 C -20 1900 100 2100 40 2400 C -20 2700 -80 2900 -60 3200 C -20 3500 80 3700 20 4000 C -40 4300 -80 4600 -80 5000 L 160 5000 C 140 4600 220 4300 180 4000 C 120 3700 60 3500 80 3200 C 100 2900 200 2700 160 2400 C 120 2100 40 1900 60 1600 C 80 1300 180 1100 160 800 C 120 500 60 300 80 0 Z"
-          fill="#070430" opacity="0.45" />
-
-        {/* Lateral direita — fluxo descendente espelhado */}
-        <path d="M 1540 0 C 1540 280 1380 480 1420 780 C 1460 1080 1540 1280 1520 1580 C 1480 1880 1360 2080 1400 2380 C 1440 2680 1540 2880 1520 3180 C 1480 3480 1360 3680 1400 3980 C 1440 4280 1540 4580 1540 5000 L 1300 5000 C 1300 4580 1200 4280 1160 3980 C 1120 3680 1240 3480 1280 3180 C 1320 2880 1220 2680 1180 2380 C 1140 2080 1260 1880 1300 1580 C 1340 1280 1220 1080 1180 780 C 1140 480 1280 280 1320 0 Z"
-          fill="#060330" opacity="0.4" />
-
-        {/* Linha fluida diagonal — atravessa o site de ponta a ponta */}
-        <path d="M -80 200 C 300 100 600 400 900 250 C 1150 130 1350 380 1540 280"
-          fill="none" stroke="rgba(160,140,220,0.07)" strokeWidth="1" />
-        <path d="M -80 1200 C 200 1080 500 1380 800 1220 C 1050 1090 1300 1340 1540 1230"
-          fill="none" stroke="rgba(160,140,220,0.06)" strokeWidth="0.8" />
-        <path d="M -80 2200 C 300 2080 600 2380 900 2220 C 1150 2100 1350 2340 1540 2240"
-          fill="none" stroke="rgba(160,140,220,0.06)" strokeWidth="0.8" />
-        <path d="M -80 3200 C 200 3080 500 3380 800 3220 C 1050 3100 1300 3340 1540 3230"
-          fill="none" stroke="rgba(160,140,220,0.05)" strokeWidth="0.7" />
-        <path d="M -80 4200 C 300 4080 600 4380 900 4220 C 1150 4100 1350 4340 1540 4240"
-          fill="none" stroke="rgba(160,140,220,0.05)" strokeWidth="0.7" />
-
-        {/* Acento superior */}
-        <path d="M -80 0 C 200 -30 500 80 800 30 C 1050 -10 1300 70 1540 20 L 1540 120 C 1280 170 1020 90 760 140 C 480 190 200 80 -80 100 Z"
-          fill="#080535" opacity="0.5" />
-
-        {/* Acento inferior */}
-        <path d="M -80 5000 C 200 4970 500 4920 800 4960 C 1050 4990 1300 4940 1540 4970 L 1540 4880 C 1280 4850 1020 4900 760 4860 C 480 4820 200 4870 -80 4900 Z"
-          fill="#060330" opacity="0.5" />
-      </svg>
-    </div>
+    <motion.div
+      style={{
+        position: "absolute",
+        top, left,
+        width: size,
+        height: size,
+        borderRadius: "50%",
+        background: "radial-gradient(circle, rgba(210,200,255,1) 0%, transparent 70%)",
+        opacity: op,
+        transform: "translate(-50%, -50%)",
+        pointerEvents: "none",
+        zIndex: 0,
+      }}
+      animate={{ opacity: [op, op * 2, op] }}
+      transition={{ duration: 4 + delay * 0.5, ease: "easeInOut", repeat: Infinity, delay }}
+    />
   )
 }
 
-// ─── Fundo fluido reutilizável (hero) ─────────────────────────────────────────
-
-function FluidBackground({ variant = 1 }: { variant?: 1 | 2 | 3 | 4 | 5 }) {
-  const configs = {
-    1: {
-      shapes: [
-        { d: "M -80 0 C -80 200 60 280 20 450 C -20 600 -80 650 -80 900 L 180 900 C 140 700 220 580 180 420 C 140 260 240 160 200 0 Z", fill: "#080535", op: 0.45 },
-        { d: "M 1540 0 C 1540 180 1380 260 1420 440 C 1460 600 1540 660 1540 900 L 1280 900 C 1320 680 1220 580 1260 400 C 1300 240 1180 150 1220 0 Z", fill: "#060330", op: 0.45 },
-        { d: "M -80 0 C 100 -20 300 60 500 20 C 700 -20 900 60 1100 20 C 1300 -20 1440 40 1540 0 L 1540 80 C 1380 120 1180 50 980 90 C 780 130 580 50 380 90 C 180 130 20 80 -80 60 Z", fill: "#07042e", op: 0.4 },
-        { d: "M -80 900 C 100 920 300 840 500 880 C 700 920 900 840 1100 880 C 1300 920 1440 860 1540 900 L 1540 820 C 1380 780 1180 850 980 810 C 780 770 580 850 380 810 C 180 770 20 820 -80 840 Z", fill: "#06032a", op: 0.4 },
-      ],
-      lines: [
-        { d: "M -80 120 C 200 60 480 200 720 130 C 940 70 1180 220 1540 150", stroke: "rgba(160,140,220,0.07)", w: 0.9 },
-        { d: "M -80 780 C 200 840 480 700 720 770 C 940 830 1180 680 1540 750", stroke: "rgba(160,140,220,0.06)", w: 0.8 },
-        { d: "M 0 0 C 40 180 -20 360 30 540 C 70 700 0 800 20 900", stroke: "rgba(160,140,220,0.06)", w: 0.7 },
-        { d: "M 1440 0 C 1400 200 1460 380 1420 560 C 1380 720 1440 820 1420 900", stroke: "rgba(160,140,220,0.06)", w: 0.7 },
-      ],
-    },
-    2: {
-      shapes: [
-        { d: "M 1540 0 C 1100 100 900 -50 600 150 C 350 280 500 450 200 380 C 50 340 -50 480 -80 440 L -80 0 Z", fill: "#070430", op: 0.55 },
-        { d: "M -80 900 C 300 820 480 960 780 800 C 1020 660 880 500 1160 560 C 1340 600 1440 480 1540 520 L 1540 900 Z", fill: "#060330", op: 0.5 },
-      ],
-      lines: [
-        { d: "M 1540 200 C 1200 140 980 300 720 210 C 480 130 280 320 -80 240", stroke: "rgba(160,140,220,0.06)", w: 1 },
-        { d: "M 1540 580 C 1260 500 1040 660 780 560 C 560 470 320 640 -80 540", stroke: "rgba(160,140,220,0.04)", w: 0.7 },
-      ],
-    },
-    3: {
-      shapes: [
-        { d: "M -80 0 C 400 -40 600 200 900 80 C 1140 -20 1300 180 1540 120 L 1540 0 Z", fill: "#080435", op: 0.55 },
-        { d: "M -80 900 C 200 860 400 960 700 880 C 950 810 1100 920 1540 870 L 1540 900 Z", fill: "#050228", op: 0.6 },
-        { d: "M 600 0 C 700 200 560 380 720 520 C 860 640 1040 500 1100 680 C 1160 840 1040 900 1200 900 L 600 900 Z", fill: "#07042e", op: 0.28 },
-      ],
-      lines: [
-        { d: "M -80 300 C 200 220 480 400 760 290 C 1020 190 1220 380 1540 300", stroke: "rgba(160,140,220,0.07)", w: 0.9 },
-        { d: "M -80 620 C 300 540 580 700 860 600 C 1100 510 1300 680 1540 600", stroke: "rgba(160,140,220,0.04)", w: 0.7 },
-        { d: "M 200 0 C 340 100 260 220 440 270 C 600 310 700 210 860 250", stroke: "rgba(160,140,220,0.05)", w: 0.5 },
-      ],
-    },
-    4: {
-      shapes: [
-        { d: "M -80 200 C 300 100 500 300 800 180 C 1050 80 1250 260 1540 160 L 1540 0 L -80 0 Z", fill: "#080432", op: 0.5 },
-        { d: "M -80 700 C 200 640 500 780 800 680 C 1060 590 1280 740 1540 660 L 1540 900 L -80 900 Z", fill: "#060330", op: 0.55 },
-      ],
-      lines: [
-        { d: "M -80 380 C 300 280 600 460 900 350 C 1160 250 1360 420 1540 360", stroke: "rgba(160,140,220,0.06)", w: 0.9 },
-        { d: "M -80 500 C 250 440 520 580 820 480 C 1080 390 1300 540 1540 470", stroke: "rgba(160,140,220,0.04)", w: 0.6 },
-      ],
-    },
-    5: {
-      shapes: [
-        { d: "M 0 0 C 480 80 720 -60 1100 100 C 1300 180 1440 80 1540 120 L 1540 0 Z", fill: "#090535", op: 0.5 },
-        { d: "M 0 900 C 360 820 640 940 960 840 C 1200 760 1380 880 1540 820 L 1540 900 Z", fill: "#060330", op: 0.6 },
-        { d: "M 760 0 C 840 180 700 360 860 500 C 1000 620 1200 480 1260 660 C 1320 820 1200 900 1540 900 L 1540 0 Z", fill: "#07042c", op: 0.25 },
-      ],
-      lines: [
-        { d: "M -80 250 C 300 160 600 340 920 220 C 1180 120 1380 300 1540 240", stroke: "rgba(160,140,220,0.08)", w: 1 },
-        { d: "M -80 650 C 240 560 540 720 840 610 C 1100 510 1320 680 1540 610", stroke: "rgba(160,140,220,0.05)", w: 0.7 },
-        { d: "M 500 0 C 620 90 520 200 700 240 C 860 275 980 180 1140 210", stroke: "rgba(160,140,220,0.05)", w: 0.55 },
-      ],
-    },
-  }
-
-  const c = configs[variant]
-
+function SiteBackground() {
   return (
-    <svg
-      aria-hidden
-      className="absolute inset-0 w-full h-full pointer-events-none"
-      style={{ zIndex: 0 }}
-      xmlns="http://www.w3.org/2000/svg"
-      preserveAspectRatio="xMidYMid slice"
-      viewBox="0 0 1440 900"
-    >
-      {c.shapes.map((s, i) => (
-        <path key={i} d={s.d} fill={s.fill} opacity={s.op} />
+    <div className="absolute inset-0 w-full h-full pointer-events-none" style={{ zIndex: 0 }}>
+      {/* Pontos ao longo do site inteiro — posições estratégicas */}
+      {[
+        // Topo — cantos
+        { top: "3%",  left: "6%",   size: 260, op: 0.07, delay: 0 },
+        { top: "5%",  left: "94%",  size: 220, op: 0.07, delay: 1.2 },
+        // Seção problema
+        { top: "18%", left: "2%",   size: 180, op: 0.06, delay: 0.5 },
+        { top: "22%", left: "96%",  size: 200, op: 0.06, delay: 1.8 },
+        { top: "25%", left: "50%",  size: 140, op: 0.04, delay: 2.1 },
+        // Seção método
+        { top: "35%", left: "8%",   size: 160, op: 0.05, delay: 0.8 },
+        { top: "38%", left: "92%",  size: 190, op: 0.06, delay: 1.5 },
+        // Seção serviços
+        { top: "50%", left: "3%",   size: 200, op: 0.06, delay: 1.0 },
+        { top: "52%", left: "97%",  size: 170, op: 0.05, delay: 2.3 },
+        { top: "55%", left: "45%",  size: 120, op: 0.04, delay: 0.3 },
+        // Seção como trabalhamos
+        { top: "64%", left: "10%",  size: 180, op: 0.06, delay: 1.7 },
+        { top: "67%", left: "90%",  size: 160, op: 0.05, delay: 0.6 },
+        // Seção sobre — maior atrás da foto
+        { top: "76%", left: "22%",  size: 380, op: 0.09, delay: 1.1 },
+        { top: "80%", left: "85%",  size: 150, op: 0.05, delay: 2.0 },
+        // CTA e footer
+        { top: "90%", left: "5%",   size: 200, op: 0.06, delay: 0.9 },
+        { top: "92%", left: "95%",  size: 220, op: 0.07, delay: 1.4 },
+        { top: "96%", left: "50%",  size: 160, op: 0.05, delay: 0.2 },
+      ].map((d, i) => (
+        <LightDot key={i} {...d} />
       ))}
-      {c.lines.map((l, i) => (
-        <path key={i} d={l.d} fill="none" stroke={l.stroke} strokeWidth={l.w} />
-      ))}
-    </svg>
+    </div>
   )
 }
 const EASE_EXPO: [number, number, number, number] = [0.16, 1, 0.3, 1]
@@ -296,41 +231,19 @@ function Hero() {
       onMouseMove={handleMouseMove}
       onMouseLeave={() => { mouseX.set(0); mouseY.set(0) }}
     >
-      {/* Pontos de luz sutis */}
+      {/* Pontos de luz do hero */}
       <div className="absolute inset-0 pointer-events-none">
         {[
-          { top: "12%", left: "8%", size: 180, op: 0.09 },
-          { top: "55%", left: "4%", size: 120, op: 0.07 },
-          { top: "80%", left: "15%", size: 90, op: 0.06 },
-          { top: "8%", left: "88%", size: 160, op: 0.09 },
-          { top: "45%", left: "93%", size: 110, op: 0.07 },
-          { top: "75%", left: "85%", size: 100, op: 0.06 },
-          { top: "30%", left: "20%", size: 60, op: 0.05 },
-          { top: "65%", left: "75%", size: 70, op: 0.05 },
-          { top: "20%", left: "65%", size: 50, op: 0.04 },
-          { top: "88%", left: "50%", size: 80, op: 0.05 },
+          { top: "10%",  left: "6%",  size: 260, op: 0.1,  delay: 0 },
+          { top: "60%",  left: "3%",  size: 180, op: 0.08, delay: 1.1 },
+          { top: "85%",  left: "12%", size: 140, op: 0.07, delay: 2.0 },
+          { top: "8%",   left: "90%", size: 240, op: 0.1,  delay: 0.6 },
+          { top: "50%",  left: "94%", size: 170, op: 0.08, delay: 1.8 },
+          { top: "78%",  left: "86%", size: 150, op: 0.07, delay: 0.3 },
+          { top: "30%",  left: "18%", size: 100, op: 0.06, delay: 1.4 },
+          { top: "70%",  left: "78%", size: 110, op: 0.06, delay: 0.9 },
         ].map((dot, i) => (
-          <motion.div
-            key={i}
-            style={{
-              position: "absolute",
-              top: dot.top,
-              left: dot.left,
-              width: dot.size,
-              height: dot.size,
-              borderRadius: "50%",
-              background: "radial-gradient(circle, rgba(200,190,255,1) 0%, transparent 70%)",
-              opacity: dot.op,
-              transform: "translate(-50%, -50%)",
-            }}
-            animate={{ opacity: [dot.op, dot.op * 1.8, dot.op] }}
-            transition={{
-              duration: 3 + i * 0.7,
-              ease: "easeInOut",
-              repeat: Infinity,
-              delay: i * 0.4,
-            }}
-          />
+          <LightDot key={i} {...dot} />
         ))}
       </div>
 
@@ -795,13 +708,24 @@ function SobreBruna() {
       {/* Foto */}
       <RevealSection>
         <RevealItem>
-          <div ref={photoContainerRef} className="bg-[#0a0030] aspect-[3/4] overflow-hidden">
+          <div ref={photoContainerRef} className="relative aspect-[3/4] overflow-hidden">
+            {/* Ponto de luz atrás da foto */}
+            <div style={{
+              position: "absolute",
+              top: "30%", left: "50%",
+              width: 500, height: 500,
+              borderRadius: "50%",
+              background: "radial-gradient(circle, rgba(200,190,255,1) 0%, transparent 65%)",
+              opacity: 0.13,
+              transform: "translate(-50%, -50%)",
+              zIndex: 0,
+            }} />
             <img
               ref={photoImgRef}
               src={`${BASE}/foto-bruna.jpg`}
               alt="Bruna Ribeiro"
-              className="w-full h-[120%] object-cover object-top"
-              style={{ filter: "grayscale(15%) contrast(1.05)" }}
+              className="w-full h-[120%] object-cover object-top relative"
+              style={{ filter: "grayscale(15%) contrast(1.05)", zIndex: 1 }}
               onError={(e) => { ;(e.target as HTMLImageElement).style.display = "none" }}
             />
           </div>
