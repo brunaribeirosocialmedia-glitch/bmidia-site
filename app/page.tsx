@@ -710,15 +710,15 @@ function SobreBruna() {
       {/* Foto */}
       <RevealSection>
         <RevealItem>
-          <div ref={photoContainerRef} className="relative aspect-[3/4]">
+          <div ref={photoContainerRef} className="relative aspect-[3/4]" style={{ marginLeft: "2rem" }}>
             {/* Ponto de luz atrás da foto */}
             <div style={{
               position: "absolute",
-              top: "30%", left: "50%",
-              width: 500, height: 500,
+              top: "35%", left: "50%",
+              width: 560, height: 560,
               borderRadius: "50%",
               background: "radial-gradient(circle, rgba(200,190,255,1) 0%, transparent 65%)",
-              opacity: 0.13,
+              opacity: 0.15,
               transform: "translate(-50%, -50%)",
               zIndex: 0,
             }} />
@@ -730,6 +730,24 @@ function SobreBruna() {
               style={{ zIndex: 1 }}
               onError={(e) => { ;(e.target as HTMLImageElement).style.display = "none" }}
             />
+            {/* Esfumado na base — transição suave da foto para o fundo */}
+            <div style={{
+              position: "absolute",
+              bottom: 0, left: 0, right: 0,
+              height: "35%",
+              background: "linear-gradient(to top, #040022 0%, rgba(4,0,34,0.7) 40%, transparent 100%)",
+              zIndex: 2,
+              pointerEvents: "none",
+            }} />
+            {/* Esfumado lateral direita — integra com o texto */}
+            <div style={{
+              position: "absolute",
+              top: 0, right: 0, bottom: 0,
+              width: "25%",
+              background: "linear-gradient(to left, #040022 0%, transparent 100%)",
+              zIndex: 2,
+              pointerEvents: "none",
+            }} />
           </div>
         </RevealItem>
       </RevealSection>
