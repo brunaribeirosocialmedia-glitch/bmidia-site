@@ -714,7 +714,7 @@ function SobreBruna() {
             {/* Ponto de luz atrás da foto */}
             <div style={{
               position: "absolute",
-              top: "35%", left: "50%",
+              top: "42%", left: "50%",
               width: 680, height: 680,
               borderRadius: "50%",
               background: "radial-gradient(circle, rgba(210,200,255,1) 0%, transparent 65%)",
@@ -726,14 +726,12 @@ function SobreBruna() {
               ref={photoImgRef}
               src={`${BASE}/foto-bruna.png.png`}
               alt="Bruna Ribeiro"
-              className="w-full h-[120%] object-cover object-top"
+              className="w-full h-full object-contain object-center"
               style={{
                 zIndex: 1,
                 position: "relative",
-                maskImage: "linear-gradient(to top, transparent 0%, black 38%), linear-gradient(to right, transparent 0%, black 18%), linear-gradient(to bottom, transparent 0%, black 12%), linear-gradient(to left, transparent 0%, black 18%)",
-                maskComposite: "intersect",
-                WebkitMaskImage: "linear-gradient(to top, transparent 0%, black 38%), linear-gradient(to right, transparent 0%, black 18%), linear-gradient(to bottom, transparent 0%, black 12%), linear-gradient(to left, transparent 0%, black 18%)",
-                WebkitMaskComposite: "source-in",
+                maskImage: "radial-gradient(ellipse 75% 82% at 50% 42%, black 30%, rgba(0,0,0,0.8) 55%, transparent 78%)",
+                WebkitMaskImage: "radial-gradient(ellipse 75% 82% at 50% 42%, black 30%, rgba(0,0,0,0.8) 55%, transparent 78%)",
               }}
               onError={(e) => { ;(e.target as HTMLImageElement).style.display = "none" }}
             />
