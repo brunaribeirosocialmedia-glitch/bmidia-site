@@ -263,11 +263,12 @@ function Hero() {
 
         <FluidBackground variant={1} />
 
-        {/* Vinheta suave nas bordas */}
+        {/* Gradiente inferior para fundir com a próxima seção */}
         <div
-          className="absolute inset-0"
+          className="absolute bottom-0 left-0 right-0"
           style={{
-            background: "radial-gradient(ellipse 90% 90% at 50% 50%, transparent 35%, rgba(2,0,15,0.65) 100%)",
+            height: "30%",
+            background: "linear-gradient(to bottom, transparent, rgba(4,0,34,0.8))",
           }}
         />
       </motion.div>
