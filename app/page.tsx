@@ -71,9 +71,11 @@ function SiteBackground() {
         { top: "76%", left: "22%",  size: 380, op: 0.09, delay: 1.1 },
         { top: "80%", left: "85%",  size: 150, op: 0.05, delay: 2.0 },
         // CTA e footer
-        { top: "90%", left: "5%",   size: 200, op: 0.06, delay: 0.9 },
-        { top: "92%", left: "95%",  size: 220, op: 0.07, delay: 1.4 },
-        { top: "96%", left: "50%",  size: 160, op: 0.05, delay: 0.2 },
+        { top: "90%", left: "5%",   size: 300, op: 0.09, delay: 0.9 },
+        { top: "92%", left: "95%",  size: 320, op: 0.1,  delay: 1.4 },
+        { top: "96%", left: "50%",  size: 260, op: 0.08, delay: 0.2 },
+        { top: "88%", left: "30%",  size: 200, op: 0.06, delay: 1.8 },
+        { top: "94%", left: "70%",  size: 180, op: 0.06, delay: 0.7 },
       ].map((d, i) => (
         <LightDot key={i} {...d} />
       ))}
