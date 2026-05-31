@@ -710,7 +710,7 @@ function SobreBruna() {
       {/* Foto */}
       <RevealSection>
         <RevealItem>
-          <div ref={photoContainerRef} className="relative aspect-[3/4]" style={{ marginLeft: "8rem" }}>
+          <div ref={photoContainerRef} className="relative aspect-[3/4]" style={{ marginLeft: "10rem" }}>
             {/* Ponto de luz atrás da foto */}
             <div style={{
               position: "absolute",
@@ -730,7 +730,7 @@ function SobreBruna() {
               style={{
                 zIndex: 1,
                 position: "relative",
-                transform: "scale(1.15)",
+                transform: "scale(1.28)",
                 maskImage: "radial-gradient(ellipse 75% 82% at 50% 42%, black 30%, rgba(0,0,0,0.8) 55%, transparent 78%)",
                 WebkitMaskImage: "radial-gradient(ellipse 75% 82% at 50% 42%, black 30%, rgba(0,0,0,0.8) 55%, transparent 78%)",
               }}
