@@ -296,13 +296,43 @@ function Hero() {
       onMouseMove={handleMouseMove}
       onMouseLeave={() => { mouseX.set(0); mouseY.set(0) }}
     >
-      {/* Formas fluidas do hero com respiração e reação ao mouse */}
-      <motion.div
-        className="absolute inset-0 pointer-events-none"
-        style={{ x: shapeX, y: shapeY }}
-      >
-        <FluidBackground variant={1} />
-      </motion.div>
+      {/* Pontos de luz sutis */}
+      <div className="absolute inset-0 pointer-events-none">
+        {[
+          { top: "12%", left: "8%", size: 180, op: 0.09 },
+          { top: "55%", left: "4%", size: 120, op: 0.07 },
+          { top: "80%", left: "15%", size: 90, op: 0.06 },
+          { top: "8%", left: "88%", size: 160, op: 0.09 },
+          { top: "45%", left: "93%", size: 110, op: 0.07 },
+          { top: "75%", left: "85%", size: 100, op: 0.06 },
+          { top: "30%", left: "20%", size: 60, op: 0.05 },
+          { top: "65%", left: "75%", size: 70, op: 0.05 },
+          { top: "20%", left: "65%", size: 50, op: 0.04 },
+          { top: "88%", left: "50%", size: 80, op: 0.05 },
+        ].map((dot, i) => (
+          <motion.div
+            key={i}
+            style={{
+              position: "absolute",
+              top: dot.top,
+              left: dot.left,
+              width: dot.size,
+              height: dot.size,
+              borderRadius: "50%",
+              background: "radial-gradient(circle, rgba(200,190,255,1) 0%, transparent 70%)",
+              opacity: dot.op,
+              transform: "translate(-50%, -50%)",
+            }}
+            animate={{ opacity: [dot.op, dot.op * 1.8, dot.op] }}
+            transition={{
+              duration: 3 + i * 0.7,
+              ease: "easeInOut",
+              repeat: Infinity,
+              delay: i * 0.4,
+            }}
+          />
+        ))}
+      </div>
 
 
       {/* Conteúdo com leve reação ao mouse */}
@@ -347,14 +377,21 @@ function Hero() {
           {/* Headline */}
           <div style={{ overflow: "hidden" }} className="mb-10">
             <motion.h1
-              className="font-cormorant text-[2rem] md:text-[3.2rem] text-branco text-center"
-              style={{ letterSpacing: "0.02em", lineHeight: 1.4 }}
+              className="font-cormorant text-[1.6rem] md:text-[2.4rem] lg:text-[2.8rem] text-branco text-center"
+              style={{ letterSpacing: "0.02em", lineHeight: 1.35, whiteSpace: "nowrap" }}
               initial={{ clipPath: "inset(0 100% 0 0)" }}
               animate={{ clipPath: "inset(0 0% 0 0)" }}
               transition={{ delay: 0.4, duration: 1.0, ease: [0.76, 0, 0.24, 1] }}
             >
               Sua marca não precisa de mais publicações.
-              <br />
+            </motion.h1>
+            <motion.h1
+              className="font-cormorant text-[1.6rem] md:text-[2.4rem] lg:text-[2.8rem] text-branco text-center"
+              style={{ letterSpacing: "0.02em", lineHeight: 1.35 }}
+              initial={{ clipPath: "inset(0 100% 0 0)" }}
+              animate={{ clipPath: "inset(0 0% 0 0)" }}
+              transition={{ delay: 0.65, duration: 1.0, ease: [0.76, 0, 0.24, 1] }}
+            >
               Precisa ser <em className="italic text-cinzaclaro">reconhecida.</em>
             </motion.h1>
           </div>
@@ -372,13 +409,13 @@ function Hero() {
           {/* CTA */}
           <motion.a
             href="#cta"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 1.6, duration: 0.9, ease: EASE_EXPO }}
             whileHover={{ backgroundColor: "#f8f8f6", color: "#040022" }}
             whileTap={{ scale: 0.97 }}
             className="inline-block font-questrial text-[0.72rem] tracking-[0.18em] uppercase text-cinzaclaro transition-colors duration-300 rounded-[6px]"
             style={{ border: "0.5px solid #e1e1e1", padding: "0.8rem 2rem" }}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1.6, duration: 0.9, ease: EASE_EXPO }}
           >
             Vamos entender sua marca
           </motion.a>
