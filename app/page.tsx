@@ -474,7 +474,7 @@ function Metodo() {
     <section
       id="servicos"
       className="relative px-8 md:px-14 lg:px-20 py-28 overflow-hidden"
-      style={{ background: "rgba(255,255,255,0.015)" }}
+      style={{ background: "transparent" }}
     >
       <FluidBackground variant={3} />
       <RevealSection className="mb-14">
@@ -660,7 +660,7 @@ function ComoTrabalhamos() {
     <section
       id="agencia"
       className="relative px-8 md:px-14 lg:px-20 py-28 overflow-hidden"
-      style={{ background: "rgba(255,255,255,0.015)" }}
+      style={{ background: "transparent" }}
     >
       <FluidBackground variant={1} />
 
@@ -728,7 +728,7 @@ function SobreBruna() {
   return (
     <section
       className="relative px-8 md:px-14 lg:px-20 py-28 border-t border-cinza/10 grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-24 overflow-hidden"
-      style={{ background: "rgba(255,255,255,0.015)" }}
+      style={{ background: "transparent" }}
     >
       <FluidBackground variant={5} />
       {/* Foto */}
@@ -804,7 +804,7 @@ function CtaFinal() {
     <section
       id="cta"
       className="relative px-8 md:px-14 py-36 flex flex-col items-center text-center overflow-hidden"
-      style={{ background: "#020015" }}
+      style={{ background: "transparent" }}
     >
       <FluidBackground variant={3} />
       <RevealSection className="max-w-2xl mx-auto w-full">
@@ -848,7 +848,7 @@ function Footer() {
   return (
     <footer
       className="px-8 md:px-14 py-10 flex flex-col md:flex-row items-center justify-between gap-5"
-      style={{ background: "#020015" }}
+      style={{ background: "transparent" }}
     >
       <div className="flex flex-col items-center md:items-start">
         <span className="font-cormorant text-lg text-branco tracking-wide">B Mídia</span>
