@@ -27,7 +27,6 @@ function FluidBackground({ variant = 1 }: { variant?: 1 | 2 | 3 | 4 | 5 }) {
       shapes: [
         { d: "M -80 0 C 300 60 250 -60 700 100 C 950 220 700 380 1050 300 C 1250 250 1350 440 1540 380 L 1540 0 Z", fill: "#080535", op: 0.6 },
         { d: "M 1540 900 C 1100 800 950 920 680 740 C 440 600 600 440 320 510 C 120 570 -20 430 -80 500 L -80 900 Z", fill: "#060330", op: 0.55 },
-        { d: "M 200 0 C 380 120 240 280 460 400 C 640 510 820 340 900 480 C 980 610 820 740 980 900 L 200 900 Z", fill: "#07042e", op: 0.3 },
       ],
       lines: [
         { d: "M -80 160 C 250 80 480 260 720 170 C 940 90 1080 290 1380 210 C 1460 185 1510 240 1540 220", stroke: "rgba(160,140,220,0.07)", w: 1 },
@@ -294,8 +293,8 @@ function Hero() {
               initial={{ opacity: 0, rotateY: 0 }}
               animate={{ opacity: 1, rotateY: 360 }}
               transition={{
-                opacity: { duration: 2.0, ease: "easeOut", delay: 0.3 },
-                rotateY: { duration: 4.5, ease: [0.25, 0.1, 0.25, 1], delay: 0.3 },
+                opacity: { duration: 0.7, ease: "easeOut", delay: 0.1 },
+                rotateY: { duration: 3.0, ease: [0.25, 0.1, 0.25, 1], delay: 0.1 },
               }}
               onError={(e) => {
                 ;(e.target as HTMLImageElement).style.display = "none"
@@ -307,7 +306,7 @@ function Hero() {
           <motion.div
             initial={{ scaleX: 0, opacity: 0 }}
             animate={{ scaleX: 1, opacity: 1 }}
-            transition={{ delay: 1.6, duration: 1.4, ease: EASE_EXPO }}
+            transition={{ delay: 0.5, duration: 0.8, ease: EASE_EXPO }}
             className="origin-center mb-8"
             style={{ width: 60, height: "0.5px", backgroundColor: "rgba(255,255,255,0.15)" }}
           />
@@ -319,7 +318,7 @@ function Hero() {
               style={{ letterSpacing: "0.02em", lineHeight: 1.4 }}
               initial={{ clipPath: "inset(0 100% 0 0)" }}
               animate={{ clipPath: "inset(0 0% 0 0)" }}
-              transition={{ delay: 1.9, duration: 1.6, ease: [0.76, 0, 0.24, 1] }}
+              transition={{ delay: 0.4, duration: 1.0, ease: [0.76, 0, 0.24, 1] }}
             >
               Sua marca não precisa de mais publicações.
               <br />
@@ -332,7 +331,7 @@ function Hero() {
             className="font-questrial text-[0.9rem] tracking-[0.08em] text-cinza mb-10 text-center"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 3.2, duration: 1.4, ease: EASE_EXPO }}
+            transition={{ delay: 1.2, duration: 0.9, ease: EASE_EXPO }}
           >
             Comunicação sem observação é decoração.
           </motion.p>
@@ -346,7 +345,7 @@ function Hero() {
             style={{ border: "0.5px solid #e1e1e1", padding: "0.8rem 2rem" }}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 3.7, duration: 1.4, ease: EASE_EXPO }}
+            transition={{ delay: 1.6, duration: 0.9, ease: EASE_EXPO }}
           >
             Vamos entender sua marca
           </motion.a>
