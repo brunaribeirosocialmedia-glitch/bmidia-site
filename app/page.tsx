@@ -710,7 +710,7 @@ function SobreBruna() {
       {/* Foto */}
       <RevealSection>
         <RevealItem>
-          <div ref={photoContainerRef} className="relative aspect-[3/4] overflow-hidden">
+          <div ref={photoContainerRef} className="relative aspect-[3/4]">
             {/* Ponto de luz atrás da foto */}
             <div style={{
               position: "absolute",
@@ -724,10 +724,10 @@ function SobreBruna() {
             }} />
             <img
               ref={photoImgRef}
-              src={`${BASE}/foto-bruna.jpg`}
+              src={`${BASE}/foto-bruna.png`}
               alt="Bruna Ribeiro"
               className="w-full h-[120%] object-cover object-top relative"
-              style={{ filter: "grayscale(15%) contrast(1.05)", zIndex: 1 }}
+              style={{ zIndex: 1 }}
               onError={(e) => { ;(e.target as HTMLImageElement).style.display = "none" }}
             />
           </div>
