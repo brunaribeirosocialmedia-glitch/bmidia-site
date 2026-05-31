@@ -25,13 +25,16 @@ function FluidBackground({ variant = 1 }: { variant?: 1 | 2 | 3 | 4 | 5 }) {
   const configs = {
     1: {
       shapes: [
-        { d: "M -80 0 C 300 60 250 -60 700 100 C 950 220 700 380 1050 300 C 1250 250 1350 440 1540 380 L 1540 0 Z", fill: "#080535", op: 0.6 },
-        { d: "M 1540 900 C 1100 800 950 920 680 740 C 440 600 600 440 320 510 C 120 570 -20 430 -80 500 L -80 900 Z", fill: "#060330", op: 0.55 },
+        { d: "M -80 0 C -80 200 60 280 20 450 C -20 600 -80 650 -80 900 L 180 900 C 140 700 220 580 180 420 C 140 260 240 160 200 0 Z", fill: "#080535", op: 0.45 },
+        { d: "M 1540 0 C 1540 180 1380 260 1420 440 C 1460 600 1540 660 1540 900 L 1280 900 C 1320 680 1220 580 1260 400 C 1300 240 1180 150 1220 0 Z", fill: "#060330", op: 0.45 },
+        { d: "M -80 0 C 100 -20 300 60 500 20 C 700 -20 900 60 1100 20 C 1300 -20 1440 40 1540 0 L 1540 80 C 1380 120 1180 50 980 90 C 780 130 580 50 380 90 C 180 130 20 80 -80 60 Z", fill: "#07042e", op: 0.4 },
+        { d: "M -80 900 C 100 920 300 840 500 880 C 700 920 900 840 1100 880 C 1300 920 1440 860 1540 900 L 1540 820 C 1380 780 1180 850 980 810 C 780 770 580 850 380 810 C 180 770 20 820 -80 840 Z", fill: "#06032a", op: 0.4 },
       ],
       lines: [
-        { d: "M -80 160 C 250 80 480 260 720 170 C 940 90 1080 290 1380 210 C 1460 185 1510 240 1540 220", stroke: "rgba(160,140,220,0.07)", w: 1 },
-        { d: "M -80 500 C 180 420 360 560 600 470 C 800 395 980 580 1220 490 C 1380 430 1460 510 1540 480", stroke: "rgba(160,140,220,0.05)", w: 0.8 },
-        { d: "M 350 0 C 480 70 390 160 580 195 C 720 220 820 140 1000 175 C 1120 200 1180 130 1300 100", stroke: "rgba(160,140,220,0.05)", w: 0.6 },
+        { d: "M -80 120 C 200 60 480 200 720 130 C 940 70 1180 220 1540 150", stroke: "rgba(160,140,220,0.07)", w: 0.9 },
+        { d: "M -80 780 C 200 840 480 700 720 770 C 940 830 1180 680 1540 750", stroke: "rgba(160,140,220,0.06)", w: 0.8 },
+        { d: "M 0 0 C 40 180 -20 360 30 540 C 70 700 0 800 20 900", stroke: "rgba(160,140,220,0.06)", w: 0.7 },
+        { d: "M 1440 0 C 1400 200 1460 380 1420 560 C 1380 720 1440 820 1420 900", stroke: "rgba(160,140,220,0.06)", w: 0.7 },
       ],
     },
     2: {
@@ -370,7 +373,7 @@ function Problema() {
   return (
     <section
       id="metodo"
-      className="relative px-8 md:px-14 lg:px-20 py-28 grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-24 border-t border-cinza/10 overflow-hidden"
+      className="relative px-8 md:px-14 lg:px-20 py-28 grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-24 overflow-hidden"
     >
       <FluidBackground variant={2} />
       <RevealSection>
@@ -470,7 +473,7 @@ function Metodo() {
   return (
     <section
       id="servicos"
-      className="relative px-8 md:px-14 lg:px-20 py-28 border-t border-cinza/10 overflow-hidden"
+      className="relative px-8 md:px-14 lg:px-20 py-28 overflow-hidden"
       style={{ background: "rgba(255,255,255,0.015)" }}
     >
       <FluidBackground variant={3} />
@@ -598,7 +601,7 @@ function Servicos() {
   const inView = useInView(ref, { once: true, amount: 0.08 })
 
   return (
-    <section className="relative px-8 md:px-14 lg:px-20 py-28 border-t border-cinza/10 overflow-hidden">
+    <section className="relative px-8 md:px-14 lg:px-20 py-28 overflow-hidden">
       <FluidBackground variant={4} />
       <RevealSection className="mb-16">
         <RevealItem>
@@ -656,7 +659,7 @@ function ComoTrabalhamos() {
   return (
     <section
       id="agencia"
-      className="relative px-8 md:px-14 lg:px-20 py-28 border-t border-cinza/10 overflow-hidden"
+      className="relative px-8 md:px-14 lg:px-20 py-28 overflow-hidden"
       style={{ background: "rgba(255,255,255,0.015)" }}
     >
       <FluidBackground variant={1} />
@@ -800,7 +803,7 @@ function CtaFinal() {
   return (
     <section
       id="cta"
-      className="px-8 md:px-14 py-36 border-t border-cinza/10 flex flex-col items-center text-center"
+      className="relative px-8 md:px-14 py-36 flex flex-col items-center text-center overflow-hidden"
       style={{ background: "#020015" }}
     >
       <FluidBackground variant={3} />
@@ -844,7 +847,7 @@ function CtaFinal() {
 function Footer() {
   return (
     <footer
-      className="px-8 md:px-14 py-10 border-t border-cinza/10 flex flex-col md:flex-row items-center justify-between gap-5"
+      className="px-8 md:px-14 py-10 flex flex-col md:flex-row items-center justify-between gap-5"
       style={{ background: "#020015" }}
     >
       <div className="flex flex-col items-center md:items-start">
