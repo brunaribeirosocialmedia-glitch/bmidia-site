@@ -22,7 +22,7 @@ const BASE = process.env.NODE_ENV === "production" ? "/bmidia-site" : ""
 
 function SiteBackground() {
   return (
-    <div className="fixed inset-0 pointer-events-none" style={{ zIndex: 0 }}>
+    <div className="absolute inset-0 w-full h-full pointer-events-none" style={{ zIndex: 0 }}>
       <svg
         className="w-full h-full"
         xmlns="http://www.w3.org/2000/svg"
@@ -304,23 +304,6 @@ function Hero() {
         <FluidBackground variant={1} />
       </motion.div>
 
-      {/* Linha de luz diagonal percorrendo o hero em loop */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        <motion.div
-          style={{
-            position: "absolute",
-            top: "-10%",
-            left: "-20%",
-            width: "2px",
-            height: "140%",
-            background: "linear-gradient(to bottom, transparent, rgba(180,160,255,0.18), transparent)",
-            rotate: "25deg",
-            transformOrigin: "top center",
-          }}
-          animate={{ x: ["0vw", "160vw"] }}
-          transition={{ duration: 5, ease: "linear", repeat: Infinity, repeatDelay: 3 }}
-        />
-      </div>
 
       {/* Conteúdo com leve reação ao mouse */}
       <motion.div
@@ -419,7 +402,7 @@ function Problema() {
   return (
     <section
       id="metodo"
-      className="relative px-8 md:px-14 lg:px-20 py-28 grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-24 overflow-hidden"
+      className="relative px-8 md:px-14 lg:px-20 py-28 grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-24"
     >
       <RevealSection>
         <RevealItem>
@@ -518,7 +501,7 @@ function Metodo() {
   return (
     <section
       id="servicos"
-      className="relative px-8 md:px-14 lg:px-20 py-28 overflow-hidden"
+      className="relative px-8 md:px-14 lg:px-20 py-28"
       style={{ background: "transparent" }}
     >
       <RevealSection className="mb-14">
@@ -645,7 +628,7 @@ function Servicos() {
   const inView = useInView(ref, { once: true, amount: 0.08 })
 
   return (
-    <section className="relative px-8 md:px-14 lg:px-20 py-28 overflow-hidden">
+    <section className="relative px-8 md:px-14 lg:px-20 py-28">
       <RevealSection className="mb-16">
         <RevealItem>
           <span className="font-questrial text-[10px] tracking-[0.28em] text-cinza uppercase block mb-5">
@@ -702,10 +685,9 @@ function ComoTrabalhamos() {
   return (
     <section
       id="agencia"
-      className="relative px-8 md:px-14 lg:px-20 py-28 overflow-hidden"
+      className="relative px-8 md:px-14 lg:px-20 py-28"
       style={{ background: "transparent" }}
     >
-      <FluidBackground variant={1} />
 
       <RevealSection className="max-w-2xl mb-16">
         <RevealItem>
@@ -770,7 +752,7 @@ function SobreBruna() {
 
   return (
     <section
-      className="relative px-8 md:px-14 lg:px-20 py-28 border-t border-cinza/10 grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-24 overflow-hidden"
+      className="relative px-8 md:px-14 lg:px-20 py-28 grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-24"
       style={{ background: "transparent" }}
     >
       {/* Foto */}
@@ -845,7 +827,7 @@ function CtaFinal() {
   return (
     <section
       id="cta"
-      className="relative px-8 md:px-14 py-36 flex flex-col items-center text-center overflow-hidden"
+      className="relative px-8 md:px-14 py-36 flex flex-col items-center text-center"
       style={{ background: "transparent" }}
     >
       <RevealSection className="max-w-2xl mx-auto w-full">
