@@ -714,7 +714,7 @@ function SobreBruna() {
             {/* Ponto de luz atrás da foto */}
             <div style={{
               position: "absolute",
-              top: "42%", left: "50%",
+              top: "42%", left: "38%",
               width: 680, height: 680,
               borderRadius: "50%",
               background: "radial-gradient(circle, rgba(210,200,255,1) 0%, transparent 65%)",
@@ -726,10 +726,11 @@ function SobreBruna() {
               ref={photoImgRef}
               src={`${BASE}/foto-bruna.png.png`}
               alt="Bruna Ribeiro"
-              className="w-full h-full object-contain object-center"
+              className="w-full h-full object-cover object-center"
               style={{
                 zIndex: 1,
                 position: "relative",
+                transform: "scale(1.15)",
                 maskImage: "radial-gradient(ellipse 75% 82% at 50% 42%, black 30%, rgba(0,0,0,0.8) 55%, transparent 78%)",
                 WebkitMaskImage: "radial-gradient(ellipse 75% 82% at 50% 42%, black 30%, rgba(0,0,0,0.8) 55%, transparent 78%)",
               }}
