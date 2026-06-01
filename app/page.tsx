@@ -67,8 +67,7 @@ function SiteBackground() {
         // Seção como trabalhamos
         { top: "64%", left: "10%",  size: 180, op: 0.06, delay: 1.7 },
         { top: "67%", left: "90%",  size: 160, op: 0.05, delay: 0.6 },
-        // Seção sobre — maior atrás da foto
-        { top: "76%", left: "22%",  size: 380, op: 0.09, delay: 1.1 },
+        // Seção sobre — ponto lateral direito apenas
         { top: "80%", left: "85%",  size: 150, op: 0.05, delay: 2.0 },
         // CTA e footer
         { top: "90%", left: "5%",   size: 300, op: 0.09, delay: 0.9 },
