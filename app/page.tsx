@@ -262,7 +262,7 @@ function Hero() {
               src={`${BASE}/logo-bm%C3%ADdia-branco.png`}
               alt="B Mídia"
               style={{
-                height: 200,
+                height: "clamp(100px, 15vw, 200px)",
                 width: "auto",
                 objectFit: "contain",
                 display: "block",
@@ -290,18 +290,19 @@ function Hero() {
           />
 
           {/* Headline */}
-          <div style={{ overflow: "hidden" }} className="mb-10">
+          <div style={{ overflow: "hidden" }} className="mb-8 px-4 w-full">
             <motion.h1
-              className="font-cormorant text-[1.6rem] md:text-[2.4rem] lg:text-[2.8rem] text-branco text-center"
-              style={{ letterSpacing: "0.02em", lineHeight: 1.35, whiteSpace: "nowrap" }}
+              className="font-cormorant text-[1.5rem] sm:text-[1.8rem] md:text-[2.4rem] lg:text-[2.8rem] text-branco text-center"
+              style={{ letterSpacing: "0.02em", lineHeight: 1.35 }}
               initial={{ clipPath: "inset(0 100% 0 0)" }}
               animate={{ clipPath: "inset(0 0% 0 0)" }}
               transition={{ delay: 0.4, duration: 1.0, ease: [0.76, 0, 0.24, 1] }}
             >
-              Sua marca não precisa de mais publicações.
+              Sua marca não precisa
+              <br className="sm:hidden" /> de mais publicações.
             </motion.h1>
             <motion.h1
-              className="font-cormorant text-[1.6rem] md:text-[2.4rem] lg:text-[2.8rem] text-branco text-center"
+              className="font-cormorant text-[1.5rem] sm:text-[1.8rem] md:text-[2.4rem] lg:text-[2.8rem] text-branco text-center"
               style={{ letterSpacing: "0.02em", lineHeight: 1.35 }}
               initial={{ clipPath: "inset(0 100% 0 0)" }}
               animate={{ clipPath: "inset(0 0% 0 0)" }}
@@ -313,7 +314,7 @@ function Hero() {
 
           {/* Subfrase */}
           <motion.p
-            className="font-questrial text-[0.9rem] tracking-[0.08em] text-cinza mb-10 text-center"
+            className="font-questrial text-[0.8rem] sm:text-[0.9rem] tracking-[0.08em] text-cinza mb-8 text-center px-6"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 1.2, duration: 0.9, ease: EASE_EXPO }}
@@ -329,8 +330,8 @@ function Hero() {
             transition={{ delay: 1.6, duration: 0.9, ease: EASE_EXPO }}
             whileHover={{ backgroundColor: "#f8f8f6", color: "#040022" }}
             whileTap={{ scale: 0.97 }}
-            className="inline-block font-questrial text-[0.72rem] tracking-[0.18em] uppercase text-cinzaclaro transition-colors duration-300 rounded-[6px]"
-            style={{ border: "0.5px solid #e1e1e1", padding: "0.8rem 2rem" }}
+            className="inline-block font-questrial text-[0.68rem] sm:text-[0.72rem] tracking-[0.15em] sm:tracking-[0.18em] uppercase text-cinzaclaro transition-colors duration-300 rounded-[6px]"
+            style={{ border: "0.5px solid #e1e1e1", padding: "0.75rem 1.6rem" }}
           >
             Vamos entender sua marca
           </motion.a>
@@ -710,7 +711,7 @@ function SobreBruna() {
       {/* Foto */}
       <RevealSection>
         <RevealItem>
-          <div ref={photoContainerRef} className="relative aspect-[3/4]" style={{ marginLeft: "10rem" }}>
+          <div ref={photoContainerRef} className="relative aspect-[3/4] mx-auto md:ml-[10rem] md:mx-0" style={{ maxWidth: "420px" }}>
             {/* Ponto de luz atrás da foto */}
             <div style={{
               position: "absolute",
