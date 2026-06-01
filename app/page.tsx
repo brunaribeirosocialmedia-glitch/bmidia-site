@@ -471,7 +471,7 @@ function Metodo() {
       </RevealSection>
 
       {/* Grid 4 colunas lado a lado */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-px bg-cinza/10 mb-px">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-px bg-cinza/10">
         {metodos.map((m, i) => (
           <motion.div
             key={m.num}
@@ -489,6 +489,23 @@ function Metodo() {
             <h3 className="font-cormorant text-lg text-branco mb-3 leading-snug">{m.title}</h3>
             <p className="font-questrial text-xs text-cinza leading-relaxed">{m.summary}</p>
 
+            {/* Detalhe expandido dentro do próprio card */}
+            <AnimatePresence initial={false}>
+              {activeIndex === i && (
+                <motion.div
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: "auto", opacity: 1 }}
+                  exit={{ height: 0, opacity: 0 }}
+                  transition={{ duration: 0.4, ease: [0.25, 0.4, 0.25, 1] }}
+                  className="overflow-hidden"
+                >
+                  <p className="font-questrial text-xs text-cinza/80 leading-relaxed mt-4">
+                    {m.detail}
+                  </p>
+                </motion.div>
+              )}
+            </AnimatePresence>
+
             <motion.div
               className="absolute bottom-0 left-0 right-0 h-[2px] origin-left"
               style={{ backgroundColor: "#7B79F7" }}
@@ -498,24 +515,6 @@ function Metodo() {
           </motion.div>
         ))}
       </div>
-
-      {/* Detalhe expandido abaixo do grid inteiro */}
-      <AnimatePresence initial={false} mode="wait">
-        {activeIndex !== null && (
-          <motion.div
-            key={activeIndex}
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.45, ease: [0.25, 0.4, 0.25, 1] }}
-            className="overflow-hidden bg-cinza/5"
-          >
-            <p className="font-questrial text-sm text-cinza/80 leading-relaxed px-10 py-8 max-w-3xl">
-              {metodos[activeIndex].detail}
-            </p>
-          </motion.div>
-        )}
-      </AnimatePresence>
     </section>
   )
 }
@@ -709,9 +708,9 @@ function SobreBruna() {
       style={{ background: "transparent" }}
     >
       {/* Foto */}
-      <RevealSection className="flex justify-center md:justify-start">
-        <RevealItem className="w-full flex justify-center md:justify-start">
-          <div ref={photoContainerRef} className="relative aspect-[3/4] w-[70%] sm:w-[60%] md:w-full md:translate-x-[8rem]" style={{ maxWidth: "420px" }}>
+      <RevealSection>
+        <RevealItem>
+          <div ref={photoContainerRef} className="relative aspect-[3/4] mx-auto md:mx-0 md:ml-[8rem]" style={{ maxWidth: "420px", width: "72%" }}>
             {/* Ponto de luz atrás da foto */}
             <div style={{
               position: "absolute",
