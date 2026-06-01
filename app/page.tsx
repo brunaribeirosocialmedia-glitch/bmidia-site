@@ -252,7 +252,7 @@ function Hero() {
 
       {/* Conteúdo com leve reação ao mouse */}
       <motion.div
-        className="absolute inset-0 flex flex-col items-center justify-center px-8 pt-20"
+        className="absolute inset-0 flex flex-col items-center justify-center px-8 pt-16 pb-12"
         style={{ x: contentX, y: contentY }}
       >
         <div className="max-w-3xl mx-auto w-full text-center flex flex-col items-center">
@@ -710,7 +710,7 @@ function SobreBruna() {
       {/* Foto */}
       <RevealSection className="w-full flex justify-center md:block">
         <RevealItem className="w-full flex justify-center md:block">
-          <div ref={photoContainerRef} className="relative aspect-[3/4] md:ml-[8rem]" style={{ maxWidth: "420px", width: "72%" }}>
+          <div ref={photoContainerRef} className="relative aspect-[3/4] md:ml-[12rem]" style={{ maxWidth: "420px", width: "72%" }}>
             {/* Ponto de luz atrás da foto */}
             <div style={{
               position: "absolute",
@@ -718,7 +718,7 @@ function SobreBruna() {
               width: 680, height: 680,
               borderRadius: "50%",
               background: "radial-gradient(circle, rgba(210,200,255,1) 0%, transparent 65%)",
-              opacity: 0.28,
+              opacity: 0.14,
               transform: "translate(-50%, -50%)",
               zIndex: 0,
             }} />
