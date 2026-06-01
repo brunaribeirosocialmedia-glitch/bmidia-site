@@ -42,9 +42,9 @@ body {
 /* Centraliza foto da Bruna no mobile */
 @media (max-width: 767px) {
   .foto-bruna-container {
-    left: 50% !important;
-    transform: translateX(-50%) !important;
-    margin-left: 0 !important;
-    position: relative !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    left: auto !important;
+    transform: none !important;
   }
 }
