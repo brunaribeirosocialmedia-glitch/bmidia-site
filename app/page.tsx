@@ -289,9 +289,9 @@ function Hero() {
           />
 
           {/* Headline */}
-          <div style={{ overflow: "hidden" }} className="mb-8 px-4 w-full">
+          <div className="mb-8 px-4 w-full overflow-hidden md:overflow-visible">
             <motion.h1
-              className="font-cormorant text-[1.5rem] sm:text-[1.8rem] md:text-[2.4rem] lg:text-[2.8rem] text-branco text-center"
+              className="font-cormorant text-[1.5rem] sm:text-[1.8rem] md:text-[2.4rem] lg:text-[2.8rem] text-branco text-center md:whitespace-nowrap"
               style={{ letterSpacing: "0.02em", lineHeight: 1.35 }}
               initial={{ clipPath: "inset(0 100% 0 0)" }}
               animate={{ clipPath: "inset(0 0% 0 0)" }}
@@ -715,7 +715,7 @@ function SobreBruna() {
             style={{ width: "65%", maxWidth: "420px" }}
           >
             {/* Ponto de luz atrás da foto */}
-            <div style={{
+            <div className="foto-bruna-glow" style={{
               position: "absolute",
               top: "42%", left: "50%",
               width: 680, height: 680,
