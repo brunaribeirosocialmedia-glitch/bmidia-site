@@ -47,4 +47,9 @@ body {
     left: auto !important;
     transform: none !important;
   }
+  /* A pessoa fica à esquerda dentro do PNG (sobra transparente à direita).
+     Empurramos a imagem para a direita para centralizar o corpo na tela. */
+  .foto-bruna-container img {
+    transform: scale(1.28) translateX(8%) !important;
+  }
 }
