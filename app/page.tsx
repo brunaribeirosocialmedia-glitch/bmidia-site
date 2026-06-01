@@ -711,8 +711,8 @@ function SobreBruna() {
         <RevealItem>
           <div
             ref={photoContainerRef}
-            className="relative aspect-[3/4] md:left-0 md:translate-x-0 md:ml-[12rem]"
-            style={{ width: "65%", maxWidth: "420px", left: "50%", transform: "translateX(-50%)" }}
+            className="foto-bruna-container relative aspect-[3/4] md:ml-[12rem]"
+            style={{ width: "65%", maxWidth: "420px" }}
           >
             {/* Ponto de luz atrás da foto */}
             <div style={{
