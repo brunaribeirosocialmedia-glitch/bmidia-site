@@ -709,9 +709,9 @@ function SobreBruna() {
       style={{ background: "transparent" }}
     >
       {/* Foto */}
-      <RevealSection className="w-full flex justify-center md:block">
-        <RevealItem className="w-full flex justify-center md:block">
-          <div ref={photoContainerRef} className="relative aspect-[3/4] w-full md:ml-[10rem]" style={{ maxWidth: "420px" }}>
+      <RevealSection className="flex justify-center md:justify-start">
+        <RevealItem className="w-full flex justify-center md:justify-start">
+          <div ref={photoContainerRef} className="relative aspect-[3/4] w-[70%] sm:w-[60%] md:w-full md:translate-x-[8rem]" style={{ maxWidth: "420px" }}>
             {/* Ponto de luz atrás da foto */}
             <div style={{
               position: "absolute",
