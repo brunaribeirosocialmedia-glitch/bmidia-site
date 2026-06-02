@@ -727,7 +727,7 @@ function SobreBruna() {
             }} />
             <img
               ref={photoImgRef}
-              src={`${BASE}/foto-bruna.png.png`}
+              src={`${BASE}/foto-bruna.1.png`}
               alt="Bruna Ribeiro"
               className="w-full h-full object-cover object-center"
               style={{

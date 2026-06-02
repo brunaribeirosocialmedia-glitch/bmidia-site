@@ -39,30 +39,13 @@ body {
   color: #040022;
 }
 
-/* A pessoa fica à esquerda dentro do PNG (sobra transparente à direita).
-   Empurramos a imagem para a direita para centralizar o corpo.
-   Base (desktop) = 12%. */
-.foto-bruna-container img {
-  transform: scale(1.28) translateX(12%) !important;
-}
-
-/* Mobile: centraliza o quadro e desloca a pessoa um pouco mais (15%). */
+/* Mobile: centraliza o quadro da foto na tela. */
 @media (max-width: 767px) {
   .foto-bruna-container {
     margin-left: auto !important;
     margin-right: auto !important;
     left: auto !important;
     transform: none !important;
-  }
-  .foto-bruna-container img {
-    transform: scale(1.28) translateX(15%) !important;
-  }
-}
-
-/* No desktop, desloca o brilho de fundo um pouco para a esquerda. */
-@media (min-width: 768px) {
-  .foto-bruna-glow {
-    left: 40% !important;
   }
 }
 
