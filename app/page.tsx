@@ -289,9 +289,9 @@ function Hero() {
           />
 
           {/* Headline */}
-          <div className="mb-8 px-4 w-full overflow-hidden md:overflow-visible">
+          <div className="hero-headline mb-8 px-4 w-full overflow-hidden">
             <motion.h1
-              className="font-cormorant text-[1.5rem] sm:text-[1.8rem] md:text-[2.4rem] lg:text-[2.8rem] text-branco text-center md:whitespace-nowrap"
+              className="font-cormorant text-[1.5rem] sm:text-[1.8rem] md:text-[2.4rem] lg:text-[2.8rem] text-branco text-center"
               style={{ letterSpacing: "0.02em", lineHeight: 1.35 }}
               initial={{ clipPath: "inset(0 100% 0 0)" }}
               animate={{ clipPath: "inset(0 0% 0 0)" }}
