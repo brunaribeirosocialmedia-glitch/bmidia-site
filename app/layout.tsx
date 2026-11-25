@@ -2,6 +2,7 @@ import type { Metadata } from "next"
 import "./globals.css"
 import LenisProvider from "@/components/LenisProvider"
 import PageTransitionOverlay from "@/components/PageTransitionOverlay"
+import WhatsAppFlutuante from "@/components/WhatsAppFlutuante"
 
 export const metadata: Metadata = {
   title: "B Mídia — Estratégia e Posicionamento",
@@ -27,6 +28,7 @@ export default function RootLayout({
         <LenisProvider>
           <PageTransitionOverlay />
           {children}
+          <WhatsAppFlutuante />
         </LenisProvider>
       </body>
     </html>
